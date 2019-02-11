@@ -1,4 +1,4 @@
-package CoffeeShopGUI;
+package CoffeeShopUtilities;
 
 public enum FoodCategory {
 	BEVERAGES,

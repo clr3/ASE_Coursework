@@ -1,4 +1,4 @@
-package CoffeeShopGUI;
+package CoffeeShopUtilities;
 
 public class FoodItem {
 
@@ -7,6 +7,18 @@ public class FoodItem {
 	private double price;
 	private String description;
 	private FoodCategory category;
+	
+	public FoodItem(String itemId,String name,double price,
+			String description,FoodCategory category) {
+		
+		this.itemID = itemId;
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.category = category;
+		
+	}
+
 	public String getItemID() {
 		return itemID;	
 	}
@@ -37,4 +49,11 @@ public class FoodItem {
 	public void setCategory(FoodCategory category) {
 		this.category = category;
 	}
+	
+	@Override
+	public String toString() {
+		return "FoodItem [itemID=" + itemID + ", name=" + name + ", price=" + price + ", description=" + description
+				+ ", category=" + category + "]";
+	}
+
 }
