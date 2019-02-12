@@ -5,9 +5,17 @@ import java.util.HashMap;
 public class Menu {
 	
 	//HashMap<Integer, String> menu = new HashMap<Integer, String>();
-	
+	/**Cristy's Comment:
+	 * I think that to hold the Food items, it should be a HashMap with the ItemID
+	 * 	HashMap<FoodItem.ItemID,FoodItem>;
+	 * 
+	 * if you are using food category as identifier, we should use an enumMap:
+	 * 	EnumMap<FoodCategory,HashMap<FoodItem.ItemID,FoodItem>> menu;
+	 * 
+	 * This can help to identify them by category and also by item 
+	 * 
+	 **/
 	private  HashMap<FoodCategory ,ArrayList<FoodItem>> menu = new HashMap<FoodCategory,ArrayList<FoodItem>>();    
-	
 	private String discounts;
 
 

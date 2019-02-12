@@ -1,7 +1,9 @@
 package CoffeeShopUtilities;
 
 public enum FoodCategory {
-	BEVERAGES,
-	MAIN_COURSE,
-	DESSERTS;
+	HOT_BEVERAGE,
+	COLD_BEVERAGE,
+	BAKE,
+	SANDWICH;
 }
+

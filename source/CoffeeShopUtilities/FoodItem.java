@@ -1,5 +1,7 @@
 package CoffeeShopUtilities;
 
+import foodItemExceptions.NoCategoryFoundException;
+
 public class FoodItem {
 
 	private String itemID;
@@ -18,6 +20,7 @@ public class FoodItem {
 		this.category = category;
 		
 	}
+	public FoodItem() {	}
 
 	public String getItemID() {
 		return itemID;	
@@ -54,6 +57,18 @@ public class FoodItem {
 	public String toString() {
 		return "FoodItem [itemID=" + itemID + ", name=" + name + ", price=" + price + ", description=" + description
 				+ ", category=" + category + "]";
+	}
+	
+	/**Find The Food Item's Category 
+	 * @ThrowsError if the category does not exist
+	 * */
+	public FoodCategory findCategoryFromID(String newItemID) throws NoCategoryFoundException {
+		
+		if(newItemID.toUpperCase().startsWith("HOT")) return FoodCategory.HOT_BEVERAGE;
+		else if(newItemID.startsWith("COLD")) return FoodCategory.COLD_BEVERAGE;
+		else if(newItemID.startsWith("SAND")) return FoodCategory.SANDWICH;
+		else if(newItemID.startsWith("BAKE")) return FoodCategory.BAKE;
+		else throw new NoCategoryFoundException();
 	}
 
 }
