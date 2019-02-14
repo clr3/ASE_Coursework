@@ -9,15 +9,15 @@ public class menuTestMain {
 		Menu menu_item = new Menu();
 		
 		
-		FoodItem food1 = new FoodItem("B001","Tea",5,"masala_tea",FoodCategory.BEVERAGE);
-		menu_item.addFoodItems(FoodCategory.BEVERAGE, food1);
-		FoodItem food2 = new FoodItem("B001","Coffee",15,"Costa",FoodCategory.BEVERAGE);
-		menu_item.addFoodItems(FoodCategory.BEVERAGE, food2);
+		FoodItem food1 = new FoodItem("COLD001","Tea",5,"masala_tea",FoodCategory.COLD_BEVERAGE);
+		menu_item.addFoodItems(FoodCategory.COLD_BEVERAGE, food1);
+		FoodItem food2 = new FoodItem("HOT001","Coffee",15,"Costa",FoodCategory.HOT_BEVERAGE);
+		menu_item.addFoodItems(FoodCategory.HOT_BEVERAGE, food2);
 		
-		FoodItem food3 = new FoodItem("MC01","Pizza",10,"Veg_pizza",FoodCategory.SANDWICH);
+		FoodItem food3 = new FoodItem("SAND01","Pizza",10,"Veg_pizza",FoodCategory.SANDWICH);
 		menu_item.addFoodItems(FoodCategory.SANDWICH, food3);
 		
-		FoodItem food4 = new FoodItem("D001","Ice_Cream",12,"Strawberry",FoodCategory.BAKE);
+		FoodItem food4 = new FoodItem("BAKE001","Pie",12,"Strawberry",FoodCategory.BAKE);
 		menu_item.addFoodItems(FoodCategory.BAKE, food4);
 		
 		
