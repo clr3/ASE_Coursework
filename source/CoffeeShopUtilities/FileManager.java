@@ -1,5 +1,8 @@
 package CoffeeShopUtilities;
-
+/**
+ * @Author Cristina Rivera 	<clr3@hw.ac.uk>
+ * 
+ * */
 import java.io.*;
 import java.util.*;
 

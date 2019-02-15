@@ -1,5 +1,8 @@
 package CoffeeShopGUI;
-
+/**
+ * @Author Cristina Rivera 	<clr3@hw.ac.uk>
+ * 
+ * */
 import javax.swing.*;
 
 public class StartPageGUI {

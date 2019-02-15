@@ -1,5 +1,8 @@
 package CoffeeShopGUITests;
-
+/**
+ * @Author Cristina Rivera 	<clr3@hw.ac.uk>
+ * 
+ * */
 import org.junit.jupiter.api.Test;
 
 import CoffeeShopGUI.StartPageGUI;
