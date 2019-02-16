@@ -1,2 +1,16 @@
-ItemID;Name;Price;DescriptionHOT1;Americano;2.70;Espresso with hot waterHOT2;Hot Chocolate;2.30;Milk with cocoa and sugar (marshmallows)HOT3;Cappuccino;2.30;Double espresso and hot milkHOT4;Mocha;2.30;One third espresso and two thirds steamed milk and some chocolateHOT5;Latte;2.30;one third espresso and two thirds steamed milkHOT6;Earl Grey;2.30;Tea blend which has been flavoured with the addition of oil of bergamot.HOT7;English Breakfast;2.30;HOT8;Esspresso;1.60;COLD1;Iced Coffee;2.50;BAKE1;Chocolate muffin;3.00;BAKE2;Blueberry Muffin;3.00;BAKE3;Lemon-Poppy Seed Muffin;3.00;BAKE4;Giant Chocolate Chip Cookie;1.00;BAKE5;Scone;0.99;
-SAND1;Tuna Sandwich;2.50;
+ItemID,Name,Price,Description,Category
+HOT1,Americano,2.7,Espresso with hot water,HOT_BEVERAGE
+HOT2,Hot Chocolate,2.3,Milk with cocoa and sugar (marshmallows),HOT_BEVERAGE
+HOT3,Cappuccino,2.3,Double espresso and hot milk,HOT_BEVERAGE
+HOT4,Mocha,2.3,One third espresso and two thirds steamed milk and some chocolate,HOT_BEVERAGE
+HOT5,Latte,2.3,one third espresso and two thirds steamed milk,HOT_BEVERAGE
+HOT6,Earl Grey,2.3,Tea blend which has been flavoured with the addition of oil of bergamot.,HOT_BEVERAGE
+HOT7,English Breakfast,2.3,,BEVERAGE
+HOT8,Esspresso,1.6,,BEVERAGE
+COLD1,Iced Coffee,2.5,,COLD_BEVERAGE
+BAKE1,Chocolate muffin,3,,BAKE
+BAKE2,Blueberry Muffin,3,,BAKE
+BAKE3,Lemon-Poppy Seed Muffin,3,,BAKE
+BAKE4,Giant Chocolate Chip Cookie,1,,BAKE
+BAKE5,Scone,0.99,,BAKE
+SAND1,Tuna Sandwich,2.5,,SANDWICH

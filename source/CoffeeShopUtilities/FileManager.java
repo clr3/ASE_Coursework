@@ -13,7 +13,7 @@ import foodItemExceptions.NoItemNameFoundException;
 
 public class FileManager {
 	
-	String csv_separator = ";";
+	String csv_separator = ",";
 	String menu_file = "../../csvFiles/menu_coffeeShop.csv" ;
 	/**Cristy's Comment:
 	 * 	Still need to decide how discounts will be stored and how they will work
@@ -28,18 +28,26 @@ public class FileManager {
 	/**
 	 * Reads and prints out the contents of the file
 	 * */
-	public void read_data_by_line(String csvFile) throws FileNotFoundException {
+	public  ArrayList<String> read_data_by_line(String csvFile) throws FileNotFoundException {
 		File file = new File(csvFile);
+		ArrayList<String> csv_line_list = new ArrayList<String>();
+		
+		
 		Scanner inputStream = new Scanner(file);
 		int count = 0;
 		while(inputStream.hasNext()) {
+			String data = inputStream.nextLine();
 			if(count>0) {		//Ignore first line on the file
-				String data = inputStream.nextLine();
-				System.out.println( count + " > "+data);
+				
+				//System.out.println( coStringunt + " > "+data);
+				csv_line_list.add(data);
+				
+				
 			}
 			count++;
 		}
 		inputStream.close();
+		return csv_line_list;
 	}
 	
 	/**
@@ -74,12 +82,22 @@ public class FileManager {
 		 * */
 		if(item[2] == null) throw new NoItemNameFoundException();
 		else { newItem.setPrice(Double.parseDouble(item[2]));}
+		
+	
 		/* Check for a description
 		 * Will Still create an Item without a descritpion
 		 * */
 		String description = "";
 		if(item[3] != null) { description = item[3];}
 		newItem.setDescription(description);
+		
+		/* Checking If there is a Category for the Item
+		 * */
+		if(item[4] == null) {
+			throw new NoItemNameFoundException();
+		} else { 
+			newItem.setCategory(FoodCategory.valueOf(item[4]));
+		}
 		
 		return newItem;
 	}
