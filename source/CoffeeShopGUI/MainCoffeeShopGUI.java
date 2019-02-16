@@ -1,17 +1,29 @@
 package CoffeeShopGUI;
 
 import CoffeeShopUtilities.Menu;
+import javax.swing.JFrame;
 
 public class MainCoffeeShopGUI {
- 
-	public static void main(String args[]) {
 
+	public MainCoffeeShopGUI() {
+		int mainFrameWidth = 300;
+		int mainFrameHight = 400;
 		
-		Menu menu_obj = new Menu();
+		JFrame frame = new JFrame("Coffee Shop Start");
 		
-		System.out.println(menu_obj);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		frame.setSize(mainFrameWidth , mainFrameHight);
 		
-		StartPageGUI start = new StartPageGUI();
-		start.show_start_page();		
+		frame.setContentPane(new StartPageGUI());
+		frame.setVisible(true);
 	}
+	
+
+	public static void main(String args[]) {
+		Menu menu_obj = new Menu();
+		MainCoffeeShopGUI main = new MainCoffeeShopGUI();
+		
+	}
+	
+	
 }
