@@ -1,5 +1,8 @@
 package CoffeeShopGUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 
@@ -23,9 +26,8 @@ public class StartPageGUI extends JPanel{
 	/**Initialise the buttons */
 	public StartPageGUI() {
 		setLayout(new GridBagLayout());
-		staffButton = new JButton("Staff");
-		customerButton = new JButton("View Menu");
-		
+		create_staff_button();
+		create_customer_button();
 		
 		
 		int x, y;
@@ -56,6 +58,36 @@ public class StartPageGUI extends JPanel{
 		constraints.gridx = x;
 		constraints.gridy = y;
 		add(component, constraints);
+
+	}
+	
+	/**
+	 * Create Button for showing the menu
+	 * */
+	public void create_customer_button() {
+		customerButton = new JButton("View Menu");
+		customerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Open Menu Page 
+				System.out.println("Menu");
+			}
+			
+		});
+
+	}
+	/**
+	 * Create Button for staff view
+	 * */
+	public void create_staff_button() {
+		staffButton = new JButton("Staff");
+		staffButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Open staff View
+				System.out.println("Staff");
+
+			}
+			
+		});
 
 	}
 	

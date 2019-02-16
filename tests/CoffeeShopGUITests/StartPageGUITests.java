@@ -12,7 +12,6 @@ class StartPageGUITests {
 	@Test
 	void show_start_page_test() {
 		StartPageGUI page = new StartPageGUI();
-		page.show_start_page();
 	}
 
 }
