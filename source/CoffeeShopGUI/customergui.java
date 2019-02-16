@@ -1,4 +1,4 @@
-/** By Armand Ten **/e
+/** By Armand Ten **/
 
 package CoffeeShopGUI;
 
@@ -139,15 +139,12 @@ public class customergui extends JFrame implements ActionListener {
     				JOptionPane.showMessageDialog(null, "Oops couldn't filter the list by "+selectedItem+
     						". You did not upload it!");
     			}
-    		}
-    		
-    		
-    		
+    		}	
     		
     	}
     
-    	private void sortScores() {
-    		System.out.print("sorting scores");
+    	private void sortMenu() {
+    		System.out.print("sorting Menu");
     		centerPanel.removeAll();
     		centerPanel.repaint();
     		centerPanel.revalidate();
@@ -301,6 +298,7 @@ public class customergui extends JFrame implements ActionListener {
    	/**
    	 * Method to set the blocks inside center panel
    	 **/
+   	
    	private JPanel setupCenterPanel(ArrayList<Customer> comptList) {
    
    		centerPanel.setLayout(new GridLayout(0,8));
