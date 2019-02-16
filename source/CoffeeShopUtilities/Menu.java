@@ -10,20 +10,10 @@ import foodItemExceptions.NoItemNameFoundException;
 
 public class Menu {
 	
-	//HashMap<Integer, String> menu = new HashMap<Integer, String>();
-	/**Cristy's Comment:
-	 * I think that to hold the Food items, it should be a HashMap with the ItemID
-	 * 	HashMap<FoodItem.ItemID,FoodItem>;
-	 * 
-	 * if you are using food category as identifier, we should use an enumMap:
-	 * 	EnumMap<FoodCategory,HashMap<FoodItem.ItemID,FoodItem>> menu;
-	 * 
-	 * This can help to identify them by category and also by item 
-	 * 
-	 **/
+	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
+	private String discounts;
 	
 	public   Menu() {
-		
 		FileManager fm = new FileManager();
 		try {
 			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
@@ -32,10 +22,7 @@ public class Menu {
 		         // System.out.println(menu_csv_list.get(counter)); 	
 		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
 		        addFoodItems(foodObj.getCategory(),foodObj);
-		         
 		      }   		
-
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,14 +36,7 @@ public class Menu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
-
-	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
-	private String discounts;
-
 
 	public String getDiscounts() {
 		return discounts;
@@ -65,8 +45,6 @@ public class Menu {
 	public void setDiscounts(String discounts) {
 		this.discounts = discounts;
 	}
-
-		
 
 	public EnumMap<FoodCategory, HashMap<String , FoodItem>> getMenu() {
 		return menu;
@@ -89,8 +67,6 @@ public class Menu {
 			//System.out.println(" Not Exist");
 		    
 		}
-		
-	
 	}
 
 	@Override
@@ -98,5 +74,4 @@ public class Menu {
 		return "Menu [menu=" + menu + "]";
 	}
 	
-
 }
