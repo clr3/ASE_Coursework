@@ -23,36 +23,33 @@ class OrderManagerTests {
 		assertTrue(order.containsKey("100"));
 	}
 
-	@Test
-	void testCompleteOrder() {
-		String orderId= "999";
-		FoodItem fi = new FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee", FoodCategory.HOT_BEVERAGE);
-		ArrayList<FoodItem> fList = new ArrayList<FoodItem>();
-		fList.add(fi);
-		CustomerOrder co = new CustomerOrder ("999", "10", fList, new BigDecimal(10), new Date());
-		
-		OrderManager om = new OrderManager();
-		om.completeOrder(orderId, co);
-		
-		HashMap<String, CustomerOrder> order = om.getOrderMap();
-		
-		assertTrue(order.containsKey("999"));
-		
+	
+	@Test 
+	void testCompleteOrder() { 
+		String orderId= "999"; FoodItem fi = new
+		FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee",
+	    FoodCategory.HOT_BEVERAGE); ArrayList<FoodItem> fList = new
+	    ArrayList<FoodItem>(); fList.add(fi); CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
+	  
+	    OrderManager om = new OrderManager(); om.completeOrder(orderId, co) ;
+	  
+	    HashMap<String, CustomerOrder> order = om.getOrderMap();
+	  
+	    assertTrue(order.containsKey("999"));
+	  
 	}
-
-	@Test
-	void testWriteReports() {
-		String orderId= "999";
-		FoodItem fi = new FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee", FoodCategory.HOT_BEVERAGE);
-		ArrayList<FoodItem> fList = new ArrayList<FoodItem>();
-		fList.add(fi);
-		CustomerOrder co = new CustomerOrder ("999", "10", fList, new BigDecimal(10), new Date());
-		
-		OrderManager om = new OrderManager();
-		om.completeOrder(orderId, co);
-		
-		om.writeReports();
-		
+	  
+	@Test void testWriteReports() { 
+		String orderId= "999"; FoodItem fi = new
+	    FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee",
+	    FoodCategory.HOT_BEVERAGE); ArrayList<FoodItem> fList = new
+	    ArrayList<FoodItem>(); fList.add(fi); CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
+	  
+	    OrderManager om = new OrderManager(); om.completeOrder(orderId, co);
+	  
+	    om.writeReports();
+	  
 	}
+	 
 
 }

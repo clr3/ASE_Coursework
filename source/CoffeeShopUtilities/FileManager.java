@@ -151,15 +151,17 @@ public class FileManager {
 	 */
 	public void writeToFile(String filename, String report) {
 	
-		 FileWriter fw;
+		String file = "csvFiles/"+filename;
+		
+		FileWriter fw;
 		 try {
-		    fw = new FileWriter(filename);
+		    fw = new FileWriter(file);
 		    fw.write(report);
 		 	fw.close();
 		 }
 		 //message and stop if file not found
 		 catch (FileNotFoundException fnf){
-			 System.out.println(filename + " not found ");
+			 System.out.println(file + " not found ");
 			 System.exit(0);
 		 }
 		 //stack trace here because we don't expect to come here
