@@ -28,7 +28,7 @@ public class OrderManager {
 		try {
 			ArrayList<String> orderHistories = fm.readOrderHistory();
 			//Moved Method to File Manager Class
-			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(orderHistories);
+			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(orderHistories, menu);
 		} catch (FileNotFoundException e) {
 			System.out.println ("OrderManager failed to load the order history. File not found error!");
 		}
@@ -106,28 +106,7 @@ public class OrderManager {
 		return sb.toString();	
 	}
 	
-	/**
-	 * 
-	 * This method returns the FoodItem for the given foodItemId
-	 * 
-	 * 
-	 * @Params String foodItemId
-	 * @Returns void
-	 * 
-	 * */
-	private FoodItem getFoodItem (String foodItemId) {
-		FoodItem fItem = null;
-		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
-		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
-		for (HashMap<String , FoodItem> menuMap : menuMapList) {
-			if (menuMap.containsKey(foodItemId)) {
-				fItem = menuMap.get(foodItemId);
-				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
-			}
-			
-		}
-		return fItem;
-	}
+
 	
 	/**
 	 * 

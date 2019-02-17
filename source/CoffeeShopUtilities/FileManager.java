@@ -296,16 +296,16 @@ public class FileManager {
 	 * @Returns ArrayList<CustomerOrder>
 	 * 
 	 * */
-	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(ArrayList<String> orderHistories) throws FileNotFoundException{
+	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(ArrayList<String> orderHistories, Menu menu) throws FileNotFoundException{
 		
 		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
 		
 		for (String order: orderHistories){
 			String[] item = order.split(";");
 			
-			CustomerOrder custOrder;
+			CustomerOrder custOrder = null;
 			
-			FoodItem fItem = getFoodItem(item[2]);
+			FoodItem fItem = custOrder.getFoodItem(item[2], menu);
 			
 			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
 			fItemList.add(fItem);

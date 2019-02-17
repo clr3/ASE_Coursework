@@ -2,7 +2,10 @@ package CoffeeShopUtilities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.EnumMap;
+import java.util.HashMap;
 
 public class CustomerOrder {
 		
@@ -66,6 +69,28 @@ public class CustomerOrder {
 	}
 	public String getItem(){
 		return this.foodItem;
+	}
+	/**
+	 * 
+	 * This method returns the FoodItem for the given foodItemId
+	 * 
+	 * 
+	 * @Params String foodItemId
+	 * @Returns void
+	 * 
+	 * */
+	FoodItem getFoodItem(String foodItemId, Menu menu) {
+		FoodItem fItem = null;
+		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
+		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
+		for (HashMap<String , FoodItem> menuMap : menuMapList) {
+			if (menuMap.containsKey(foodItemId)) {
+				fItem = menuMap.get(foodItemId);
+				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
+			}
+			
+		}
+		return fItem;
 	}
 	//TODO
 	//Implement the methods defined in class diagram
