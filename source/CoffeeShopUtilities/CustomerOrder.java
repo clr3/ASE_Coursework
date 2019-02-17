@@ -12,7 +12,7 @@ public class CustomerOrder {
 	private BigDecimal finalBillAmount; // Bill amount after discount
 	private Date timestamp;
 	
-	
+	private String foodItem = null;
 	
 	public CustomerOrder(String orderId, String customerId, ArrayList<FoodItem> orderItems, BigDecimal finalBillAmount, Date timestamp) {
 		super();
@@ -59,7 +59,14 @@ public class CustomerOrder {
 	public void setFinalBillAmount(BigDecimal finalBillAmount) {
 		this.finalBillAmount = finalBillAmount;
 	}
-	
+	/*Will need a method to convert the String to Item using the menu
+	 * */
+	public void addItem(String foodID){
+		this.foodItem = foodID;
+	}
+	public String getItem(){
+		return this.foodItem;
+	}
 	//TODO
 	//Implement the methods defined in class diagram
 

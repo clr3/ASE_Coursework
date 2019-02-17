@@ -4,6 +4,9 @@ package CoffeeShopUtilities;
  * 
  * */
 import java.io.*;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -279,5 +282,55 @@ public class FileManager {
 			System.out.println ("OrderManager failed to load the order history. File not found error!");
 		}
 		return orderHistories;
+	}
+	
+	/**
+	 * 
+	 * This method reads the order_history.csv file and builds CustomerOrder objects. 
+	 * The method returns a HashMap with key as OrderId and value as CustomerOrder. Each CustomerOder object containing 
+	 * one of more FoodItems.
+	 * 
+	 * @throws FileNotFoundException 
+	 * 
+	 * @Params String order_history csv file
+	 * @Returns ArrayList<CustomerOrder>
+	 * 
+	 * */
+	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(ArrayList<String> orderHistories) throws FileNotFoundException{
+		
+		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
+		
+		for (String order: orderHistories){
+			String[] item = order.split(";");
+			
+			CustomerOrder custOrder;
+			
+			FoodItem fItem = getFoodItem(item[2]);
+			
+			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
+			fItemList.add(fItem);
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = null;
+			try {
+				date = format.parse(item[3]);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//build the CustomerOrder if its a new order. If order exists, then add/append the order item to existing CustomerOrder
+			if (orderMap.containsKey(item[0])) {
+				custOrder = orderMap.get(item[0]);
+				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();
+				currentFoodItemList.add(fItem);
+				custOrder.setOrderItems(currentFoodItemList);		
+			} else {
+				custOrder = new CustomerOrder(item[0], item[1], fItemList, new BigDecimal(0), date);
+				orderMap.put(item[0], custOrder);
+			}
+			
+		}
+		return orderMap;
 	}
 }
