@@ -11,7 +11,7 @@ import foodItemExceptions.NoItemNameFoundException;
 public class Menu {
 	
 	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
-	private String discounts;
+	private ArrayList<Discount> discounts = new ArrayList<Discount>();
 	
 	public   Menu() {
 		FileManager fm = new FileManager();
@@ -22,7 +22,11 @@ public class Menu {
 		         // System.out.println(menu_csv_list.get(counter)); 	
 		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
 		        addFoodItems(foodObj.getCategory(),foodObj);
-		      }   		
+		      } 
+		
+		
+		
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,14 +41,52 @@ public class Menu {
 			e.printStackTrace();
 		}
 	}
+   
+	
+	private void createDiscount() {
+		
+		
+		Discount discount_obj = new Discount();
+		discount_obj.setOffer_name("Kids Combo");
+		discount_obj.getItem_list().add("HOT1");
+		discount_obj.getItem_list().add("HOT2");
+		discount_obj.setDiscount_percentage(5);
+		
+		discounts.add(discount_obj);
+		
+		
+		Discount discount_obj1 = new Discount();
+		discount_obj1.setOffer_name("Saver Menu");
+		discount_obj1.getItem_list().add("HOT2");
+		discount_obj1.getItem_list().add("BAKE1");
+		discount_obj1.setDiscount_percentage(10);
+		
+		discounts.add(discount_obj1);
+		
+		
+		Discount discount_obj2 = new Discount();
+		discount_obj2.setOffer_name("BREAKFAST");
+		discount_obj2.getItem_list().add("English Breakfast");
+		discount_obj2.getItem_list().add("BAKE");
+		discount_obj2.setDiscount_percentage(25);
+		
+		discounts.add(discount_obj2);
+		
+		//System.out.println(discount_obj2);
+		
+	}
+	
 
-	public String getDiscounts() {
+
+	public ArrayList<Discount> getDiscounts() {
 		return discounts;
 	}
 
-	public void setDiscounts(String discounts) {
+
+	public void setDiscounts(ArrayList<Discount> discounts) {
 		this.discounts = discounts;
 	}
+
 
 	public EnumMap<FoodCategory, HashMap<String , FoodItem>> getMenu() {
 		return menu;
