@@ -4,6 +4,7 @@ package CoffeeShopUtilities;
  * 
  * */
 import java.io.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import CoffeeShopUtilities.FoodItem;
@@ -19,7 +20,7 @@ public class FileManager {
 	 * 	Still need to decide how discounts will be stored and how they will work
 	 * */
 	String discounts = "../../csvFiles/discounts.csv" ;	
-	String orderHistory = "../../csvFiles/OrderHistory.csv" ;
+	String orderHistoryFile = "../../csvFiles/order_history.csv" ;
 	
 	public FileManager() {
 		
@@ -120,11 +121,27 @@ public class FileManager {
 		ArrayList<String> discounts = new ArrayList<String>();
 		return discounts;
 	}
-	/*
-	 *No class for CustomerOrder:
-	 *
-	public  ArrayList<CustomerOrder> read_orders_file(){
+	
+	/**
+	 * 
+	 * This method reads the order_history.csv file and returns the records as a String array list
+	 * 
+	 * @throws FileNotFoundException 
+	 * 
+	 * @Params 
+	 * @Returns ArrayList<String>
+	 * 
+	 * */
+	public  ArrayList <String> readOrderHistory(){
 		
-	} */
+		ArrayList<String> orderHistories = null;
+		try {
+			orderHistories = read_data_by_line(orderHistoryFile);
+		} catch (FileNotFoundException e) {
+			System.out.println ("OrderManager failed to load the order history. File not found error!");
+		}
+		return orderHistories;
+	}
+
 	
 }

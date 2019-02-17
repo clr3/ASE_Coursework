@@ -6,16 +6,18 @@ package CoffeeShopUtilitiesTests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodItem;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 
-class FIleManagerTests {
+class FileManagerTests {
 
 	@Test
 	void testread_data_by_line() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
