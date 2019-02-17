@@ -5,6 +5,8 @@ package CoffeeShopUtilities;
  * */
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,8 +59,14 @@ public class OrderManager {
 			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
 			fItemList.add(fItem);
 			
-			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-mm-dd", Locale.ENGLISH);
-			Date date = (Date) format.parse(item[3]);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = null;
+			try {
+				date = format.parse(item[3]);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//build the CustomerOrder if its a new order. If order exists, then add/append the order item to existing CustomerOrder
 			if (orderMap.containsKey(item[0])) {
@@ -119,7 +127,7 @@ public class OrderManager {
 	 * */
 	private String generateReports() {
 		
-		StringBuilder sb = new StringBuilder("Food cataegory, Item Id, Item Name, Order Count");
+		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
 		
 		BigDecimal totalOrderValue = new BigDecimal(0);
 		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
@@ -135,13 +143,13 @@ public class OrderManager {
 				Integer foodItemCount = 0;
 				if (foodItemCountMap.containsKey(fItem)) {
 					foodItemCount = foodItemCountMap.get(fItem);
-					sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount);
+					sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				}
 				totalOrderValue = totalOrderValue.add(BigDecimal.valueOf(fItem.getPrice()));
 			}
 			
 		}
-		
+		sb.append("\n\nTotal Order Value = "+totalOrderValue);
 		return sb.toString();	
 	}
 	
@@ -161,8 +169,7 @@ public class OrderManager {
 		for (HashMap<String , FoodItem> menuMap : menuMapList) {
 			if (menuMap.containsKey(foodItemId)) {
 				fItem = menuMap.get(foodItemId);
-			} else {
-				System.out.println ("No FoodItem found from Menu for the given food Item Id "+ foodItemId);
+				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
 			}
 			
 		}
