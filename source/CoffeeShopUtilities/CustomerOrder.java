@@ -23,6 +23,10 @@ public class CustomerOrder {
 		this.finalBillAmount = finalBillAmount;
 	}
 	
+	public CustomerOrder() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCustomerId() {
 		return customerId;
 	}

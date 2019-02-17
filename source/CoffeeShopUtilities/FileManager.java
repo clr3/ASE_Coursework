@@ -11,16 +11,19 @@ import CoffeeShopUtilities.FoodItem;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
+import foodItemExceptions.NoPriceFoundException;
 
 public class FileManager {
 	
-	String csv_separator = ",";
-	String menu_file = "../../csvFiles/menu_coffeeShop.csv" ;
+	String separator = ",";
+	String separator2 = ";"; 
+	String menuFile = "../../csvFiles/menu_coffeeShop.csv" ;
 	/**Cristy's Comment:
 	 * 	Still need to decide how discounts will be stored and how they will work
 	 * */
 	String discounts = "../../csvFiles/discounts.csv" ;	
-	String orderHistoryFile = "csvFiles/order_history.csv" ;
+	String orderHistoryFile = "../../csvFiles/order_history.csv" ;
+	
 	
 	public FileManager() {
 		
@@ -53,35 +56,50 @@ public class FileManager {
 	
 	/**
 	 * Create a new food item from a line of text from the csv file
+	 * @throws NoPriceFoundException 
 	 * 
 	 * @Params String from csv file
 	 * @Returns FoodItem
 	 * 
-	 * @ThrowException If there is missing information on the file 
+	 * @ThrowException If there is missing information on the line
 	 * 
 	 * */
-	public FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
-						NoItemIDException, NoItemNameFoundException {
-		String[] item = s.split(csv_separator);
+	private FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
+						NoItemIDException, NoItemNameFoundException, NoPriceFoundException {
+		String[] item = new String[5];
+		
+		for(int i = 0; i<5; i++) {
+		
+		}
+		if(s.contains(separator)) { item = s.split(separator);}
+		if(s.contains(separator2)) { item = s.split(separator2);}
+
 		FoodItem newItem = new FoodItem();
 
 		/*IF > Checking If there is item ID
 		 *ELSE > Find out if it's a category
 		 *		 Save the Item ID
 		 * */
-		if(item[0] == null) throw new NoItemIDException();
+		if(item[0].isEmpty()) throw new NoItemIDException();
 		else {
-			FoodCategory category2 = newItem.findCategoryFromID(item[0]); //Throws exception 
-			newItem.setCategory(category2);
-			newItem.setItemID(item[0]);
+			/* Checking If there is a Category for the Item
+			 * */
+			if(item.length < 5) {	//If there is no category given (only 4 entries)
+				FoodCategory category2 = newItem.findCategoryFromID(item[0]); //Throws exception 
+				newItem.setCategory(category2);
+			} else { 
+				newItem.setCategory(FoodCategory.valueOf(item[4]));
+			}
+			
+			newItem.setItemID(item[0].toUpperCase());
 		}
 		/* Checking If there is a Name for the Item
 		 * */
-		if(item[1] == null) throw new NoItemNameFoundException();
+		if(item[1].isEmpty()) throw new NoItemNameFoundException();
 		else { newItem.setName(item[1]);}
 		/* Checking If there is a Price for the Item
 		 * */
-		if(item[2] == null) throw new NoItemNameFoundException();
+		if(item[2].isEmpty()) throw new NoPriceFoundException();
 		else { newItem.setPrice(Double.parseDouble(item[2]));}
 		
 	
@@ -92,16 +110,11 @@ public class FileManager {
 		if(item[3] != null) { description = item[3];}
 		newItem.setDescription(description);
 		
-		/* Checking If there is a Category for the Item
-		 * */
-		if(item[4] == null) {
-			throw new NoItemNameFoundException();
-		} else { 
-			newItem.setCategory(FoodCategory.valueOf(item[4]));
-		}
+		
 		
 		return newItem;
 	}
+	
 	
 	
 	public void write_to_csv() {
@@ -109,12 +122,53 @@ public class FileManager {
 	}
 	
 	/**
-	 * Creates a HashMap that holds food items 
+	 * Creates a HashMap<String, FoodItem> that holds food items 
+	 * 				Where the key is the FoodItem.ItemID
+	 * 
+	 * @throws FileNotFoundException 
+	 * 
 	 * */
-	public HashMap<String, FoodItem> create_menu(){
+	public HashMap<String, FoodItem> create_menu(String menu_file) throws FileNotFoundException{
+		File file = new File(menu_file);
 		HashMap<String, FoodItem> menu = new HashMap<String, FoodItem>();
+		
+		Scanner inputStream = new Scanner(file);
+		int count = 0;
+		
+		while(inputStream.hasNext()) {
+			String data = inputStream.nextLine();
+			
+			if(count>0) {		//Ignore first line on the file
+				FoodItem newItem = null;
+				
+				try {
+					newItem = create_foodItem_fromCSV(data);
+					menu.put(newItem.getItemID(), newItem);	
+				} catch (NoCategoryFoundException e) {
+
+					System.out.println(e.getMessage());
+				} catch (NoItemIDException e) {
+
+					System.out.println(e.getMessage());
+				} catch (NoItemNameFoundException e) {
+
+					System.out.println(e.getMessage());
+				} catch (NoPriceFoundException e) {
+
+					System.out.println(e.getMessage());
+				}
+			}
+			count++;
+		}
+		inputStream.close();
+		
+		
 		return menu;
 	}  
+	
+	public HashMap<String, FoodItem> create_menu() throws FileNotFoundException{
+		return create_menu(menuFile);
+	}
 	
 	/*No File for discount yet */
 	public ArrayList<String> read_discounts(){
@@ -169,5 +223,61 @@ public class FileManager {
 		    ioe.printStackTrace();
 		    System.exit(1);
 		 }
+	}
+	
+	/**
+	 * 
+	 *  
+	 * 
+	 * @Params String line_from_csv_file , Date check_for_"today"
+	 * 	
+	 * @Returns customer Order with a single item stored in it 
+	 * 
+	 * */
+	public  CustomerOrder read_customerOrder(String s, Date date){
+		
+		String[] order = new String[4];
+		
+		for(int i = 0; i<4; i++) {
+		
+		}
+		
+		if(s.contains(separator)) { order = s.split(separator);}
+		if(s.contains(separator2)) { order = s.split(separator2);}
+
+		CustomerOrder newOrder = new CustomerOrder();
+
+		/*Check the date first. Return if the date is not the date given
+		 * */
+		
+		return newOrder;
+	}
+
+	
+	/**
+	 * 
+	 * This method reads the order_history.csv file and returns the records as a String array list
+	 * 
+	 * @throws FileNotFoundException 
+	 * 
+	 * @Params 
+	 * @Returns HashMap <String, CustomerOrder>
+	 * 			where 		String =
+	 * 						customerOrder = order with 1 item as a string
+	 * 
+	 * Used the method from OrderManager to do this.
+	 * 
+	 * */
+	public  ArrayList<String> read_orderHistory(){
+		
+		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
+		
+		ArrayList<String> orderHistories = null;
+		try {
+			orderHistories = read_data_by_line(orderHistoryFile);
+		} catch (FileNotFoundException e) {
+			System.out.println ("OrderManager failed to load the order history. File not found error!");
+		}
+		return orderHistories;
 	}
 }

@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
@@ -21,41 +22,24 @@ public class Menu {
 	 * This can help to identify them by category and also by item 
 	 * 
 	 **/
-	
-	public   Menu() {
-		
-		FileManager fm = new FileManager();
-		try {
-			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
-			//System.out.println(menu_csv_list);
-			for (int counter = 0; counter < menu_csv_list.size(); counter++) { 		      
-		         // System.out.println(menu_csv_list.get(counter)); 	
-		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
-		        addFoodItems(foodObj.getCategory(),foodObj);
-		         
-		      }   		
+	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
+	private String discounts;
 
-			
+	public   Menu() {
+		FileManager fm = new FileManager();
+		HashMap<String,FoodItem> unsortedMenu = null;
+
+		try {
+			unsortedMenu = fm.create_menu();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NoCategoryFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoItemIDException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoItemNameFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		
-		
+		for(Entry<String, FoodItem> item: unsortedMenu.entrySet()) {
+			FoodItem newItem = item.getValue();
+			//Sort the menu into the EnumMap here..
+		}
 	}
-
-	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
-	private String discounts;
 
 
 	public String getDiscounts() {
