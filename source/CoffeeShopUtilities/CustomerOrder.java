@@ -1,5 +1,6 @@
 package CoffeeShopUtilities;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,16 +9,18 @@ public class CustomerOrder {
 	private String orderId;
 	private String customerId;
 	private ArrayList<FoodItem> orderItems;
+	private BigDecimal finalBillAmount; // Bill amount after discount
 	private Date timestamp;
 	
 	
 	
-	public CustomerOrder(String orderId, String customerId, ArrayList<FoodItem> orderItems, Date timestamp) {
+	public CustomerOrder(String orderId, String customerId, ArrayList<FoodItem> orderItems, BigDecimal finalBillAmount, Date timestamp) {
 		super();
 		this.orderId = orderId;
 		this.customerId = customerId;
 		this.orderItems = orderItems;
 		this.timestamp = timestamp;
+		this.finalBillAmount = finalBillAmount;
 	}
 	
 	public String getCustomerId() {
@@ -43,6 +46,14 @@ public class CustomerOrder {
 	}
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
+	}
+	
+	public BigDecimal getFinalBillAmount() {
+		return finalBillAmount;
+	}
+
+	public void setFinalBillAmount(BigDecimal finalBillAmount) {
+		this.finalBillAmount = finalBillAmount;
 	}
 	
 	//TODO

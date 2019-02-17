@@ -20,7 +20,7 @@ public class FileManager {
 	 * 	Still need to decide how discounts will be stored and how they will work
 	 * */
 	String discounts = "../../csvFiles/discounts.csv" ;	
-	String orderHistoryFile = "../../csvFiles/order_history.csv" ;
+	String orderHistoryFile = "csvFiles/order_history.csv" ;
 	
 	public FileManager() {
 		
@@ -143,5 +143,29 @@ public class FileManager {
 		return orderHistories;
 	}
 
+	/**
+	 * Writes supplied text to file
+	 * 
+	 * @param filename the name of the file to be written to
+	 * @param report the text to be written to the file
+	 */
+	public void writeToFile(String filename, String report) {
 	
+		 FileWriter fw;
+		 try {
+		    fw = new FileWriter(filename);
+		    fw.write(report);
+		 	fw.close();
+		 }
+		 //message and stop if file not found
+		 catch (FileNotFoundException fnf){
+			 System.out.println(filename + " not found ");
+			 System.exit(0);
+		 }
+		 //stack trace here because we don't expect to come here
+		 catch (IOException ioe){
+		    ioe.printStackTrace();
+		    System.exit(1);
+		 }
+	}
 }
