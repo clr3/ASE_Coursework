@@ -71,7 +71,7 @@ public class CustomerOrder {
 		return this.foodItem;
 	}
 	/**
-	 * 
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
 	 * This method returns the FoodItem for the given foodItemId
 	 * 
 	 * 

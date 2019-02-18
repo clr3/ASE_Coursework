@@ -7,9 +7,11 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
+import CoffeeShopUtilities.OrderManager;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -109,5 +111,13 @@ Can't test because it's private
 		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_noCategory.csv");
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
+	}
+
+/**Order Manager Tests*/
+	@Test
+	void testBuildCustomerOrdersFromOrderHistory() {
+		OrderManager om = new OrderManager();
+		HashMap<String, CustomerOrder> order = om.getOrderMap();
+		assertTrue(order.containsKey("100"));
 	}
 }

@@ -271,7 +271,7 @@ public class FileManager {
 	 * Used the method from OrderManager to do this.
 	 * 
 	 * */
-	public  ArrayList<String> read_orderHistory(){
+	public  ArrayList<String> read_orderHistory() throws FileNotFoundException{
 		
 		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
 		
@@ -285,6 +285,7 @@ public class FileManager {
 	}
 	
 	/**
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
 	 * 
 	 * This method reads the order_history.csv file and builds CustomerOrder objects. 
 	 * The method returns a HashMap with key as OrderId and value as CustomerOrder. Each CustomerOder object containing 
@@ -296,7 +297,13 @@ public class FileManager {
 	 * @Returns ArrayList<CustomerOrder>
 	 * 
 	 * */
-	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(ArrayList<String> orderHistories, Menu menu) throws FileNotFoundException{
+	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Menu menu) {
+		ArrayList<String> orderHistories = null;
+		try {
+			orderHistories = read_orderHistory();
+		}catch (FileNotFoundException e) {
+			System.out.println("No past orders");
+		}
 		
 		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
 		
