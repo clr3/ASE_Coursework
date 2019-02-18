@@ -53,7 +53,7 @@ class OrderManagerTests {
 	    om.submitNewOrder(orderId, co);
 	  
 	    String report = om.generateReports();
-	    om.writeReports();
+	    om.writeReports();// This will write the summary report. Path csvFiles/order_summary.csv
 	    
 	    assertTrue(report.contains("Total Order Value = 34.09"));
 	    
