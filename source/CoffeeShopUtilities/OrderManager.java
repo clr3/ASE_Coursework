@@ -28,7 +28,7 @@ public class OrderManager {
 		try {
 			ArrayList<String> orderHistories = fm.readOrderHistory();
 			//Moved Method to File Manager Class
-			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(orderHistories, menu);
+			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(orderHistories,menu);
 		} catch (FileNotFoundException e) {
 			System.out.println ("OrderManager failed to load the order history. File not found error!");
 		}
@@ -46,7 +46,7 @@ public class OrderManager {
 	 * @Returns void
 	 * 
 	 * */
-	public void completeOrder(String orderId, CustomerOrder cusOrder) {
+	public void submitNewOrder(String orderId, CustomerOrder cusOrder) {
 		orderMap.put(orderId, cusOrder);
 		
 	}
@@ -78,7 +78,7 @@ public class OrderManager {
 	 * @Returns String
 	 * 
 	 * */
-	private String generateReports() {
+	public String generateReports() {
 		
 		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
 		
@@ -98,6 +98,7 @@ public class OrderManager {
 					foodItemCount = foodItemCountMap.get(fItem);
 					sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				}
+				sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				totalOrderValue = totalOrderValue.add(BigDecimal.valueOf(fItem.getPrice()));
 			}
 			
@@ -145,4 +146,5 @@ public class OrderManager {
 	public HashMap<String, CustomerOrder> getOrderMap() {
 		return orderMap;
 	}
+	
 }

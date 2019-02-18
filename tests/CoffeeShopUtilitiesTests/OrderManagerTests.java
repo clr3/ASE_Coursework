@@ -31,7 +31,7 @@ class OrderManagerTests {
 	    FoodCategory.HOT_BEVERAGE); ArrayList<FoodItem> fList = new
 	    ArrayList<FoodItem>(); fList.add(fi); CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
 	  
-	    OrderManager om = new OrderManager(); om.completeOrder(orderId, co) ;
+	    OrderManager om = new OrderManager(); om.submitNewOrder(orderId, co) ;
 	  
 	    HashMap<String, CustomerOrder> order = om.getOrderMap();
 	  
@@ -40,15 +40,23 @@ class OrderManagerTests {
 	}
 	  
 	@Test void testWriteReports() { 
-		String orderId= "999"; FoodItem fi = new
-	    FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee",
-	    FoodCategory.HOT_BEVERAGE); ArrayList<FoodItem> fList = new
-	    ArrayList<FoodItem>(); fList.add(fi); CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
+		String orderId= "999"; 
+		FoodItem fi = new FoodItem("HOT99", "Hot Coffee", 10.0, "New Coffee",
+	    FoodCategory.HOT_BEVERAGE); 
+		ArrayList<FoodItem> fList = new
+	    ArrayList<FoodItem>(); 
+		fList.add(fi); 
+		
+		CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
 	  
-	    OrderManager om = new OrderManager(); om.completeOrder(orderId, co);
+	    OrderManager om = new OrderManager(); 
+	    om.submitNewOrder(orderId, co);
 	  
+	    String report = om.generateReports();
 	    om.writeReports();
-	  
+	    
+	    assertTrue(report.contains("Total Order Value = 34.09"));
+	    
 	}
 	 
 

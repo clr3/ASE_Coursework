@@ -20,12 +20,12 @@ public class FileManager {
 	
 	String separator = ",";
 	String separator2 = ";"; 
-	String menuFile = "../../csvFiles/menu_coffeeShop.csv" ;
+	String menuFile = "csvFiles/menu_coffeeShop.csv" ;
 	/**Cristy's Comment:
 	 * 	Still need to decide how discounts will be stored and how they will work
 	 * */
-	String discounts = "../../csvFiles/discounts.csv" ;	
-	String orderHistoryFile = "../../csvFiles/order_history.csv" ;
+	String discounts = "csvFiles/discounts.csv" ;	
+	String orderHistoryFile = "csvFiles/order_history.csv" ;
 	
 	
 	public FileManager() {
@@ -67,7 +67,7 @@ public class FileManager {
 	 * @ThrowException If there is missing information on the line
 	 * 
 	 * */
-	private FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
+	public FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
 						NoItemIDException, NoItemNameFoundException, NoPriceFoundException {
 		String[] item = new String[5];
 		
@@ -303,8 +303,9 @@ public class FileManager {
 		for (String order: orderHistories){
 			String[] item = order.split(";");
 			
-			CustomerOrder custOrder = null;
-			
+			CustomerOrder custOrder = new CustomerOrder();
+			System.out.println ("Item Id"+item[2]);
+			System.out.println ("Menu"+menu.getMenu().size());
 			FoodItem fItem = custOrder.getFoodItem(item[2], menu);
 			
 			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
