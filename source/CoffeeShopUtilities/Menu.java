@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
@@ -13,7 +14,7 @@ public class Menu {
 	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
 	
-	public   Menu() {
+	public Menu() {
 		FileManager fm = new FileManager();
 		try {
 			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
@@ -23,25 +24,11 @@ public class Menu {
 		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
 		        addFoodItems(foodObj.getCategory(),foodObj);
 		      } 
-		
-		
-		
-			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoCategoryFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoItemIDException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoItemNameFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-   
 	
 	private void createDiscount() {
 		
@@ -51,16 +38,13 @@ public class Menu {
 		discount_obj.getItem_list().add("HOT1");
 		discount_obj.getItem_list().add("HOT2");
 		discount_obj.setDiscount_percentage(5);
-		
 		discounts.add(discount_obj);
-		
 		
 		Discount discount_obj1 = new Discount();
 		discount_obj1.setOffer_name("Saver Menu");
 		discount_obj1.getItem_list().add("HOT2");
 		discount_obj1.getItem_list().add("BAKE1");
 		discount_obj1.setDiscount_percentage(10);
-		
 		discounts.add(discount_obj1);
 		
 		
@@ -69,24 +53,16 @@ public class Menu {
 		discount_obj2.getItem_list().add("English Breakfast");
 		discount_obj2.getItem_list().add("BAKE");
 		discount_obj2.setDiscount_percentage(25);
-		
 		discounts.add(discount_obj2);
-		
-		//System.out.println(discount_obj2);
-		
 	}
-	
-
 
 	public ArrayList<Discount> getDiscounts() {
 		return discounts;
 	}
 
-
 	public void setDiscounts(ArrayList<Discount> discounts) {
 		this.discounts = discounts;
 	}
-
 
 	public EnumMap<FoodCategory, HashMap<String , FoodItem>> getMenu() {
 		return menu;
