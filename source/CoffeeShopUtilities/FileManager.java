@@ -2,6 +2,9 @@ package CoffeeShopUtilities;
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
  * 
+ * FileManager
+ * - knows the files addresses
+ * - can convert from files to data types
  * */
 import java.io.*;
 import java.math.BigDecimal;
@@ -11,6 +14,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import CoffeeShopUtilities.FoodItem;
+import customerOrderExceptions.NoOrderIdException;
+import customerOrderExceptions.noCustomerIdException;
+import customerOrderExceptions.noOrderItemException;
+import customerOrderExceptions.noTimestampException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -59,7 +66,6 @@ public class FileManager {
 	
 	/**
 	 * Create a new food item from a line of text from the csv file
-	 * @throws NoPriceFoundException 
 	 * 
 	 * @Params String from csv file
 	 * @Returns FoodItem
@@ -128,8 +134,9 @@ public class FileManager {
 	 * Creates a HashMap<String, FoodItem> that holds food items 
 	 * 				Where the key is the FoodItem.ItemID
 	 * 
+	 * @params menu_file name
 	 * @throws FileNotFoundException 
-	 * 
+	 * @exception print message is item is inclomplete but create menu with valid data
 	 * */
 	public HashMap<String, FoodItem> create_menu(String menu_file) throws FileNotFoundException{
 		File file = new File(menu_file);
@@ -169,6 +176,12 @@ public class FileManager {
 		return menu;
 	}  
 	
+	/**
+	 * Creates a HashMap<String, FoodItem> that holds food items 
+	 * 				Where the key is the FoodItem.ItemID
+	 * 
+	 * @return HashMap<String, FoodItem> 
+	 * */
 	public HashMap<String, FoodItem> create_menu() throws FileNotFoundException{
 		return create_menu(menuFile);
 	}
@@ -180,7 +193,7 @@ public class FileManager {
 	}
 	
 	/**
-	 * 
+	 * @author Cristina Rivera
 	 * This method reads the order_history.csv file and returns the records as a String array list
 	 * 
 	 * @throws FileNotFoundException 
@@ -201,6 +214,7 @@ public class FileManager {
 	}
 
 	/**
+	 * @author Cristina Rivera
 	 * Writes supplied text to file
 	 * 
 	 * @param filename the name of the file to be written to
@@ -230,14 +244,18 @@ public class FileManager {
 	
 	/**
 	 * 
-	 *  
-	 * 
-	 * @Params String line_from_csv_file , Date check_for_"today"
+	 * @Param String line_from_csv_file 
+	 * @Param Menu to create the food items
 	 * 	
 	 * @Returns customer Order with a single item stored in it 
 	 * 
+	 * @throws noCustomerIdException 
+	 * @throws noTimestampException 
+	 * @throws NoOrderIdException 
+	 * @throws noOrderItemException 
+	 * 
 	 * */
-	public  CustomerOrder read_customerOrder(String s, Date date){
+	public  CustomerOrder create_CustomerOrder_from_string(String s, Menu menu) throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException{
 		
 		String[] order = new String[4];
 		
@@ -249,9 +267,32 @@ public class FileManager {
 		if(s.contains(separator2)) { order = s.split(separator2);}
 
 		CustomerOrder newOrder = new CustomerOrder();
+		String[] oder = s.split(";");
 
-		/*Check the date first. Return if the date is not the date given
-		 * */
+		/*Check for the date first*/
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		if (oder[3].isEmpty()) throw new noTimestampException();
+		try {
+			date = format.parse(order[3]);
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+		}
+		newOrder.setTimestamp(date);
+
+		/*Check Order ID*/
+		if (order[0].isEmpty()) throw new NoOrderIdException();
+		newOrder.setOrderId(order[0]);
+		
+		/*Check Customer ID*/
+		if (order[1].isEmpty()) throw new noCustomerIdException();
+		newOrder.setCustomerId(order[1]);
+		
+		/*Check for item Key and create Item*/
+		if(order[2].isEmpty()) throw new noOrderItemException();
+		FoodItem fItem = getFoodItem(oder[2], menu);
+		newOrder.addItem(fItem);
+	
 		
 		return newOrder;
 	}
@@ -264,25 +305,54 @@ public class FileManager {
 	 * @throws FileNotFoundException 
 	 * 
 	 * @Params 
-	 * @Returns HashMap <String, CustomerOrder>
-	 * 			where 		String =
-	 * 						customerOrder = order with 1 item as a string
 	 * 
-	 * Used the method from OrderManager to do this.
+	 * @Returns ArrayList<CustomerOrder> with customer orders read from the file
+	 * Will return an ArrayList with all valid custmer orders from the file
 	 * 
 	 * */
-	public  ArrayList<String> read_orderHistory() throws FileNotFoundException{
+	public  ArrayList<CustomerOrder> read_orderHistory(String file_name, Menu menu) throws FileNotFoundException{
+				
+		ArrayList<CustomerOrder> orderHistories = new ArrayList<CustomerOrder>();
 		
-		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
+		File file = new File(file_name);
 		
-		ArrayList<String> orderHistories = null;
-		try {
-			orderHistories = read_data_by_line(orderHistoryFile);
-		} catch (FileNotFoundException e) {
-			System.out.println ("OrderManager failed to load the order history. File not found error!");
+		Scanner inputStream = new Scanner(file);
+		
+		int count = 0;
+		
+		while(inputStream.hasNext()) {
+			String data = inputStream.nextLine();
+			
+			if(count>0) {		//Ignore first line on the file
+				CustomerOrder newOrder = null;
+				
+					try {
+						
+						newOrder = create_CustomerOrder_from_string(data, menu);
+						orderHistories.add(newOrder);
+					} catch (noCustomerIdException e) {
+						System.out.println(e.getMessage());
+					} catch (noTimestampException e) {						
+						System.out.println(e.getMessage());
+					} catch (NoOrderIdException e) {
+						System.out.println(e.getMessage());
+					} catch (noOrderItemException e) {
+						System.out.println(e.getMessage());
+					}
+				
+			}
+			count++;
 		}
+		inputStream.close();
+	
 		return orderHistories;
 	}
+	
+	/**
+	 * @author Cristina Rivera
+	 * 
+	 * 
+	 * */
 	
 	/**
 	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -293,51 +363,72 @@ public class FileManager {
 	 * 
 	 * @throws FileNotFoundException 
 	 * 
-	 * @Params String order_history csv file
-	 * @Returns ArrayList<CustomerOrder>
+	 * @Params Menu to convert the text into 
+	 * @Returns  HashMap <String, CustomerOrder>
 	 * 
 	 * */
-	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Menu menu) {
-		ArrayList<String> orderHistories = null;
+	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(String file, Menu menu) {
+		
+		ArrayList<CustomerOrder> orderHistories = null;
 		try {
-			orderHistories = read_orderHistory();
+			orderHistories = read_orderHistory(file, menu);
+			
 		}catch (FileNotFoundException e) {
 			System.out.println("No past orders");
 		}
 		
 		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
 		
-		for (String order: orderHistories){
-			String[] item = order.split(";");
+		for (CustomerOrder order: orderHistories){
 			
-			CustomerOrder custOrder = null;
-			
-			FoodItem fItem = custOrder.getFoodItem(item[2], menu);
-			
-			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
-			fItemList.add(fItem);
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = null;
-			try {
-				date = format.parse(item[3]);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//build the CustomerOrder if its a new order. If order exists, then add/append the order item to existing CustomerOrder
-			if (orderMap.containsKey(item[0])) {
-				custOrder = orderMap.get(item[0]);
-				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();
-				currentFoodItemList.add(fItem);
-				custOrder.setOrderItems(currentFoodItemList);		
+			//build the CustomerOrder if its a new order. 
+			//If order exists, then add/append the order item to existing CustomerOrder
+			if (orderMap.containsKey(order.getOrderId())) {
+				
+				CustomerOrder custOrder = orderMap.get(order.getOrderId());
+				
+				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();				
+				currentFoodItemList.addAll(order.getOrderItems());
+				
+				orderMap.get(order.getOrderId()).setOrderItems(currentFoodItemList);
+				
 			} else {
-				custOrder = new CustomerOrder(item[0], item[1], fItemList, new BigDecimal(0), date);
-				orderMap.put(item[0], custOrder);
+				orderMap.put(order.getOrderId(), order);
 			}
 			
 		}
 		return orderMap;
+	}
+	
+	/**
+	 * @Return HashMap <String, CustomerOrder> for the main order_history
+	 * 
+	 * @CristysComment: I think we could create different files for each day of orders
+	 * This would be easy to implement if we want to do later, but probably not so necessary (unless we had a lot of data)
+	 * */
+	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Menu menu) {
+		return buildCustomerOrdersFromOrderHistory(orderHistoryFile, menu);
+	}
+	/**
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
+	 * This method returns the FoodItem for the given foodItemId
+	 * 
+	 * 
+	 * @Params String foodItemId
+	 * @Returns void
+	 * 
+	 * */
+	FoodItem getFoodItem(String foodItemId, Menu menu) {
+		FoodItem fItem = null;
+		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
+		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
+		for (HashMap<String , FoodItem> menuMap : menuMapList) {
+			if (menuMap.containsKey(foodItemId)) {
+				fItem = menuMap.get(foodItemId);
+				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
+			}
+			
+		}
+		return fItem;
 	}
 }

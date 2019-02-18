@@ -62,36 +62,11 @@ public class CustomerOrder {
 	public void setFinalBillAmount(BigDecimal finalBillAmount) {
 		this.finalBillAmount = finalBillAmount;
 	}
-	/*Will need a method to convert the String to Item using the menu
-	 * */
-	public void addItem(String foodID){
-		this.foodItem = foodID;
+	/*Add a single Item to the order */
+	public void addItem(FoodItem foodID){
+		orderItems.add(foodID);
 	}
-	public String getItem(){
-		return this.foodItem;
-	}
-	/**
-	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
-	 * This method returns the FoodItem for the given foodItemId
-	 * 
-	 * 
-	 * @Params String foodItemId
-	 * @Returns void
-	 * 
-	 * */
-	FoodItem getFoodItem(String foodItemId, Menu menu) {
-		FoodItem fItem = null;
-		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
-		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
-		for (HashMap<String , FoodItem> menuMap : menuMapList) {
-			if (menuMap.containsKey(foodItemId)) {
-				fItem = menuMap.get(foodItemId);
-				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
-			}
-			
-		}
-		return fItem;
-	}
+
 	//TODO
 	//Implement the methods defined in class diagram
 
