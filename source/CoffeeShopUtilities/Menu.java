@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
+import foodItemExceptions.NoPriceFoundException;
 
 public class Menu {
 	
@@ -38,6 +39,36 @@ public class Menu {
 		for(Entry<String, FoodItem> item: unsortedMenu.entrySet()) {
 			FoodItem newItem = item.getValue();
 			//Sort the menu into the EnumMap here..
+		}
+		
+		
+		try {
+			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
+			//System.out.println(menu_csv_list);
+			for (int counter = 0; counter < menu_csv_list.size(); counter++) { 		      
+		         // System.out.println(menu_csv_list.get(counter)); 	
+		        FoodItem foodObj;
+				foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
+		        addFoodItems(foodObj.getCategory(),foodObj);
+		         
+		     }   		
+
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoCategoryFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoItemIDException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoItemNameFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (NoPriceFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
