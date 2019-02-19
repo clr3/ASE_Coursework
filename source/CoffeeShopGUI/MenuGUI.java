@@ -72,6 +72,13 @@ class MenuGUI extends JPanel{
     	f.setVisible(true);
     }
     
+    /** 
+     * Hide Menu page
+     */
+    public void hideMenuPage() {
+    	f.setVisible(false);
+    }
+    
 	/**
 	 * Returns Category list panel
 	 *
@@ -201,7 +208,7 @@ class MenuGUI extends JPanel{
         });
         panel.add(resetButton);
         
-        Button orderButton = new Button("Order");
+        Button orderButton = new Button("Order Food");
         orderButton.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
@@ -210,6 +217,15 @@ class MenuGUI extends JPanel{
              }
         });
         panel.add(orderButton);
+        
+        Button closeButton = new Button("Close Menu");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+             public void actionPerformed(ActionEvent e) {
+            	hideMenuPage();
+             }
+        });
+        panel.add(closeButton);
     	return panel;
     }
     
