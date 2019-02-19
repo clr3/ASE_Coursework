@@ -42,15 +42,16 @@ public class CustomerOrder {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	public ArrayList<FoodItem> getOrderItems() {
-		return orderItems;
-	}
 	public void setOrderItems(ArrayList<FoodItem> orderItems) {
 		this.orderItems = orderItems;
 	}
 	public Date getTimestamp() {
 		return timestamp;
 	}
+	public ArrayList<FoodItem> getOrderItems() {
+		return orderItems;
+	}
+
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
@@ -86,7 +87,6 @@ public class CustomerOrder {
 		for (HashMap<String , FoodItem> menuMap : menuMapList) {
 			if (menuMap.containsKey(foodItemId)) {
 				fItem = menuMap.get(foodItemId);
-				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
 			}
 			
 		}
