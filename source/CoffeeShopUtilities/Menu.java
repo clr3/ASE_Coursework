@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
+import foodItemExceptions.NoPriceFoundException;
 
 public class Menu {
 	
@@ -24,16 +25,15 @@ public class Menu {
 		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
 		        addFoodItems(foodObj.getCategory(),foodObj);
 		      } 
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException | NoCategoryFoundException | NoItemIDException | NoItemNameFoundException | NoPriceFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private void createDiscount() {
-		
-		
 		Discount discount_obj = new Discount();
+		discount_obj.setDiscountId("COMBO01");
 		discount_obj.setOffer_name("Kids Combo");
 		discount_obj.getItem_list().add("HOT1");
 		discount_obj.getItem_list().add("HOT2");
@@ -41,14 +41,15 @@ public class Menu {
 		discounts.add(discount_obj);
 		
 		Discount discount_obj1 = new Discount();
+		discount_obj.setDiscountId("COMBO02");
 		discount_obj1.setOffer_name("Saver Menu");
 		discount_obj1.getItem_list().add("HOT2");
 		discount_obj1.getItem_list().add("BAKE1");
 		discount_obj1.setDiscount_percentage(10);
 		discounts.add(discount_obj1);
-		
-		
+
 		Discount discount_obj2 = new Discount();
+		discount_obj.setDiscountId("COMBO03");
 		discount_obj2.setOffer_name("BREAKFAST");
 		discount_obj2.getItem_list().add("English Breakfast");
 		discount_obj2.getItem_list().add("BAKE");
@@ -85,6 +86,13 @@ public class Menu {
 			//System.out.println(" Not Exist");
 		    
 		}
+	}
+	
+	public HashMap<String , FoodItem> getFoodItemsByCategory(String categoryName) {
+		if(menu.containsKey(FoodCategory.valueOf(categoryName))) {
+			return menu.get(FoodCategory.valueOf(categoryName));
+		}
+		return null;
 	}
 
 	@Override

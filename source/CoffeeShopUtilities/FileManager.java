@@ -67,7 +67,7 @@ public class FileManager {
 	 * @ThrowException If there is missing information on the line
 	 * 
 	 * */
-	private FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
+	public FoodItem create_foodItem_fromCSV(String s) throws NoCategoryFoundException,
 						NoItemIDException, NoItemNameFoundException, NoPriceFoundException {
 		String[] item = new String[5];
 		

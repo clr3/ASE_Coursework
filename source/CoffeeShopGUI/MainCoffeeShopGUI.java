@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 
 public class MainCoffeeShopGUI {
 
-	public MainCoffeeShopGUI() {
+	public MainCoffeeShopGUI(Menu menu_obj) {
 		int mainFrameWidth = 300;
 		int mainFrameHight = 400;
 		
@@ -14,14 +14,14 @@ public class MainCoffeeShopGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		frame.setSize(mainFrameWidth , mainFrameHight);
 		
-		frame.setContentPane(new StartPageGUI());
+		frame.setContentPane(new StartPageGUI(menu_obj));
 		frame.setVisible(true);
 	}
 	
 
 	public static void main(String args[]) {
 		Menu menu_obj = new Menu();
-		MainCoffeeShopGUI main = new MainCoffeeShopGUI();
+		MainCoffeeShopGUI main = new MainCoffeeShopGUI(menu_obj);
 		
 	}
 	

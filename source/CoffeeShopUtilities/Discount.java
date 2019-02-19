@@ -3,12 +3,10 @@ package CoffeeShopUtilities;
 import java.util.ArrayList;
 
 public class Discount {
-	
+	private String discountId;
 	private String offer_name;
 	private ArrayList<String>  item_list = new ArrayList <String>();
 	private int discount_percentage ;
-	
-	
 	
 	public String getOffer_name() {
 		return offer_name;
@@ -28,7 +26,10 @@ public class Discount {
 	public void setDiscount_percentage(int discount_percentage) {
 		this.discount_percentage = discount_percentage;
 	}
-	
-	
-
+	public String getDiscountId() {
+		return discountId;
+	}
+	public void setDiscountId(String discountId) {
+		this.discountId = discountId;
+	}
 }
