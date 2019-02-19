@@ -37,6 +37,9 @@ import java.math.BigDecimal;
  * MainFrame amongst others has a menureader as an IV, menu items, and the receipt panel
  * @author Armand Tene
  *
+ * @edits Cristina Rivera
+ * Create a Jfrme that shows the order and the total.
+ *
  */
 public class CustomerOrdergui extends JFrame {
 
@@ -49,7 +52,7 @@ public class CustomerOrdergui extends JFrame {
 	private JTextPane orderItems;
 	private String itemInformation;
 	
-	public CustomerOrdergui(File givenMenu) throws FileNotFoundException {
+	public CustomerOrdergui()
 		/**
 		 * Initializing IVs 
 		 */
@@ -57,12 +60,9 @@ public class CustomerOrdergui extends JFrame {
 		itemInformation = "";
 		
 		itemsOrdered = new ArrayList<Menu>();
-		menuRead = new MenuReader(givenMenu);
-		menuRead.readInputFile();
-		create();
-		
+	
 		setSize(1500,1500);
-		setTitle("Restaurant Menu System");
+		setTitle("My Order");
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -74,6 +74,9 @@ public class CustomerOrdergui extends JFrame {
 	 * We split the pane horizontally with the ordered items on the right and item buttons to the left
 	 * We get the panels for the frame and put it in the divided pane
 	 */
+	/**
+	*@edits cristina Rivera / I don`t think this is necesary
+	*/
 	public void create() {
 		JPanel mainPanel = (JPanel) getContentPane();
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
