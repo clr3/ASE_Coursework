@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -24,7 +25,12 @@ import javax.swing.JTextField;
 import CoffeeShopUtilities.CustomerOrder;
 
 
-
+/***Staff GUI SHOWs the orders list
+ * 		Customer ID
+ * 		Items in the Order
+ * 		display discount 
+ * 		final price
+ * **/
 
 
 
@@ -41,10 +47,10 @@ public class customergui extends JFrame implements ActionListener {
 	private JFrame frame = new JFrame();
 	private JPanel centerPanel = new JPanel();
 	private JPanel northPanel = new JPanel();
-	private ComboBoxModel<String> menu = {"Food Category","sarter","main","dessert","drink"};
+	//private ComboBoxModel<String> menu = {"Food Category","sarter","main","dessert","drink"};
 	private JScrollPane scrollPane ;
-	private JComboBox<String> filter = new JComboBox<String>(menu);
-
+	//private JComboBox<String> filter = new JComboBox<String>(menu);
+	
 
 	
 		/** Constructor to receive the list of customers **/	

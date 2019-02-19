@@ -214,7 +214,8 @@ public class FileManager {
 	}
 
 	/**
-	 * @author Cristina Rivera
+	 * @author Sethu
+	 * @edits Cristina Rivera
 	 * Writes supplied text to file
 	 * 
 	 * @param filename the name of the file to be written to
