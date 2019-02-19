@@ -16,9 +16,6 @@ import CoffeeShopUtilities.OrderManager;
 
 class OrderManagerTests {
 	
-
-
-	
 	@Test 
 	void testCompleteOrder() { 
 		String orderId= "999"; FoodItem fi = new
