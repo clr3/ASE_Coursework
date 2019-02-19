@@ -7,9 +7,16 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
+import CoffeeShopUtilities.Menu;
+import CoffeeShopUtilities.OrderManager;
+import customerOrderExceptions.NoOrderIdException;
+import customerOrderExceptions.noCustomerIdException;
+import customerOrderExceptions.noOrderItemException;
+import customerOrderExceptions.noTimestampException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -109,5 +116,44 @@ Can't test because it's private
 		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_noCategory.csv");
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
+	}
+	
+	//No category should create a category based on the item ID
+	@Test
+	void testCreateMenu() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
+		FileManager f = new FileManager();
+		HashMap<String, FoodItem> menu = f.create_menu();
+		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
+	}
+
+/**Create Order From CSV Line tests
+ * @throws noOrderItemException 
+ * @throws NoOrderIdException 
+ * @throws noTimestampException 
+ * @throws noCustomerIdException */
+	@Test
+	void test__read_orderHistory() throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException {
+		FileManager f = new FileManager();
+		Menu menu = new Menu();
+		CustomerOrder o = f.create_CustomerOrder_from_string("100;5210;HOT1;2019-01-31", menu);
+		assertEquals("5210", o.getOrderId());
+	}
+	
+/**Order Manager Tests*/
+	@Test
+	void testBuildCustomerOrdersFromOrderHistory() {
+		FileManager f = new FileManager();
+		Menu menu = new Menu();
+		HashMap<String, CustomerOrder> order = f.buildCustomerOrdersFromOrderHistory(menu);
+		assertTrue(order.containsKey("100"));
+	}
+	
+	@Test
+	void testBuildCustomerOrdersFromOrderHistory_noPastOrders() {
+			
+		OrderManager om = new OrderManager();
+		HashMap<String, CustomerOrder> order = om.getOrderMap();
+		assertTrue(order.containsKey("100"));
+	
 	}
 }

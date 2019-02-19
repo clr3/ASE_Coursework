@@ -16,14 +16,6 @@ import CoffeeShopUtilities.OrderManager;
 
 class OrderManagerTests {
 	
-	@Test
-	void testBuildCustomerOrdersFromOrderHistory() {
-		OrderManager om = new OrderManager();
-		HashMap<String, CustomerOrder> order = om.getOrderMap();
-		assertTrue(order.containsKey("100"));
-	}
-
-	
 	@Test 
 	void testCompleteOrder() { 
 		String orderId= "999"; FoodItem fi = new

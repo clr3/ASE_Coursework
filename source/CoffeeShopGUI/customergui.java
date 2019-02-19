@@ -1,6 +1,8 @@
-/** By Armand Ten **/
+/** By Armand Tene **/
 
 package CoffeeShopGUI;
+
+
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -8,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -24,13 +27,19 @@ import javax.swing.JTextField;
 import CoffeeShopUtilities.CustomerOrder;
 
 
-
+/***Staff GUI SHOWs the orders list
+ * 		Customer ID
+ * 		Items in the Order
+ * 		display discount 
+ * 		final price
+ * **/
 
 
 
 public class customergui extends JFrame implements ActionListener {
 	
 // GUI components	
+	
 	private JButton edit;	
 	private JButton view;
 	private JTextField searchtext;
@@ -38,19 +47,26 @@ public class customergui extends JFrame implements ActionListener {
 	private JRadioButton sortByCN = new JRadioButton("CN");
 	private JRadioButton sortByName = new JRadioButton("Name");
 	private ButtonGroup sort = new ButtonGroup();
+	private static CustomerOrder orderlist;
 	private JFrame frame = new JFrame();
 	private JPanel centerPanel = new JPanel();
 	private JPanel northPanel = new JPanel();
-	private ComboBoxModel<String> menu = {"Food Category","sarter","main","dessert","drink"};
+	private String[] menu = {"Food Category","sarter","main","dessert","drink"};
 	private JScrollPane scrollPane ;
-	private JComboBox<String> filter = new JComboBox<String>(menu);
+	private JComboBox<String> filter = new JComboBox <String> (menu);
+	private ArrayList<CustomerOrder> filtered;
+	private CustomerOrder filteredList = orderlist;
 
+	//private ComboBoxModel<String> menu = {"Food Category","sarter","main","dessert","drink"};
+	private JScrollPane scrollPane ;
+	//private JComboBox<String> filter = new JComboBox<String>(menu);
+	
 
 	
 		/** Constructor to receive the list of customers **/	
 	
-		public customergui(CustomerList c) {
-    		comptlist = c;
+		public customergui(CustomerOrder c) {
+    		orderlist = c;
     	}
     
     	@Override
@@ -66,7 +82,7 @@ public class customergui extends JFrame implements ActionListener {
     				centerPanel.removeAll();
     				centerPanel.repaint();
     				centerPanel.revalidate();
-    				frame.add(setupCenterPanel(comptlist.getCustomerList()));
+    				frame.add(setupCenterPanel(filtered));
     				frame.setSize(500, 500);
     				centerPanel.repaint();
     				centerPanel.revalidate();
@@ -85,7 +101,7 @@ public class customergui extends JFrame implements ActionListener {
     
     			sortNames();
     		}
-    		else if (event.getSource() == sortByMenu)
+    		else if (event.getSource() == orderId)
     		{
     			System.out.println("radio button clicked");
     
@@ -111,7 +127,7 @@ public class customergui extends JFrame implements ActionListener {
     			centerPanel.revalidate();
     			filtered = comptlist.getCustomerList();
     			filteredList = comptlist;
-    	        scrollPane.setViewportView(setupCenterPanel(filteredList.getCustomerList()));
+    	        scrollPane.setViewportView(setupCenterPanel(filteredList.getCustomerId()));
     
     			centerPanel.repaint();
     			centerPanel.revalidate();
@@ -254,7 +270,7 @@ public class customergui extends JFrame implements ActionListener {
    		northPanel.add(sortBy);
    		sortByCN.addActionListener(this);
    		sortByName.addActionListener(this);
-   		sortByMenu.addActionListener(this);
+   		orderId.addActionListener(this);
    		sort.add(sortByCN);
    		sort.add(sortByName);
    		sort.add(sortByMenu);
