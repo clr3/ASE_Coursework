@@ -25,13 +25,10 @@ public class OrderManager {
 		// The order history files are loaded during the creation of Order Manager
 		FileManager fm = new FileManager();
 		menu = new Menu();
-		try {
-			ArrayList<String> orderHistories = fm.readOrderHistory();
-			//Moved Method to File Manager Class
-			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(orderHistories,menu);
-		} catch (FileNotFoundException e) {
-			System.out.println ("OrderManager failed to load the order history. File not found error!");
-		}
+		
+		//Moved Method to File Manager Class
+		this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
+		
 	}
 	
 	
