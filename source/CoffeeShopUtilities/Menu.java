@@ -14,21 +14,28 @@ public class Menu {
 	
 	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
+	private int enum_no=5;
 	
 	public Menu() {
+		
 		FileManager fm = new FileManager();
+		HashMap<String , FoodItem> items = new HashMap<String , FoodItem>();
+	
 		try {
-			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
-			//System.out.println(menu_csv_list);
-			for (int counter = 0; counter < menu_csv_list.size(); counter++) { 		      
-		         // System.out.println(menu_csv_list.get(counter)); 	
-		        FoodItem  foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
-		        addFoodItems(foodObj.getCategory(),foodObj);
-		      } 
-		} catch (FileNotFoundException | NoCategoryFoundException | NoItemIDException | NoItemNameFoundException | NoPriceFoundException e) {
-			// TODO Auto-generated catch block
+			
+			items = fm.create_menu();
+	
+			//Iterate the menu items 
+			for(HashMap.Entry<String , FoodItem> item: items.entrySet()) {	
+						
+				addFoodItems(item.getValue().getCategory(), item.getValue());		
+			}
+			
+		
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	private void createDiscount() {

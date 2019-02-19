@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
@@ -32,6 +33,10 @@ class MenuGUI extends JPanel{
     private double totalCost = 0;
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
+	
+	//Each menu has 1 order attached to it
+	private CustomerOrder order = new CustomerOrder();
+	private CustomerOrdergui customerOrderGui = new CustomerOrdergui(order);
 
     public MenuGUI(Menu menu_obj1){
     		this.menu_obj = menu_obj1;
@@ -163,6 +168,8 @@ class MenuGUI extends JPanel{
              public void actionPerformed(ActionEvent e) {
             	//Open order page
             	//cart - property contains the selected fooditems
+            	customerOrderGui.show_order();
+
              }
         });
         panel.add(orderButton);

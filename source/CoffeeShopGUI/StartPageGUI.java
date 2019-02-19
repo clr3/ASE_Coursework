@@ -22,12 +22,13 @@ public class StartPageGUI extends JPanel{
 	
 	private JButton staffButton;
 	private JButton customerButton;
-	private MenuGUI menu_gui;
+	
+	
 	
 	
 	/**Initialise the buttons */
-	public StartPageGUI(Menu menu_obj) {
-		menu_gui = new MenuGUI(menu_obj);
+	public StartPageGUI() {
+		
 		setLayout(new GridBagLayout());
 		create_staff_button();
 		create_customer_button();
@@ -73,6 +74,8 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open Menu Page 
 				//stem.out.println("Menu");
+				//Create a Menu Page every time the button is clicked
+				MenuGUI menu_gui = new MenuGUI(new Menu());
 				menu_gui.showMenuPage();
 			}
 			
