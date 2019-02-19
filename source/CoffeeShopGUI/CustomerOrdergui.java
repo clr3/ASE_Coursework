@@ -237,7 +237,7 @@ public class CustomerOrdergui extends JFrame {
 		orderItems.setText(null);
 		
 	}
-	/**
+	/** 
 	 * Constantly updates the order panel based on commands
 	 * @param itemButton
 	 */
