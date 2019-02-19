@@ -91,6 +91,7 @@ public class CustomerOrder {
 			
 		}
 		return fItem;
+	}
 	/*Add a single Item to the order */
 	public void addItem(FoodItem foodID){
 		orderItems.add(foodID);
