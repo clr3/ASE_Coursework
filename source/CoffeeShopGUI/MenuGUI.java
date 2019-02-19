@@ -1,3 +1,6 @@
+/**
+* Menu order GUI class for Coffee Shop
+*/
 package CoffeeShopGUI;
 
 import java.awt.BorderLayout;
@@ -23,6 +26,11 @@ import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
 
+/**
+* Menu order GUI class for Coffee Shop
+*
+* @author  Arthidevi Balavignesh
+*/
 class MenuGUI extends JPanel{
     private JFrame f =new JFrame();
     private JPanel currentFoodItemPanel = new JPanel();
@@ -33,6 +41,11 @@ class MenuGUI extends JPanel{
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
 
+    /** 
+     * Constructor for Menu GUI
+     * 
+     * @param Menu menu_obj1
+     */
     public MenuGUI(Menu menu_obj1){
     		this.menu_obj = menu_obj1;
             JPanel jp = new JPanel();
@@ -51,10 +64,18 @@ class MenuGUI extends JPanel{
             f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
    }
     
+    /** 
+     * Shows Menu page
+     */
     public void showMenuPage() {
     	f.setVisible(true);
     }
     
+	/**
+	 * Returns Category list panel
+	 *
+	 * @return JPanel panel
+	 */
     private JPanel createCategoryPanel() {
         JPanel jf = new JPanel();
         jf.setLayout (new BoxLayout (jf, BoxLayout.Y_AXIS));  
@@ -79,12 +100,20 @@ class MenuGUI extends JPanel{
         return jf;
     }
     
+	/**
+	 * Shows first category fooditems by default
+	 */
     private void showFirstCategory() {
         Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
         String key = entry.getKey().toString();
         addFoodItems(key);
     }
     
+	/**
+	 * Returns Total cost panel
+	 *
+	 * @return JPanel panel
+	 */
     private JPanel createTotalCostPanel() {
         JPanel tcPanel = new JPanel();
         tcPanel.setLayout(new FlowLayout());
@@ -100,6 +129,11 @@ class MenuGUI extends JPanel{
         return tcPanel;
     }
     
+	/**
+	 * Returns Menu header panel
+	 *
+	 * @return JPanel panel
+	 */
     private JPanel createMenuHeaderPanel() {
         JPanel headPanel = new JPanel();
         headPanel.setLayout(new FlowLayout());
@@ -113,6 +147,10 @@ class MenuGUI extends JPanel{
         return headPanel;
     }
 
+	/**
+	 * Adds food items to the FoodItem main panel
+	 *
+	 */
     private void addFoodItems(String categoryName ) {
         removePanel(currentFoodItemPanel);
         currentFoodItemPanel = new JPanel();
@@ -142,6 +180,11 @@ class MenuGUI extends JPanel{
         f.revalidate();
     }
     
+	/**
+	 * Returns Button panel (Reset & Order)
+	 *
+	 * @return JPanel panel
+	 */
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -169,6 +212,11 @@ class MenuGUI extends JPanel{
     	return panel;
     }
     
+	/**
+	 * Returns Food Item panel
+	 *
+	 * @return JPanel panel
+	 */
     private JPanel addFoodItem(String category, String itemKey, FoodItem itemValue) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
@@ -210,18 +258,23 @@ class MenuGUI extends JPanel{
         return panel;
     }
     
-    private double addTotalCost() {
-        return 0;
-    }
-    
+	/**
+	 * Get item count from the cart
+	 *
+	 * @return String item count as string
+	 */
     private String getItemCountFromCart(String itemKey) {
         int count = 0;
         if (cart.containsKey(itemKey)) {
             count = cart.get(itemKey).intValue();
         }
-        return  Integer.toString(count);
+        return Integer.toString(count);
     }
    
+	/**
+	 * Add item to the cart, updates item price and total cost
+	 *
+	 */
     private void addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
         int count = 0;
         if (cart.containsKey(itemKey)) {
@@ -245,6 +298,10 @@ class MenuGUI extends JPanel{
         totalCostPanel.repaint();
     }
     
+	/**
+	 * Remove item from the cart, updates item price and total cost
+	 *
+	 */
     private void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
         int count = 0;
         double itemTotalPrice =  itemValue.getPrice();
@@ -269,6 +326,11 @@ class MenuGUI extends JPanel{
         itemCartPriceLabel.repaint();
     }
     
+	/**
+	 * Returns per item total price
+	 *
+	 * @return Double item total price
+	 */
     private double getItemCartPrice(String itemKey, Double itemPrice) {
         double itemCost = 0;
         if (cart.containsKey(itemKey)) {
@@ -278,6 +340,10 @@ class MenuGUI extends JPanel{
         return itemCost;
     }
     
+	/**
+	 * Removes the fooditems panel
+	 *
+	 */
     private void removePanel(JPanel tempPanel) {
         Component[] componentList = currentFoodItemPanel.getComponents();
         for(Component c : componentList){
