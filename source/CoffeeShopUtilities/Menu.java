@@ -1,20 +1,32 @@
+/**
+* Menu class for Coffee Shop
+*/
 package CoffeeShopUtilities;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
 
+/**
+* Menu class for Coffee Shop, Stores and processes menu data
+*
+* @author  Arthidevi Balavignesh
+* @version 1.0
+*/
 public class Menu {
 	
 	private  EnumMap<FoodCategory ,HashMap<String , FoodItem>> menu = new EnumMap<FoodCategory,HashMap<String , FoodItem>>(FoodCategory.class);    
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
 	
+    /** 
+     * Constructor for Menu Class
+     * 
+     */
 	public Menu() {
 		FileManager fm = new FileManager();
 		try {
@@ -31,6 +43,10 @@ public class Menu {
 		}
 	}
 	
+    /** 
+     * Creates mock discount objects
+     * 
+     */
 	private void createDiscount() {
 		Discount discount_obj = new Discount();
 		discount_obj.setDiscountId("COMBO01");
@@ -57,37 +73,61 @@ public class Menu {
 		discounts.add(discount_obj2);
 	}
 
+    /** 
+     * Return discounts 
+     * @return ArrayList<Discount>
+     */
 	public ArrayList<Discount> getDiscounts() {
 		return discounts;
 	}
 
+    /** 
+     * Set discounts 
+     *     
+     * @param ArrayList<Discount> discounts
+     */
 	public void setDiscounts(ArrayList<Discount> discounts) {
 		this.discounts = discounts;
 	}
 
+    /** 
+     * Get discounts 
+     *     
+     * @return EnumMap<FoodCategory, HashMap<String , FoodItem>> menu
+     */
 	public EnumMap<FoodCategory, HashMap<String , FoodItem>> getMenu() {
 		return menu;
 	}
 
+    /** 
+     * Set discounts 
+     *     
+     * @param EnumMap<FoodCategory, HashMap<String , FoodItem>> menu
+     */
 	public void setMenu(EnumMap<FoodCategory, HashMap<String , FoodItem>> menu) {
 		this.menu = menu;
 	}
 
+    /** 
+     * Add FoodItem object to the menu property
+     * @param FoodCategory category
+     * @param FoodItem food
+     */
 	public void addFoodItems(FoodCategory category,FoodItem food) {
 		if (menu.containsKey(category)) {
 			HashMap<String , FoodItem> f1 = menu.get(category);
 			f1.put(food.getItemID(),food);
-		    //System.out.println("Exist");
 		} else {
 			HashMap<String , FoodItem> food_list = new HashMap<String , FoodItem>();
 			food_list.put(food.getItemID(),food);
-			
 			menu.put(category,food_list);
-			//System.out.println(" Not Exist");
-		    
 		}
 	}
 	
+    /** 
+     * Return the fooditems list by category
+     * @return HashMap<String , FoodItem>
+     */
 	public HashMap<String , FoodItem> getFoodItemsByCategory(String categoryName) {
 		if(menu.containsKey(FoodCategory.valueOf(categoryName))) {
 			return menu.get(FoodCategory.valueOf(categoryName));

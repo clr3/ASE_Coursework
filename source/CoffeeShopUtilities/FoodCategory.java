@@ -1,3 +1,6 @@
+/**
+* FoodCategory Enum
+*/
 package CoffeeShopUtilities;
 
 public enum FoodCategory {

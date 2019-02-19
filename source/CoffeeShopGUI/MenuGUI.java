@@ -32,7 +32,8 @@ import CoffeeShopUtilities.Menu;
 * @author  Arthidevi Balavignesh
 */
 class MenuGUI extends JPanel{
-    private JFrame f =new JFrame();
+	private static final long serialVersionUID = 1L;
+	private JFrame f =new JFrame();
     private JPanel currentFoodItemPanel = new JPanel();
     private JPanel totalCostPanel = new JPanel();
     private JLabel totalCostValue;
