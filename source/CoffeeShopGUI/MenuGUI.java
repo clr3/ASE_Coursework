@@ -179,7 +179,16 @@ class MenuGUI extends JPanel{
 	        for (Map.Entry<String, FoodItem> entry : foodItems.entrySet()) {
 	            String itemKey = entry.getKey();
 	            FoodItem itemValue = entry.getValue();
-	            jf.add(addFoodItem(categoryName, itemKey, itemValue));  
+	            jf.add(addFoodItem(categoryName, itemKey, itemValue));
+	            if (categoryName == FoodCategory.COMBO.toString()) {
+	            	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	            	//String discountDetailStr = String.format("%-10s", itemValue.getDescription());
+	            	JLabel discountDetailLabel = new JLabel(itemValue.getDescription());
+	            	discountDetailLabel.setForeground(Color.ORANGE);
+	            	panel.add(discountDetailLabel);
+	            	jf.add(panel);
+	            }
+	            
 	        }
         }
         jf.add(createTotalCostPanel());
@@ -265,7 +274,6 @@ class MenuGUI extends JPanel{
         });
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
-        
         JLabel foodName = new JLabel(foodItemName);
         panel.add(foodName);
         panel.add(itemPriceLabel);

@@ -106,14 +106,15 @@ public class Menu {
 	}
 	
 	private String getComboDetails(Discount discount) {
-		String comboDetails = "( ";
+		ArrayList<String> comboList = new ArrayList<String>();
+		
 		for (String foodItemId :discount.getItem_list()) {
 			FoodItem fi = getFoodItemById(foodItemId);
 			if (fi != null) {
-				comboDetails += fi.getName() + " ";
+				comboList.add(fi.getName());
 			}
 		}
-		comboDetails += " )";
+		String comboDetails = "( " + String.join(" + ", comboList) + " )";
 		return comboDetails;
 	}
 	
