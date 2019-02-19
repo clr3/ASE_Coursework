@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
@@ -41,6 +42,10 @@ public class Menu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		createDiscount();
+		addDiscountToMenu();
+
 	}
 	
     /** 
@@ -57,22 +62,61 @@ public class Menu {
 		discounts.add(discount_obj);
 		
 		Discount discount_obj1 = new Discount();
-		discount_obj.setDiscountId("COMBO02");
+		discount_obj1.setDiscountId("COMBO02");
 		discount_obj1.setOffer_name("Saver Menu");
-		discount_obj1.getItem_list().add("HOT2");
-		discount_obj1.getItem_list().add("BAKE1");
+		discount_obj1.getItem_list().add("HOT4");
+		discount_obj1.getItem_list().add("BAKE2");
 		discount_obj1.setDiscount_percentage(10);
 		discounts.add(discount_obj1);
 
 		Discount discount_obj2 = new Discount();
 		discount_obj.setDiscountId("COMBO03");
 		discount_obj2.setOffer_name("BREAKFAST");
-		discount_obj2.getItem_list().add("English Breakfast");
-		discount_obj2.getItem_list().add("BAKE");
+		discount_obj2.getItem_list().add("HOT7");
+		discount_obj2.getItem_list().add("BAKE3");
 		discount_obj2.setDiscount_percentage(25);
 		discounts.add(discount_obj2);
 	}
 
+	private void addDiscountToMenu() {
+		HashMap<String , FoodItem> discountsList = new HashMap<String , FoodItem>();
+	      for (Discount discount : discounts) { 		      
+	    	  FoodItem fi = new FoodItem();
+	    	  fi.setName(discount.getOffer_name());
+	    	  Double comboPrice = getComboPrice(discount);
+	    	  fi.setPrice(comboPrice);
+	    	  fi.setItemID(discount.getDiscountId());
+	    	  fi.setDescription(getComboDetails(discount));
+	    	  discountsList.put(discount.getDiscountId(), fi);
+	      }
+	      menu.put(FoodCategory.COMBO, discountsList);
+	}
+	
+	private Double getComboPrice(Discount discount) {
+		Double totalPrice = 0d;
+		for (String foodItemId :discount.getItem_list()) {
+			FoodItem fi = getFoodItemById(foodItemId);
+			if (fi != null) {
+				totalPrice += fi.getPrice();
+			}
+		}
+		Double discountPercent = (double)(discount.getDiscount_percentage()/100d);
+		Double discountRate = totalPrice * discountPercent;
+		return totalPrice - discountRate;
+	}
+	
+	private String getComboDetails(Discount discount) {
+		String comboDetails = "( ";
+		for (String foodItemId :discount.getItem_list()) {
+			FoodItem fi = getFoodItemById(foodItemId);
+			if (fi != null) {
+				comboDetails += fi.getName() + " ";
+			}
+		}
+		comboDetails += " )";
+		return comboDetails;
+	}
+	
     /** 
      * Return discounts 
      * @return ArrayList<Discount>
@@ -134,6 +178,17 @@ public class Menu {
 		}
 		return null;
 	}
+	
+	public FoodItem getFoodItemById(String itemId) {
+		for (Entry<FoodCategory, HashMap<String, FoodItem>> entry : menu.entrySet()) {       
+	          if(entry.getValue().containsKey(itemId)) {
+	        	  return entry.getValue().get(itemId);
+	          } 
+	    }
+		return null;
+	}
+	
+	
 
 	@Override
 	public String toString() {

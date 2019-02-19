@@ -8,6 +8,7 @@ public enum FoodCategory {
 	COLD_BEVERAGE,
 	BAKE,
 	SANDWICH, 
-	BEVERAGE;
+	BEVERAGE,
+	COMBO;
 }
 

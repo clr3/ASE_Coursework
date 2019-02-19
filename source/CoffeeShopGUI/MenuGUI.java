@@ -103,11 +103,12 @@ class MenuGUI extends JPanel{
 	            });
 	            jf.add(categoryButton);  
 	        }
+	        //jf.add(createComboButton());
 	        showFirstCategory();
         }        
         return jf;
     }
-    
+   
 	/**
 	 * Shows first category fooditems by default
 	 */
@@ -338,7 +339,7 @@ class MenuGUI extends JPanel{
         double itemTotalPrice1 =  itemValue.getPrice();
         itemCountLabel.setText(Integer.toString(count));
         itemTotalPrice = itemTotalPrice * count;
-        itemCartPriceLabel.setText(df2.format(itemTotalPrice1));
+        itemCartPriceLabel.setText(df2.format(itemTotalPrice));
         itemCartPriceLabel.revalidate();
         itemCartPriceLabel.repaint();
     }
