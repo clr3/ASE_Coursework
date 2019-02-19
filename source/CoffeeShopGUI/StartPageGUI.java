@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import CoffeeShopUtilities.Menu;
+
 
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
@@ -20,11 +22,12 @@ public class StartPageGUI extends JPanel{
 	
 	private JButton staffButton;
 	private JButton customerButton;
-
+	private MenuGUI menu_gui;
 	
 	
 	/**Initialise the buttons */
-	public StartPageGUI() {
+	public StartPageGUI(Menu menu_obj) {
+		menu_gui = new MenuGUI(menu_obj);
 		setLayout(new GridBagLayout());
 		create_staff_button();
 		create_customer_button();
@@ -69,7 +72,8 @@ public class StartPageGUI extends JPanel{
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Open Menu Page 
-				System.out.println("Menu");
+				//stem.out.println("Menu");
+				menu_gui.showMenuPage();
 			}
 			
 		});
