@@ -248,11 +248,6 @@ class MenuGUI extends JPanel{
     private void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
         int count = 0;
         double itemTotalPrice =  itemValue.getPrice();
-        totalCost = totalCost - itemTotalPrice;
-        totalCostValue.setText(df2.format(totalCost));
-        totalCostPanel.revalidate();
-        totalCostPanel.repaint();
-
         if (cart.containsKey(itemKey)) {
             count = cart.get(itemKey).intValue();
             count--;
@@ -261,6 +256,10 @@ class MenuGUI extends JPanel{
             } else {
              cart.put(itemKey, count);
             }
+            totalCost = totalCost - itemTotalPrice;
+            totalCostValue.setText(df2.format(totalCost));
+            totalCostPanel.revalidate();
+            totalCostPanel.repaint();
         }
         double itemTotalPrice1 =  itemValue.getPrice();
         itemCountLabel.setText(Integer.toString(count));
