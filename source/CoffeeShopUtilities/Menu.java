@@ -34,7 +34,7 @@ public class Menu {
 	 * Constructor for Menu Class
 	 * 
 	 */
-	public Menu() {
+	public void importMenuData() {
 		FileManager fm = new FileManager();
 		try {
 			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
@@ -51,8 +51,7 @@ public class Menu {
 		}
 
 		createDiscount();
-		addDiscountToMenu();
-
+		addDiscountToMenu();		
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class Menu {
 		return discount_obj;
 	}
 
-	private void addDiscountToMenu() {
+	public void addDiscountToMenu() {
 		HashMap<String, FoodItem> discountsList = new HashMap<String, FoodItem>();
 		for (Discount discount : discounts) {
 			FoodItem fi = new FoodItem();

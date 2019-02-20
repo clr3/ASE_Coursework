@@ -2,29 +2,28 @@ package CoffeeShopUtilitiesTests;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.Discount;
+import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
 import discountExceptions.NoDiscountFoodItemsException;
 import discountExceptions.NoDiscountIdException;
 import discountExceptions.NoDiscountNameException;
 import discountExceptions.NoDiscountPercentageException;
+import foodItemExceptions.NoCategoryFoundException;
+import foodItemExceptions.NoItemIDException;
+import foodItemExceptions.NoItemNameFoundException;
+import foodItemExceptions.NoPriceFoundException;
 
 public class MenuTests {
-	private Menu menuObj = new Menu();
-	
+	private FileManager fm = new FileManager();
+
 	@Test 
-	void testCsvtoDiscount1() { 
+	void testCsvtoDiscount1() {
+		Menu menuObj = new Menu();
 		Discount discObj = new Discount();
 		try {
 			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");
@@ -37,7 +36,8 @@ public class MenuTests {
 	
 	
 	@Test 
-	void testCsvtoDiscount2() { 
+	void testCsvtoDiscount2() {
+		Menu menuObj = new Menu();
 		Discount discObj = new Discount();
 		try {
 			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");
@@ -49,7 +49,8 @@ public class MenuTests {
 	}
 	
 	@Test 
-	void testCsvtoDiscount3() { 
+	void testCsvtoDiscount3() {
+		Menu menuObj = new Menu();
 		Discount discObj = new Discount();
 		try {
 			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");
@@ -61,7 +62,8 @@ public class MenuTests {
 	}
 	
 	@Test 
-	void testCsvtoDiscount4() { 
+	void testCsvtoDiscount4() {
+		Menu menuObj = new Menu();
 		Discount discObj = new Discount();
 		try {
 			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");
@@ -73,5 +75,46 @@ public class MenuTests {
 	}
 	
 	
+	@Test
+	void testFoodItemObjCreation() {
+		Menu menuObj = new Menu();
+		FoodItem foodObj,foodObj1;
+		try {
+			foodObj = fm.create_foodItem_fromCSV("HOT1,Americano,2.7,Espresso with hot water,HOT_BEVERAGE");
+			foodObj1 = fm.create_foodItem_fromCSV("HOT2,Hot Chocolate,2.3,Milk with cocoa and sugar (marshmallows),HOT_BEVERAGE");
+			menuObj.addFoodItems(FoodCategory.HOT_BEVERAGE, foodObj);
+			menuObj.addFoodItems(FoodCategory.HOT_BEVERAGE, foodObj1);
+		} catch (NoCategoryFoundException | NoItemIDException | NoItemNameFoundException | NoPriceFoundException e) {
+			e.printStackTrace();
+		}
+		assertTrue(menuObj.getFoodItemsByCategory("HOT_BEVERAGE").size() == 2);
+	}
+
+	@Test
+	void testDiscountCalculation() {
+		Menu menuObj = new Menu();
+		FoodItem foodObj,foodObj1;
+		try {
+			foodObj = fm.create_foodItem_fromCSV("HOT1,Americano,2.7,Espresso with hot water,HOT_BEVERAGE");
+			foodObj1 = fm.create_foodItem_fromCSV("HOT2,Hot Chocolate,2.3,Milk with cocoa and sugar (marshmallows),HOT_BEVERAGE");
+			menuObj.addFoodItems(FoodCategory.HOT_BEVERAGE, foodObj);
+			menuObj.addFoodItems(FoodCategory.HOT_BEVERAGE, foodObj1);
+		} catch (NoCategoryFoundException | NoItemIDException | NoItemNameFoundException | NoPriceFoundException e) {
+			e.printStackTrace();
+		}
+
+		Discount discObj = new Discount();
+		try {
+			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");
+		} catch (NoDiscountIdException | NoDiscountNameException | NoDiscountPercentageException
+				| NoDiscountFoodItemsException e) {
+			e.printStackTrace();
+		}
+		menuObj.getDiscounts().add(discObj);
+		menuObj.addDiscountToMenu();
+
+		FoodItem fi = menuObj.getFoodItemById("COMBO01");
+		assertTrue(fi.getPrice() == 4.75);
+	}
 
 }

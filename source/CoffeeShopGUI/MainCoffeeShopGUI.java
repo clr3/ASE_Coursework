@@ -21,6 +21,7 @@ public class MainCoffeeShopGUI {
 
 	public static void main(String args[]) {
 		Menu menu_obj = new Menu();
+		menu_obj.importMenuData();
 		MainCoffeeShopGUI main = new MainCoffeeShopGUI(menu_obj);
 		
 	}
