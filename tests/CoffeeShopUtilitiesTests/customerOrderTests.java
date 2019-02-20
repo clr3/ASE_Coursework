@@ -18,7 +18,8 @@ class customerOrderTests {
 		CustomerOrder o = new CustomerOrder();
 		FoodItem f = new FoodItem("HOT001"," Americano", 2.30, "Delicious Dark Coffee", FoodCategory.HOT_BEVERAGE);
 		o.addItem(f);
-		assertEquals(new BigDecimal(2.30),o.getTotalBill());
+
+		assertEquals(new BigDecimal(2.30),o.getFinalBillAmount());
 	}
 	@Test
 	void test_setOrderItems() {
@@ -32,7 +33,7 @@ class customerOrderTests {
 		
 		
 		o.setOrderItems(list);
-		assertEquals(new BigDecimal(5.30),o.getTotalBill());
+		assertTrue(o.getOrderItems().contains(f1));
 	}
 	@Test
 	void test_setOrderItems_repeats() {
@@ -47,7 +48,10 @@ class customerOrderTests {
 		
 		
 		o.setOrderItems(list);
-		assertEquals(new BigDecimal(8.30),o.getTotalBill());
+		assertTrue(o.getOrderItems().contains(f1));
+		assertTrue(o.getOrderItems().contains(f2));
+
+		assertTrue(o.getOrderItems().contains(f1));
 	}
 	@Test
 	void test_removeItem() {
@@ -64,7 +68,7 @@ class customerOrderTests {
 		o.setOrderItems(list);
 		
 		o.removeItem(f2);
-		assertEquals(new BigDecimal(5.30),o.getTotalBill());
+		assertEquals(new BigDecimal(5.30),o.getFinalBillAmount());
 	}
 	
 	@Test 
@@ -81,7 +85,7 @@ class customerOrderTests {
 		
 		o.setOrderItems(list);		
 		o.removeItem(f2);
-		assertEquals(new BigDecimal(5.30),o.getTotalBill());
+		assertEquals(new BigDecimal(5.30),o.getFinalBillAmount());
 		
 		o.clearOrder();
 		assertTrue(o.getOrderItems().isEmpty());

@@ -3,33 +3,12 @@ package CoffeeShopGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
+import javax.swing.*;
 import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 /**
  * This class creates the main frame and serves as the primary interface
@@ -44,7 +23,7 @@ import java.math.BigDecimal;
  * Create a Jfrme that shows the order and the total.
  *
  */
-public class CustomerOrdergui extends JFrame {
+public class CustomerOrdergui extends JDialog {
 
 	private BigDecimal totalCost;
 	
@@ -76,15 +55,18 @@ public class CustomerOrdergui extends JFrame {
 		 */
 	
 		setSize(500,400);
-		setTitle("My Order");
+		setLocation(400,400);
+		setName("My Order");
 		setBackground(Color.WHITE);
-		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 		
 		
 		setLayout(new BorderLayout());
 		add(show_order_items(), BorderLayout.PAGE_START);
-		
+		add(discount_message("Discunt Dislplayed Here Passed By the Menu"), BorderLayout.CENTER);
+		add(total_cost());
+		add(option_buttons());
 		
 	}
 
@@ -236,16 +218,58 @@ public class CustomerOrdergui extends JFrame {
 		
 	}
 	
-	
-	private void delete() {
-		
-		orderPrice.setText("Total Cost = $0.00");
-		totalCost = new BigDecimal(0);
-		itemsOrdered.clear();
-		itemInformation = "";
-		
+	/**
+	 * 
+	 * @Param message showing the discount that will be applied. 
+	 * */	
+	public JLabel discount_message(String discount) {
+		JLabel d = new JLabel(discount);
+		return d;
 	}
+	/**It is required that the finalBillAmount in the customer order has been updated 
+	 * */
+	private JLabel total_cost() {
+		JLabel costText = new JLabel();
+		costText.setText("Total Cost = $" + order.getFinalBillAmount());
 	
+		return costText;
+	}
+	/**
+	 * Has 2 Buttons, one for confirming the order and one for canceling (going back to menu)
+	 * */
+	private JPanel option_buttons() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		JButton cancel = new JButton("Back to Menu");
+		JButton accept = new JButton ("Continue");
+		
+		
+		cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Close the window and let the customer change the order
+				setVisible(false);
+				dispose();
+			}
+			
+		});
+		
+		accept.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				accept.setVisible(false);
+				/*
+				 * Could add a dialogue thanking the user or showing customer order
+				 * 
+				 * 
+				 * */
+			}
+			
+		});
+		
+		panel.add(cancel);
+		panel.add(accept);
+		
+		return panel;
+	}
 	
 	/** 
 	 * Constantly updates the order panel based on commands

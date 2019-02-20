@@ -2,6 +2,15 @@ package CoffeeShopUtilities;
 
 /**
  * @Edits Cristina Rivera
+ * 
+ * 
+ * IMPORTANT
+ * Set FinalBillAmount with help from the menu. 
+ * Update the final price after discount have been calculated. 
+ * 
+ * @SugestionsByCristy
+ * 	Have a discounts class that can work for both menu and customerOrder
+ * 	
  * */
 
 
@@ -67,7 +76,7 @@ public class CustomerOrder {
 		this.orderId = orderId;
 	}
 	public void setOrderItems(ArrayList<FoodItem> orderItems) {
-		this.orderItems = orderItems;
+		this.orderItems.addAll(orderItems);
 	}
 	public Date getTimestamp() {
 		return timestamp;
@@ -79,14 +88,24 @@ public class CustomerOrder {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+	/**
+	 * @Return BigDecimal amount to bepayed after discount was applied
+	 * */
 	public BigDecimal getFinalBillAmount() {
 		return finalBillAmount;
 	}
-
+	/**
+	 * Set the final price after discount has been applied
+	 * */
 	public void setFinalBillAmount(BigDecimal finalBillAmount) {
 		this.finalBillAmount = finalBillAmount;
 	}
+	
+	/**
+	 * 
+	 * Use this method to apply the discount..
+	 * @Paramam Discount
+	 * */
 	public void setFinalBillAmount() {
 		this.finalBillAmount = getTotalBill();
 	}
@@ -116,7 +135,8 @@ public class CustomerOrder {
 	 * @Author Cristina
 	 * Add a single Item to the order */
 	public void addItem(FoodItem foodID){
-		orderItems.add(foodID);
+		this.orderItems.add(foodID);
+		setFinalBillAmount();
 	}
 	/**
 	 * @Author Cristina 
@@ -124,7 +144,9 @@ public class CustomerOrder {
 	public void removeItem(FoodItem foodID) {
 		if(!orderItems.isEmpty()) {
 			//Remove first instance from the list
-			if(orderItems.contains(foodID)) { 	orderItems.remove(foodID);}
+			if(orderItems.contains(foodID)) { 	this.orderItems.remove(foodID);}
+			//recalculate total
+			setFinalBillAmount();
 		}
 	}
 	
@@ -133,7 +155,7 @@ public class CustomerOrder {
 	 * Calculates the total cost from the food Items in the order
 	 * @Return BigDecimal with the total of all items
 	 */
-	public BigDecimal getTotalBill() {
+	private BigDecimal getTotalBill() {
 		if(!orderItems.isEmpty()) {
 			double total = 0;
 			//add the prices from the items 
