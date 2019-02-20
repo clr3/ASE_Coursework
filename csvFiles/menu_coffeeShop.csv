@@ -3,14 +3,14 @@ HOT1,Americano,2.7,Espresso with hot water,HOT_BEVERAGE
 HOT2,Hot Chocolate,2.3,Milk with cocoa and sugar (marshmallows),HOT_BEVERAGE
 HOT3,Cappuccino,2.3,Double espresso and hot milk,HOT_BEVERAGE
 HOT4,Mocha,2.3,One third espresso and two thirds steamed milk and some chocolate,HOT_BEVERAGE
-HOT5,Latte,2.3,one third espresso and two thirds steamed milk,HOT_BEVERAGE
+HOT5,Latte,2.3,One third espresso and two thirds steamed milk,HOT_BEVERAGE
 HOT6,Earl Grey,2.3,Tea blend which has been flavoured with the addition of oil of bergamot.,HOT_BEVERAGE
-HOT7,English Breakfast,2.3,,BEVERAGE
-HOT8,Esspresso,1.6,,BEVERAGE
-COLD1,Iced Coffee,2.5,,COLD_BEVERAGE
-BAKE1,Chocolate muffin,3,,BAKE
-BAKE2,Blueberry Muffin,3,,BAKE
-BAKE3,Lemon-Poppy Seed Muffin,3,,BAKE
-BAKE4,Giant Chocolate Chip Cookie,1,,BAKE
-BAKE5,Scone,0.99,,BAKE
-SAND1,Tuna Sandwich,2.5,,SANDWICH
+HOT7,English Breakfast,2.3,English Breakfast,BEVERAGE
+HOT8,Esspresso,1.6,Esspresso,BEVERAGE
+COLD1,Iced Coffee,2.5,Iced Coffee,COLD_BEVERAGE
+BAKE1,Chocolate muffin,3,Chocolate muffin,BAKE
+BAKE2,Blueberry Muffin,3,Blueberry Muffin,BAKE
+BAKE3,Lemon-Poppy Seed Muffin,3,Lemon-Poppy Seed Muffin,BAKE
+BAKE4,Giant Chocolate Chip Cookie,1,Giant Chocolate Chip Cookie,BAKE
+BAKE5,Scone,0.99,Scone,BAKE
+SAND1,Tuna Sandwich,2.5,Tuna Sandwich,SANDWICH
