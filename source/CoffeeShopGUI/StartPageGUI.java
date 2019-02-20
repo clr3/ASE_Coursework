@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import CoffeeShopUtilities.Menu;
+import CoffeeShopUtilities.OrderManager;
 
 
 /**
@@ -20,18 +21,24 @@ public class StartPageGUI extends JPanel{
 	
 	private GridBagConstraints constraints = new GridBagConstraints();
 	
+	private JFrame frame;
 	private JButton staffButton;
 	private JButton customerButton;
+	private JButton exitButton;
+	private MenuGUI menu_gui;
+	private OrderManager om;
 	
-	
-	
-	
+	/**Initialise */
+	public StartPageGUI() {}
+  
 	/**Initialise the buttons */
-	public StartPageGUI() {
-		
+	public StartPageGUI(Menu menu_obj, JFrame frame) {
+		this.frame = frame;
+		menu_gui = new MenuGUI(menu_obj);
 		setLayout(new GridBagLayout());
 		create_staff_button();
 		create_customer_button();
+		createExitButton();
 		
 		
 		int x, y;
@@ -50,6 +57,13 @@ public class StartPageGUI extends JPanel{
 		constraints.gridheight = 1; //set back
 		constraints.gridwidth = 1;
 		add_component(staffButton, x = 3, y = 6);
+		
+		constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.WEST;
+		constraints.gridheight = 1; //set back
+		constraints.gridwidth = 1;
+		add_component(exitButton, x = 6, y = 6);
 				
 				
 	}
@@ -91,6 +105,25 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open staff View
 				System.out.println("Staff");
+
+			}
+			
+		});
+
+	}
+	
+	/**
+	 * Create Button to exist the app
+	 * */
+	public void createExitButton() {
+		exitButton = new JButton("Exit");
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// print summary report to summary_report.csv
+				om = new OrderManager();
+				om.writeReports();
+				System.out.println("Order summary report is saved to summary_report.csv");
+				frame.setVisible(false);
 
 			}
 			

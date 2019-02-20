@@ -130,10 +130,10 @@ public class CustomerOrder {
 		}
 		return fItem;
 	}
-	
-	/** 
+
 	 * @Author Cristina
 	 * Add a single Item to the order */
+
 	public void addItem(FoodItem foodID){
 		this.orderItems.add(foodID);
 		setFinalBillAmount();

@@ -1,7 +1,15 @@
+/**
+* FoodItem data class for Coffee Shop
+*/
 package CoffeeShopUtilities;
 
 import foodItemExceptions.NoCategoryFoundException;
 
+/**
+* FoodItem data class
+*
+* @author  Arthidevi Balavignesh
+*/
 public class FoodItem {
 
 	private String itemID;
