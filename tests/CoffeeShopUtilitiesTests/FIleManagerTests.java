@@ -151,7 +151,7 @@ Can't test because it's private
 		menu_item.addFoodItems(FoodCategory.BAKE, food4);
 		
 		CustomerOrder o = f.create_CustomerOrder_from_string("100;5210;HOT001;2019-01-31", menu_item);
-		assertEquals("5210", o.getOrderId());
+		assertEquals("5210", o.getCustomerId());
 	}
 	
 /**Order Manager Tests*/
