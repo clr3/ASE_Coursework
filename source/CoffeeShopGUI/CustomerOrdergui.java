@@ -81,11 +81,9 @@ public class CustomerOrdergui extends JFrame {
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		JPanel mainPanel = (JPanel) getContentPane();
 		
-		mainPanel.setLayout(new BorderLayout());
-		show_order_items();
-		mainPanel.add(ordersPanel, BorderLayout.PAGE_START);
+		setLayout(new BorderLayout());
+		add(show_order_items(), BorderLayout.PAGE_START);
 		
 		
 	}
@@ -201,7 +199,7 @@ public class CustomerOrdergui extends JFrame {
 	 * Have a Panel that can show all the items in the order 
 	 * Name of the item in the left and 
 	 */
-	private JPanel show_order_items() {
+	public JPanel show_order_items() {
 		revalidate();
 		repaint();
 		ordersPanel = new JPanel();
@@ -225,14 +223,15 @@ public class CustomerOrdergui extends JFrame {
 		}else{
 			for(FoodItem item: items) {
 		
-				food.add(new JLabel(item.getName())
+				food.add(new JLabel(item.getName()));
 						
-				cost.add(new JLabel(" => " + Double.toString(item.getPrice()));
+				cost.add(new JLabel(" => " + Double.toString(item.getPrice())));
 			}
 		}
 		ordersPanel.add(food);
 		ordersPanel.add(cost);
-	
+		ordersPanel.setOpaque(true);
+		
 		return ordersPanel;
 		
 	}
@@ -246,10 +245,12 @@ public class CustomerOrdergui extends JFrame {
 		itemInformation = "";
 		
 	}
+	
+	
 	/** 
 	 * Constantly updates the order panel based on commands
 	 * @param itemButton
-	 */
+	 *
 	private void refreshPanel(final Menu itemButton) {
 		String item = itemButton.getName();
 		BigDecimal itemPrice = itemButton.getCost();
@@ -259,5 +260,6 @@ public class CustomerOrdergui extends JFrame {
 		
 		totalCost = totalCost.add(itemPrice) ;
 		orderPrice.setText("Total cost = $" + totalCost);
-	}
+	}*/
+	
 	}

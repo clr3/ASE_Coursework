@@ -18,7 +18,7 @@ class customerOrderTests {
 		CustomerOrder o = new CustomerOrder();
 		FoodItem f = new FoodItem("HOT001"," Americano", 2.30, "Delicious Dark Coffee", FoodCategory.HOT_BEVERAGE);
 		o.addItem(f);
-		assertEquals(new BigDecimal(2.30),o.getFinalBill());
+		assertEquals(new BigDecimal(2.30),o.getTotalBill());
 	}
 	@Test
 	void test_setOrderItems() {
@@ -32,7 +32,7 @@ class customerOrderTests {
 		
 		
 		o.setOrderItems(list);
-		assertEquals(new BigDecimal(5.30),o.getFinalBill());
+		assertEquals(new BigDecimal(5.30),o.getTotalBill());
 	}
 	@Test
 	void test_setOrderItems_repeats() {
@@ -47,7 +47,7 @@ class customerOrderTests {
 		
 		
 		o.setOrderItems(list);
-		assertEquals(new BigDecimal(8.30),o.getFinalBill());
+		assertEquals(new BigDecimal(8.30),o.getTotalBill());
 	}
 	@Test
 	void test_removeItem() {
@@ -64,7 +64,27 @@ class customerOrderTests {
 		o.setOrderItems(list);
 		
 		o.removeItem(f2);
-		assertEquals(new BigDecimal(5.30),o.getFinalBill());
+		assertEquals(new BigDecimal(5.30),o.getTotalBill());
+	}
+	
+	@Test 
+	void test_clearOrder() {
+		CustomerOrder o = new CustomerOrder();
+		FoodItem f1 = new FoodItem("HOT001"," Americano", 2.30, "Delicious Dark Coffee", FoodCategory.HOT_BEVERAGE);
+		FoodItem f2 = new FoodItem("HOT002"," Hot Chocolte", 3.00, "Delicious Dark Coffee", FoodCategory.HOT_BEVERAGE);
+
+		ArrayList<FoodItem> list = new ArrayList<FoodItem>();
+		list.add(f1);
+		list.add(f2);
+		list.add(f2);
+		
+		
+		o.setOrderItems(list);		
+		o.removeItem(f2);
+		assertEquals(new BigDecimal(5.30),o.getTotalBill());
+		
+		o.clearOrder();
+		assertTrue(o.getOrderItems().isEmpty());
 	}
 
 }

@@ -21,6 +21,7 @@ public class CustomerOrder {
 	private String customerId;
 	private ArrayList<FoodItem> orderItems;
 	private BigDecimal finalBillAmount; // Bill amount after discount
+	private BigDecimal totalBillAmount; // Bill amount before discount
 	private Date timestamp;
 	
 	private String foodItem = null;
@@ -42,16 +43,15 @@ public class CustomerOrder {
 		this.orderItems = new ArrayList<FoodItem>();
 		//Create time stamp for today
 		this.timestamp = new Date();
-		this.finalBillAmount = getFinalBill();
+		this.finalBillAmount = getTotalBill();
 	}
 	
 	public CustomerOrder() {
-	
 		// Create an empty ArrayList
 		this.orderItems = new ArrayList<FoodItem>();
 		//Create time stamp for today
 		this.timestamp = new Date();
-		this.finalBillAmount = getFinalBill();
+		this.finalBillAmount = getTotalBill();
 	}
 
 	public String getCustomerId() {
@@ -88,7 +88,7 @@ public class CustomerOrder {
 		this.finalBillAmount = finalBillAmount;
 	}
 	public void setFinalBillAmount() {
-		this.finalBillAmount = getFinalBill();
+		this.finalBillAmount = getTotalBill();
 	}
 	/**
 	 * @Author Sethu 
@@ -133,7 +133,7 @@ public class CustomerOrder {
 	 * Calculates the total cost from the food Items in the order
 	 * @Return BigDecimal with the total of all items
 	 */
-	public BigDecimal getFinalBill() {
+	public BigDecimal getTotalBill() {
 		if(!orderItems.isEmpty()) {
 			double total = 0;
 			//add the prices from the items 
@@ -142,6 +142,13 @@ public class CustomerOrder {
 			}
 			return new BigDecimal(total);
 		}else {return new BigDecimal(0);}
+	}
+	
+	/**
+	 * Empty the array list if the order it reset 
+	 * */
+	public void clearOrder() {
+		orderItems.clear();
 	}
 
 }
