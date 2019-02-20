@@ -75,7 +75,7 @@ public class Menu {
 		}
 	}
 
-	private Discount getDiscountObj(String discountLine) throws NoDiscountIdException, NoDiscountNameException,
+	public Discount getDiscountObj(String discountLine) throws NoDiscountIdException, NoDiscountNameException,
 			NoDiscountPercentageException, NoDiscountFoodItemsException {
 		String[] discountItem = new String[4];
 		if (discountLine.contains(",")) {
