@@ -129,7 +129,7 @@ Can't test because it's private
  * @throws noOrderItemException 
  * @throws NoOrderIdException 
  * @throws noTimestampException 
- * @throws noCustomerIdException */
+ * @throws noCustomerIdException 
 	
 	@Test
 	void test__CustomerOrder_from_string() throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException {
@@ -153,7 +153,7 @@ Can't test because it's private
 		CustomerOrder o = f.create_CustomerOrder_from_string("100;5210;HOT001;2019-01-31", menu_item);
 		assertEquals("5210", o.getCustomerId());
 	}
-	
+	*/
 /**Order Manager Tests*/
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory() {

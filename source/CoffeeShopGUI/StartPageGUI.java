@@ -105,7 +105,9 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open staff View
 				System.out.println("Staff");
-
+				StaffGUI staff_gui = new StaffGUI(om);
+				staff_gui.showStaffView();
+				
 			}
 			
 		});
