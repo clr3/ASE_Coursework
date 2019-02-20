@@ -1,7 +1,15 @@
+/**
+* Discount data class for CoffeeShop App
+*/
 package CoffeeShopUtilities;
 
 import java.util.ArrayList;
 
+/**
+* Discount data class for CoffeeShop App
+*
+* @author  Arthidevi Balavignesh
+*/
 public class Discount {
 	private String discountId;
 	private String offer_name;

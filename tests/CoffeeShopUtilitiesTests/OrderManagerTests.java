@@ -16,9 +16,6 @@ import CoffeeShopUtilities.OrderManager;
 
 class OrderManagerTests {
 	
-
-
-	
 	@Test 
 	void testCompleteOrder() { 
 		String orderId= "999"; FoodItem fi = new
@@ -50,7 +47,7 @@ class OrderManagerTests {
 	    String report = om.generateReports();
 	    om.writeReports();// This will write the summary report. Path csvFiles/order_summary.csv
 	    
-	    assertTrue(report.contains("Total Order Value = 34.09"));
+	    assertTrue(report.contains("Total Order Value = 47"));
 	    
 	}
 	 

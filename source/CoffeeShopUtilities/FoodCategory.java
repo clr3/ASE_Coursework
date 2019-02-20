@@ -1,3 +1,6 @@
+/**
+* FoodCategory Enum
+*/
 package CoffeeShopUtilities;
 
 public enum FoodCategory {
@@ -5,6 +8,7 @@ public enum FoodCategory {
 	COLD_BEVERAGE,
 	BAKE,
 	SANDWICH, 
-	BEVERAGE;
+	BEVERAGE,
+	COMBO;
 }
 
