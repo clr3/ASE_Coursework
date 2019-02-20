@@ -1,5 +1,13 @@
 package CoffeeShopUtilities;
 
+/**
+ * @Edits Cristina Rivera
+ * */
+
+
+
+
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,8 +34,24 @@ public class CustomerOrder {
 		this.finalBillAmount = finalBillAmount;
 	}
 	
+	public CustomerOrder(String orderId, String customerId) {
+		this.orderId = orderId;
+		this.customerId = customerId;
+		
+		// Create an empty ArrayList
+		this.orderItems = new ArrayList<FoodItem>();
+		//Create time stamp for today
+		this.timestamp = new Date();
+		this.finalBillAmount = getFinalBill();
+	}
+	
 	public CustomerOrder() {
-		// TODO Auto-generated constructor stub
+	
+		// Create an empty ArrayList
+		this.orderItems = new ArrayList<FoodItem>();
+		//Create time stamp for today
+		this.timestamp = new Date();
+		this.finalBillAmount = getFinalBill();
 	}
 
 	public String getCustomerId() {
@@ -63,16 +87,11 @@ public class CustomerOrder {
 	public void setFinalBillAmount(BigDecimal finalBillAmount) {
 		this.finalBillAmount = finalBillAmount;
 	}
-	/*Will need a method to convert the String to Item using the menu
-	 * */
-	public void addItem(String foodID){
-		this.foodItem = foodID;
-	}
-	public String getItem(){
-		return this.foodItem;
+	public void setFinalBillAmount() {
+		this.finalBillAmount = getFinalBill();
 	}
 	/**
-	 * 
+	 * @Author Sethu 
 	 * This method returns the FoodItem for the given foodItemId
 	 * 
 	 * 
@@ -93,12 +112,36 @@ public class CustomerOrder {
 		return fItem;
 	}
 	
-	/*Add a single Item to the order */
+	/** 
+	 * @Author Cristina
+	 * Add a single Item to the order */
 	public void addItem(FoodItem foodID){
 		orderItems.add(foodID);
 	}
-
-	//TODO
-	//Implement the methods defined in class diagram
+	/**
+	 * @Author Cristina 
+	 * Remove an item from the order*/
+	public void removeItem(FoodItem foodID) {
+		if(!orderItems.isEmpty()) {
+			//Remove first instance from the list
+			if(orderItems.contains(foodID)) { 	orderItems.remove(foodID);}
+		}
+	}
+	
+	/**
+	 * @Author Cristina 
+	 * Calculates the total cost from the food Items in the order
+	 * @Return BigDecimal with the total of all items
+	 */
+	public BigDecimal getFinalBill() {
+		if(!orderItems.isEmpty()) {
+			double total = 0;
+			//add the prices from the items 
+			for(FoodItem f: orderItems) {
+				total += f.getPrice();
+			}
+			return new BigDecimal(total);
+		}else {return new BigDecimal(0);}
+	}
 
 }

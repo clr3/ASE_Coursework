@@ -193,6 +193,8 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+                //remove from customer order
+                
              }
         });
         
@@ -202,7 +204,8 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
-             }
+                //Add to customer order
+            }
         });
         
     	String foodItemName = String.format("%-30s", itemValue.getName());

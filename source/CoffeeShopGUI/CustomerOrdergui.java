@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -52,7 +53,6 @@ public class CustomerOrdergui extends JFrame {
 	private JPanel centerPanel;
 	private JTextField orderPrice;
 	private ArrayList <FoodItem> itemsOrdered;
-	private JTextPane orderItems;
 	private String itemInformation;
 	
 	private CustomerOrder order;
@@ -82,11 +82,10 @@ public class CustomerOrdergui extends JFrame {
 		setVisible(true);
 		
 		JPanel mainPanel = (JPanel) getContentPane();
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
 		
-		splitPane.setDividerLocation(780);
 		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(splitPane, BorderLayout.CENTER);
+		show_order_items();
+		mainPanel.add(ordersPanel, BorderLayout.PAGE_START);
 		
 		
 	}
@@ -99,9 +98,10 @@ public class CustomerOrdergui extends JFrame {
 	 * The textfield is constantly updated with the current price
 	 * We set the textfield.setEditable to false so that it cannot be altered by the user
 	 * Place order and Clear Order buttons are added here with their respective ActionListeners
-	 * @return
+	 *
+	 *
 	 */
-	private JPanel getReceipt() {
+	/**private JPanel getReceipt() {
 		
 		receipt = new JPanel();
 		JLabel label = new JLabel("Receipt:");
@@ -145,9 +145,9 @@ public class CustomerOrdergui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				/**
+				/*
 				 * private method that clears all content
-				 */
+				 *
 				delete();
 				
 			}
@@ -158,11 +158,11 @@ public class CustomerOrdergui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/**
+				/*
 				 * We call menu read and log our order. Also display an option pane to notify.
 				 * If there is no order, then an option pane will notify a user that there is not one
 				 * 
-				 */
+				 *
 				try {
 					if (!orderPrice.getText().equals("Total Cost = $0.00")) {
 						menuRead.logOrder(itemsOrdered, totalCost);
@@ -183,9 +183,9 @@ public class CustomerOrdergui extends JFrame {
 			}
 			
 		});
-		/**
+		/*
 		 * Adding to the panel
-		 */
+		 *
 		lowerPanel.add(orderPrice, BorderLayout.NORTH);
 		lowerPanel.add(placeOrder, BorderLayout.CENTER);
 		lowerPanel.add(clearOrder, BorderLayout.SOUTH);
@@ -193,7 +193,8 @@ public class CustomerOrdergui extends JFrame {
 		receipt.setBackground(Color.WHITE);
 		return receipt;
 		
-	}
+	}*/
+	
 	
 	/**
 	 * @author Cristina Rivera
@@ -201,27 +202,36 @@ public class CustomerOrdergui extends JFrame {
 	 * Name of the item in the left and 
 	 */
 	private JPanel show_order_items() {
-		 
-		removePanel(ordersPanel);
-
+		revalidate();
+		repaint();
 		ordersPanel = new JPanel();
-		 revalidate();
-		 repaint();
+		
+		
 		ArrayList<FoodItem> items = order.getOrderItems();
 		
-		ordersPanel.setLayout(new GridLayout(0,2));
-				
-		centerPanel.add(orderItems);
+		ordersPanel.setLayout(new BoxLayout(ordersPanel, BoxLayout.X_AXIS));
+			
+		JPanel food = new JPanel();
+		JPanel cost = new JPanel();
+		food.setLayout(new BoxLayout(food, BoxLayout.Y_AXIS));
+		cost.setLayout(new BoxLayout(cost, BoxLayout.Y_AXIS));
+
 		
-		orderItems.setEditable(false);
+		
 		ordersPanel.setBackground(Color.LIGHT_GRAY);
-		for(FoodItem item: items) {
-			JLabel itemLabel = new JLabel(item.getName());
-			JLabel priceLabel = new JLabel(" => " + Double.toString(item.getPrice()));
-			ordersPanel.add(itemLabel, BorderLayout.LINE_START);
-			ordersPanel.add(priceLabel, BorderLayout.LINE_END);
-		}
 		
+		if(items.isEmpty()) {
+			food.add(new JLabel("Nothing Added to the Cart Yet..."));
+		}else{
+			for(FoodItem item: items) {
+		
+				food.add(new JLabel(item.getName())
+						
+				cost.add(new JLabel(" => " + Double.toString(item.getPrice()));
+			}
+		}
+		ordersPanel.add(food);
+		ordersPanel.add(cost);
 	
 		return ordersPanel;
 		
@@ -234,7 +244,6 @@ public class CustomerOrdergui extends JFrame {
 		totalCost = new BigDecimal(0);
 		itemsOrdered.clear();
 		itemInformation = "";
-		orderItems.setText(null);
 		
 	}
 	/** 
