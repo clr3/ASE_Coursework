@@ -124,10 +124,48 @@ public class FileManager {
 		return newItem;
 	}
 	
-	
-	
-	public void write_to_csv() {
+	/**
+	 * @throws IOException 
+	 * @Param Customer Order
+	 * 
+	 * Creates a string per menu item and writes the information to the file
+	 * */
+	public void write_newFoodItem_toMenuCSV(FoodItem i) throws IOException {
 		
+		FileWriter file = new FileWriter(menuFile, true);
+		
+		
+		file.append(i.getItemID() + ";");
+			file.append(i.getName() + ";");
+			file.append(i.getPrice() + ";");
+			file.append(i.getDescription() + ";");
+			file.append(i.getCategory() + "\n");
+		
+		file.flush();
+		file.close();
+	}
+	
+	/**
+	 * @throws IOException 
+	 * @Param Customer Order
+	 * 
+	 * Creates a string per menu item and writes the information to the file
+	 * */
+	public void write_Order_toCSV(CustomerOrder c) throws IOException {
+		
+		FileWriter file = new FileWriter(orderHistoryFile, true);
+		
+		ArrayList<FoodItem> itemsList = c.getOrderItems();
+		
+		for(FoodItem i: itemsList) {
+			file.append(c.getOrderId() + ";");
+			file.append(c.getCustomerId() + ";");
+			file.append(i.getItemID() + ";");
+			file.append(c.getTimestamp().toString()+ "\n");
+		}
+		file.flush();
+		file.close();
+	
 	}
 	
 	/**
@@ -186,11 +224,7 @@ public class FileManager {
 		return create_menu(menuFile);
 	}
 	
-	/*No File for discount yet */
-	public ArrayList<String> read_discounts(){
-		ArrayList<String> discounts = new ArrayList<String>();
-		return discounts;
-	}
+
 	
 	/**
 	 * @author Cristina Rivera
@@ -214,7 +248,7 @@ public class FileManager {
 	}
 
 	/**
-	 * @author Sethu
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
 	 * @edits Cristina Rivera
 	 * Writes supplied text to file
 	 * 
@@ -244,6 +278,10 @@ public class FileManager {
 	}
 	
 	/**
+	 * 	
+	 * @author Cristina Rivera
+	 * 
+	 * 
 	 * 
 	 * @Param String line_from_csv_file 
 	 * @Param Menu to create the food items
@@ -349,11 +387,7 @@ public class FileManager {
 		return orderHistories;
 	}
 	
-	/**
-	 * @author Cristina Rivera
-	 * 
-	 * 
-	 * */
+
 	
 	/**
 	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
