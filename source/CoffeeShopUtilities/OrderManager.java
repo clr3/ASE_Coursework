@@ -27,6 +27,7 @@ public class OrderManager {
 		// The order history files are loaded during the creation of Order Manager
 		FileManager fm = new FileManager();
 		menu = new Menu();
+		menu.importMenuData();
 		
 		//Moved Method to File Manager Class
 		//this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
@@ -71,7 +72,7 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 				custOrder = orderMap.get(item[0]);
 				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();
 				currentFoodItemList.add(fItem);
-				custOrder.setOrderItems(currentFoodItemList);		
+				custOrder.setOrderItems(currentFoodItemList);
 			} else {
 				custOrder = new CustomerOrder(item[0], item[1], fItemList, new BigDecimal(0), date);
 				orderMap.put(item[0], custOrder);
@@ -85,10 +86,10 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 		FoodItem fItem = null;
 		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
 		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
+		
 		for (HashMap<String , FoodItem> menuMap : menuMapList) {
 			if (menuMap.containsKey(foodItemId)) {
 				fItem = menuMap.get(foodItemId);
-				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
 			}
 			
 		}
