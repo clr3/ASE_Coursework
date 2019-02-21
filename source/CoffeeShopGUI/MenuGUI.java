@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
+import CoffeeShopUtilities.OrderManager;
 
 /**
 * Menu order GUI class for Coffee Shop
@@ -41,13 +42,15 @@ class MenuGUI extends JPanel{
     private double totalCost = 0;
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
+	private OrderManager om;
 
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1){
+    public MenuGUI(Menu menu_obj1,OrderManager omgr){
+    		this.om = omgr;
     		this.menu_obj = menu_obj1;
             JPanel jp = new JPanel();
             jp.add(createCategoryPanel());
@@ -222,8 +225,7 @@ class MenuGUI extends JPanel{
         orderButton.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	//Open order page
-            	//cart - property contains the selected fooditems
+            	om.addNewOrder(cart, totalCost);
              }
         });
         panel.add(orderButton);

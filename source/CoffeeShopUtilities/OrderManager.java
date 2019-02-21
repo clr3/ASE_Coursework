@@ -5,6 +5,8 @@ package CoffeeShopUtilities;
  * */
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -109,6 +111,29 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 		
 	}
 	
+	/**
+	 * 
+	 * This method adds a new Customer adder to the existing Order Map
+	 * 
+	 * 
+	 * @Params String orderId, CustomerOrder cusOrder
+	 * @Returns void
+	 * 
+	 * */
+	public void addNewOrder(HashMap<String, Integer> cart, double price) {
+		
+		ArrayList<FoodItem> foodItemList = new ArrayList<FoodItem>();
+		for (String foodItemId : cart.keySet()) {
+			for (int i = 0; i < cart.get(foodItemId);i++) {
+			foodItemList.add(getFoodItem(foodItemId));
+			}
+		}
+		
+		CustomerOrder co = new CustomerOrder("1000", "5000", foodItemList, new BigDecimal(price), new Date());
+		orderMap.put("1000", co);
+		
+	}
+	
 
 	/**
 	 * 
@@ -160,9 +185,16 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 				//sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				sb.append(fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				totalOrderValue = totalOrderValue.add(BigDecimal.valueOf(fItem.getPrice()));
+				
 			}
 			
 		}
+		// add new customer oder price to total from historical order
+		Collection<CustomerOrder> custOrders = orderMap.values();
+		for (CustomerOrder cOrder: custOrders) {
+			totalOrderValue = totalOrderValue.add(cOrder.getFinalBillAmount());
+		}
+		totalOrderValue = totalOrderValue.setScale(2, RoundingMode.CEILING);
 		sb.append("\n\nTotal Order Value = "+totalOrderValue);
 		return sb.toString();	
 	}

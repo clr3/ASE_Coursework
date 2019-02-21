@@ -31,8 +31,9 @@ public class StartPageGUI extends JPanel{
 	
 	/**Initialise the buttons */
 	public StartPageGUI(Menu menu_obj, JFrame frame) {
+		om = new OrderManager();
 		this.frame = frame;
-		menu_gui = new MenuGUI(menu_obj);
+		menu_gui = new MenuGUI(menu_obj, om);
 		setLayout(new GridBagLayout());
 		create_staff_button();
 		create_customer_button();
@@ -116,7 +117,6 @@ public class StartPageGUI extends JPanel{
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// print summary report to summary_report.csv
-				om = new OrderManager();
 				om.writeReports();
 				System.out.println("Order summary report is saved to summary_report.csv");
 				frame.setVisible(false);
