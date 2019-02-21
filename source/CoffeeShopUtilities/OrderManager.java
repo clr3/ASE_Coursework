@@ -163,8 +163,8 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	 * */
 	public String generateReports() {
 		
-		//StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
-		StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
+		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
+		//StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
 		
 		
 		BigDecimal totalOrderValue = new BigDecimal(0);
@@ -182,8 +182,8 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 				if (foodItemCountMap.containsKey(fItem)) {
 					foodItemCount = foodItemCountMap.get(fItem);
 				}
-				//sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
-				sb.append(fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
+				sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
+				//sb.append(fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				totalOrderValue = totalOrderValue.add(BigDecimal.valueOf(fItem.getPrice()));
 				
 			}
