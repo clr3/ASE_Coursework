@@ -57,12 +57,14 @@ public class Menu {
 	/**
 	 * Creates discount objects from csv
 	 * 
-	 */
+	 *
 	private void createDiscount() {
+		
 		FileManager fm = new FileManager();
 		ArrayList<String> discounts_csv_list;
 		try {
-			discounts_csv_list = fm.read_data_by_line("csvFiles/discounts.csv");
+			//discounts_csv_list = fm.read_data_by_line("csvFiles/discounts.csv");
+			
 			for (int counter = 0; counter < discounts_csv_list.size(); counter++) {
 				Discount discountObj;
 				discountObj = getDiscountObj(discounts_csv_list.get(counter));
@@ -72,8 +74,21 @@ public class Menu {
 				| NoDiscountFoodItemsException e) {
 			e.printStackTrace();
 		}
+		
 	}
-
+*/
+	private void createDiscount() {
+		
+		FileManager fm = new FileManager();
+		try {
+			discounts = fm.createDiscountsFromFile();
+		} catch (FileNotFoundException e) {
+			System.out.println("Discounts File Nor Found");
+			e.printStackTrace();
+		}
+		
+	}
+/**	*
 	public Discount getDiscountObj(String discountLine) throws NoDiscountIdException, NoDiscountNameException,
 			NoDiscountPercentageException, NoDiscountFoodItemsException {
 		String[] discountItem = new String[4];
@@ -104,7 +119,7 @@ public class Menu {
 		discounts.add(discount_obj);
 		return discount_obj;
 	}
-
+*/
 	public void addDiscountToMenu() {
 		HashMap<String, FoodItem> discountsList = new HashMap<String, FoodItem>();
 		for (Discount discount : discounts) {
@@ -121,8 +136,8 @@ public class Menu {
 
 	private Double getComboPrice(Discount discount) {
 		Double totalPrice = 0d;
-		for (String foodItemId : discount.getItem_list()) {
-			FoodItem fi = getFoodItemById(foodItemId);
+		for (FoodItem foodItemId : discount.getItem_list()) {
+			FoodItem fi = foodItemId;
 			if (fi != null) {
 				totalPrice += fi.getPrice();
 			}
@@ -135,8 +150,8 @@ public class Menu {
 	private String getComboDetails(Discount discount) {
 		ArrayList<String> comboList = new ArrayList<String>();
 
-		for (String foodItemId : discount.getItem_list()) {
-			FoodItem fi = getFoodItemById(foodItemId);
+		for (FoodItem foodItemId : discount.getItem_list()) {
+			FoodItem fi = foodItemId;
 			if (fi != null) {
 				comboList.add(fi.getName());
 			}
