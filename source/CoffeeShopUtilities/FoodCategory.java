@@ -9,6 +9,7 @@ public enum FoodCategory {
 	BAKE,
 	SANDWICH, 
 	BEVERAGE,
-	COMBO;
+	COMBO,
+	MEALS;
 }
 

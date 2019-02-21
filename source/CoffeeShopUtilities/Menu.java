@@ -70,9 +70,9 @@ public class Menu {
 		discounts.add(discount_obj1);
 
 		Discount discount_obj2 = new Discount();
-		discount_obj.setDiscountId("COMBO03");
-		discount_obj2.setOffer_name("BREAKFAST");
-		discount_obj2.getItem_list().add("HOT7");
+		discount_obj2.setDiscountId("COMBO03");
+		discount_obj2.setOffer_name("Breakfast");
+		discount_obj2.getItem_list().add("MEAL1");
 		discount_obj2.getItem_list().add("BAKE3");
 		discount_obj2.setDiscount_percentage(25);
 		discounts.add(discount_obj2);
@@ -87,6 +87,7 @@ public class Menu {
 	    	  fi.setPrice(comboPrice);
 	    	  fi.setItemID(discount.getDiscountId());
 	    	  fi.setDescription(getComboDetails(discount));
+	    	  fi.setCategory(FoodCategory.COMBO);
 	    	  discountsList.put(discount.getDiscountId(), fi);
 	      }
 	      menu.put(FoodCategory.COMBO, discountsList);
