@@ -114,6 +114,7 @@ public class Menu {
 			fi.setPrice(comboPrice);
 			fi.setItemID(discount.getDiscountId());
 			fi.setDescription(getComboDetails(discount));
+			fi.setCategory(FoodCategory.COMBO);
 			discountsList.put(discount.getDiscountId(), fi);
 		}
 		menu.put(FoodCategory.COMBO, discountsList);
