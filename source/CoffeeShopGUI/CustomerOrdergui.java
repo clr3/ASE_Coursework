@@ -52,7 +52,7 @@ public class CustomerOrdergui extends JFrame {
 	private JTextPane orderItems;
 	private String itemInformation;
 	
-	public CustomerOrdergui()
+	public CustomerOrdergui() {
 		/**
 		 * Initializing IVs 
 		 */
