@@ -44,7 +44,7 @@ import java.math.BigDecimal;
 public class CustomerOrdergui extends JFrame {
 
 	private BigDecimal totalCost;
-	private MenuReader menuRead;
+	//private MenuReader menuRead;
 	private JPanel receipt;
 	private JPanel centerPanel;
 	private JTextField orderPrice;
@@ -52,7 +52,7 @@ public class CustomerOrdergui extends JFrame {
 	private JTextPane orderItems;
 	private String itemInformation;
 	
-	public CustomerOrdergui()
+	public CustomerOrdergui() {
 		/**
 		 * Initializing IVs 
 		 */
@@ -76,7 +76,7 @@ public class CustomerOrdergui extends JFrame {
 	 */
 	/**
 	*@edits cristina Rivera / I don`t think this is necesary
-	*/
+	*
 	public void create() {
 		JPanel mainPanel = (JPanel) getContentPane();
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
@@ -87,11 +87,12 @@ public class CustomerOrdergui extends JFrame {
 		
 		
 	}
+	*/
 	/**
 	 * An important method that allows for scrolling. This is crucial for long menus that wont fit on the same screen
 	 * The button panel is created in a standard grid layout and eventually returns a scroll pane with all buttons
 	 * @return
-	 */
+	 *
 	private JScrollPane getItemButtons() {
 		JPanel pan = new JPanel();
 		pan.setLayout(new GridLayout(0,2));
@@ -101,7 +102,7 @@ public class CustomerOrdergui extends JFrame {
 		 * making a button for each item
 		 * Adding action listeners so that they can respond to clicks
 		 * Refresh panel is a private method that updates the right panel to reflect the current status of the order
-		 */
+		 *
 		for (final Menu itemButton: itemButtons) {
 
 			final JButton createButton = new JButton(itemButton.getName());
@@ -116,11 +117,12 @@ public class CustomerOrdergui extends JFrame {
 			createButton.setPreferredSize(new Dimension(30,60));
 			
 		}
+		/
 		/**
 		 * Specifying the border specification and add a scroll pane to the main button panel
 		 * Specifying the nature of the border
 		 * Returning scroller since we have implemented a scrollable panel
-		 */
+		 /
 		JScrollPane scroller = new JScrollPane(pan);
 		Border etchedBorder = BorderFactory.createEtchedBorder();
 		Border border = BorderFactory.createTitledBorder(etchedBorder, "Items",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Lucida", Font.BOLD, 20) , Color.BLACK);
@@ -128,6 +130,7 @@ public class CustomerOrdergui extends JFrame {
 		return scroller;
 
 		}
+*/
 	/**
 	 * Receipt panel deals with the current order
 	 * Specify all the dimensions and colors
@@ -194,26 +197,13 @@ public class CustomerOrdergui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/**
-				 * We call menu read and log our order. Also display an option pane to notify.
-				 * If there is no order, then an option pane will notify a user that there is not one
-				 * 
-				 */
-				try {
-					if (!orderPrice.getText().equals("Total Cost = $0.00")) {
-						menuRead.logOrder(itemsOrdered, totalCost);
-						JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
-						delete();
-					}
-					else {
-						JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
-					}
-					
+				if (!orderPrice.getText().equals("Total Cost = $0.00")) {
+					//menuRead.logOrder(itemsOrdered, totalCost);
+					JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
+					delete();
 				}
-				 catch (IOException g) {
-					
-					 JOptionPane.showMessageDialog(null, "Error! Program terminated"
-							 , " Error", JOptionPane.ERROR_MESSAGE);
+				else {
+					JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -243,7 +233,7 @@ public class CustomerOrdergui extends JFrame {
 	/** 
 	 * Constantly updates the order panel based on commands
 	 * @param itemButton
-	 */
+	 *
 	private void refreshPanel(final Menu itemButton) {
 		String item = itemButton.getName();
 		BigDecimal itemPrice = itemButton.getCost();
@@ -254,4 +244,5 @@ public class CustomerOrdergui extends JFrame {
 		totalCost = totalCost.add(itemPrice) ;
 		orderPrice.setText("Total cost = $" + totalCost);
 	}
+	*/
 	}
