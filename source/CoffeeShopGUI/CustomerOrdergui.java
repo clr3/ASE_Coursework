@@ -26,16 +26,32 @@ import java.math.BigDecimal;
 public class CustomerOrdergui extends JDialog {
 
 	private BigDecimal totalCost;
+
 	
 	private JPanel ordersPanel;
 	
+
+	private JPanel receipt;
+  
 	private JPanel centerPanel;
 	private JTextField orderPrice;
 	private ArrayList <FoodItem> itemsOrdered;
 	private String itemInformation;
 	
+
 	private CustomerOrder order;
+
+	public CustomerOrdergui() {
+		/**
+		 * Initializing IVs 
+		 */
+		totalCost = new BigDecimal(0);
+		itemInformation = "";
+		
+		itemsOrdered = new ArrayList<Menu>();
+}
 	
+
 	public CustomerOrdergui(CustomerOrder c) {
 		this.order= c;
 
@@ -60,7 +76,10 @@ public class CustomerOrdergui extends JDialog {
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-		
+
+	public void create() {
+		JPanel mainPanel = (JPanel) getContentPane();
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
 		
 		setLayout(new BorderLayout());
 		add(show_order_items(), BorderLayout.PAGE_START);
@@ -70,7 +89,8 @@ public class CustomerOrdergui extends JDialog {
 		
 	}
 
-	
+    
+
 	/**
 	 * Receipt panel deals with the current order
 	 * Specify all the dimensions and colors
@@ -138,6 +158,7 @@ public class CustomerOrdergui extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				/*
 				 * We call menu read and log our order. Also display an option pane to notify.
 				 * If there is no order, then an option pane will notify a user that there is not one
@@ -153,16 +174,21 @@ public class CustomerOrdergui extends JDialog {
 						JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
 					}
 					
+
+				if (!orderPrice.getText().equals("Total Cost = $0.00")) {
+					//menuRead.logOrder(itemsOrdered, totalCost);
+					JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
+					delete();
+
 				}
-				 catch (IOException g) {
-					
-					 JOptionPane.showMessageDialog(null, "Error! Program terminated"
-							 , " Error", JOptionPane.ERROR_MESSAGE);
+				else {
+					JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
 			
 		});
+    
 		/*
 		 * Adding to the panel
 		 *
@@ -284,6 +310,8 @@ public class CustomerOrdergui extends JDialog {
 		
 		totalCost = totalCost.add(itemPrice) ;
 		orderPrice.setText("Total cost = $" + totalCost);
+
 	}*/
 	
+
 	}

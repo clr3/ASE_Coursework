@@ -26,6 +26,7 @@ import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
+import CoffeeShopUtilities.OrderManager;
 
 /**
 * Menu order GUI class for Coffee Shop
@@ -42,18 +43,47 @@ class MenuGUI extends JPanel{
     private double totalCost = 0;
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
+
 	
 	//Each menu has 1 order attached to it
 	private CustomerOrder order = new CustomerOrder();
 	private CustomerOrdergui customerOrderGui = new CustomerOrdergui(order);
+
+	private OrderManager om;
 
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1){
+    public MenuGUI(Menu menu_obj1,OrderManager omgr){
+    		this.om = omgr;
     		this.menu_obj = menu_obj1;
+            JPanel jp = new JPanel();
+            jp.add(createCategoryPanel());
+            JButton b1=new JButton("Coffee Shop - Food Menu");;  
+            JButton b2=new JButton("Copyright @ HW");;  
+              
+            f.add(b1,BorderLayout.NORTH);  
+            f.add(b2,BorderLayout.SOUTH);  
+            f.add(jp,BorderLayout.WEST);  
+            f.add(currentFoodItemPanel,BorderLayout.CENTER);  
+
+              
+            f.setSize(600,600);  
+            f.setVisible(false); 
+            f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+   }  
+    
+    /** 
+     * Constructor for Menu GUI
+     * 
+     * @param Menu menu_obj1
+     */
+    public MenuGUI(OrderManager omgr, CustomerOrder o){
+    		this.om = omgr;
+    		this.order = o;
+    		this.menu_obj = new Menu();
             JPanel jp = new JPanel();
             jp.add(createCategoryPanel());
             JButton b1=new JButton("Coffee Shop - Food Menu");;  
@@ -227,9 +257,12 @@ class MenuGUI extends JPanel{
         orderButton.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
+
             	//Open order page
             	//cart - property contains the selected fooditems
+              CustomerOrdergui co = new CustomerOrdergui();
             	customerOrderGui.show_order();
+            	
 
              }
         });

@@ -63,6 +63,15 @@ public class CustomerOrder {
 		this.finalBillAmount = getTotalBill();
 	}
 
+	public CustomerOrder(String orderId, String customerId) {
+		// TODO Auto-generated constructor stub
+		super();
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.orderItems = new ArrayList<FoodItem>();
+		this.timestamp = new Date();
+		this.finalBillAmount = new BigDecimal("0");
+	}
 	public String getCustomerId() {
 		return customerId;
 	}

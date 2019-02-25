@@ -1,0 +1,4 @@
+DiscountId,Name,Percentage,FoodItems
+COMBO01,Kids Combo,5,HOT1:HOT2
+COMBO02,Saver Menu,10,HOT4:BAKE2
+COMBO03,BREAKFAST,25,HOT7:BAKE3

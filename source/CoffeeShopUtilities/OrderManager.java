@@ -15,6 +15,8 @@ import java.awt.List;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +41,7 @@ public class OrderManager {
 		// The order history files are loaded during the creation of Order Manager
 		
 		menu = new Menu();
+		menu.importMenuData();
 		
 		//Moved Method to File Manager Class
 		//this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
@@ -83,7 +86,7 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 				custOrder = orderMap.get(item[0]);
 				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();
 				currentFoodItemList.add(fItem);
-				custOrder.setOrderItems(currentFoodItemList);		
+				custOrder.setOrderItems(currentFoodItemList);
 			} else {
 				custOrder = new CustomerOrder(item[0], item[1], fItemList, new BigDecimal(0), date);
 				orderMap.put(item[0], custOrder);
@@ -97,10 +100,10 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 		FoodItem fItem = null;
 		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
 		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
+		
 		for (HashMap<String , FoodItem> menuMap : menuMapList) {
 			if (menuMap.containsKey(foodItemId)) {
 				fItem = menuMap.get(foodItemId);
-				//System.out.println ("FoodItem found from Menu for the given food Item Id "+ foodItemId +" :FoodItem: "+fItem.getName());
 			}
 			
 		}
@@ -121,6 +124,29 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	public void submitNewOrder(String orderId, CustomerOrder cusOrder) {
 		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
+		
+	}
+	
+	/**
+	 * 
+	 * This method adds a new Customer adder to the existing Order Map
+	 * 
+	 * 
+	 * @Params String orderId, CustomerOrder cusOrder
+	 * @Returns void
+	 * 
+	 * */
+	public void addNewOrder(HashMap<String, Integer> cart, double price) {
+		
+		ArrayList<FoodItem> foodItemList = new ArrayList<FoodItem>();
+		for (String foodItemId : cart.keySet()) {
+			for (int i = 0; i < cart.get(foodItemId);i++) {
+			foodItemList.add(getFoodItem(foodItemId));
+			}
+		}
+		
+		CustomerOrder co = new CustomerOrder("1000", "5000", foodItemList, new BigDecimal(price), new Date());
+		orderMap.put("1000", co);
 		
 	}
 	
@@ -153,8 +179,8 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	 * */
 	public String generateReports() {
 		
-		//StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
-		StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
+		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
+		//StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
 		
 		
 		BigDecimal totalOrderValue = new BigDecimal(0);
@@ -172,12 +198,19 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 				if (foodItemCountMap.containsKey(fItem)) {
 					foodItemCount = foodItemCountMap.get(fItem);
 				}
-				//sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
-				sb.append(fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
+				sb.append(fItem.getCategory().name()+","+fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
+				//sb.append(fItem.getItemID()+","+fItem.getName()+","+foodItemCount+"\n");
 				totalOrderValue = totalOrderValue.add(BigDecimal.valueOf(fItem.getPrice()));
+				
 			}
 			
 		}
+		// add new customer oder price to total from historical order
+		Collection<CustomerOrder> custOrders = orderMap.values();
+		for (CustomerOrder cOrder: custOrders) {
+			totalOrderValue = totalOrderValue.add(cOrder.getFinalBillAmount());
+		}
+		totalOrderValue = totalOrderValue.setScale(2, RoundingMode.CEILING);
 		sb.append("\n\nTotal Order Value = "+totalOrderValue);
 		return sb.toString();	
 	}

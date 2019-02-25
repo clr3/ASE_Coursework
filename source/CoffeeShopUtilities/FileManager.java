@@ -77,9 +77,6 @@ public class FileManager {
 						NoItemIDException, NoItemNameFoundException, NoPriceFoundException {
 		String[] item = new String[5];
 		
-		for(int i = 0; i<5; i++) {
-		
-		}
 		if(s.contains(separator)) { item = s.split(separator);}
 		if(s.contains(separator2)) { item = s.split(separator2);}
 
