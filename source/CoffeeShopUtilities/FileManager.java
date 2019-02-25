@@ -18,6 +18,10 @@ import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;
 import customerOrderExceptions.noTimestampException;
+import discountExceptions.NoDiscountFoodItemsException;
+import discountExceptions.NoDiscountIdException;
+import discountExceptions.NoDiscountNameException;
+import discountExceptions.NoDiscountPercentageException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -63,7 +67,7 @@ public class FileManager {
 		inputStream.close();
 		return csv_line_list;
 	}
-	
+/*----FoodItems and Menu----*/
 	/**
 	 * Create a new food item from a line of text from the csv file
 	 * 
@@ -226,9 +230,99 @@ public class FileManager {
 	public HashMap<String, FoodItem> create_menu() throws FileNotFoundException{
 		return create_menu(menuFile);
 	}
-	
+
+/*-------Discounts------*/
+	public ArrayList<Discount> read_discounts(String f) throws FileNotFoundException{
+		File file = new File(f);
+		ArrayList<Discount> discounts = new ArrayList<Discount>();
+		
+		
+		Scanner inputStream = new Scanner(file);
+		int count = 0;
+		
+		while(inputStream.hasNext()) {
+			String data = inputStream.nextLine();
+			
+			if(count>0) {		//Ignore first line on the file
+				Discount newItem = null;
+					try {
+						newItem = createDiscountFromString(data);
+						
+					} catch (NoDiscountPercentageException e) {
+						System.out.println(e.getMessage());
+					} catch (NoDiscountIdException e) {
+						
+						System.out.println(e.getMessage());
+					} catch (NoDiscountNameException e) {
+						System.out.println(e.getMessage());
+					} catch (NoDiscountFoodItemsException e) {
+						System.out.println(e.getMessage());
+
+					}
+					discounts.add(newItem);
+				
+			}
+			count++;
+		}
+		inputStream.close();
+		
+		
+		
+		return discounts;
+	}
 
 	
+	
+	public ArrayList<Discount> createDiscountsFromFile() throws FileNotFoundException {
+		return read_discounts(this.discounts);
+	}
+	
+	public Discount createDiscountFromString(String s) throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
+		Discount d = new Discount();
+		String[] discountln = null;
+		
+		if(s.contains(separator)) { discountln = s.split(separator);}
+		if(s.contains(separator2)) { discountln = s.split(separator2);}
+
+		
+		if (discountln[0].isEmpty()) throw new NoDiscountIdException();
+		else {
+			d.setDiscountId(discountln[0]);	}
+		
+		if (discountln[1].isEmpty()) throw new NoDiscountNameException();
+		else {d.setOffer_name(discountln[1]);}
+		
+		if (discountln[2].isEmpty()) throw new NoDiscountPercentageException();
+		else {
+			try {
+			d.setDiscount_percentage(Integer.parseInt(discountln[2]));
+		} catch (NumberFormatException e) {
+			throw new NoDiscountPercentageException();
+		}
+			}
+		
+		if (discountln[3].isEmpty())			throw new NoDiscountFoodItemsException();
+		else {
+			//Create Food Items From String
+			String[] foodItems = discountln[3].split(":");
+			Menu menu = new Menu();
+			ArrayList<FoodItem> items = new ArrayList<FoodItem>();
+			
+			for (int i = 0; i < foodItems.length; i++) {
+				
+				items.add(menu.getFoodItemById(foodItems[i]));
+			}
+			
+			
+		}
+		
+	
+		return d;
+	}
+	
+	
+	
+/*-----Customer Order and Order Manager---------*/
 	/**
 	 * @author Cristina Rivera
 	 * This method reads the order_history.csv file and returns the records as a String array list
@@ -468,4 +562,11 @@ public class FileManager {
 		}
 		return fItem;
 	}
+
+
+
+
+
+
+
 }

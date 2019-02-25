@@ -39,6 +39,7 @@ public class CustomerOrdergui extends JDialog {
 	private String itemInformation;
 	
 
+
 	private CustomerOrder order;
 
 	public CustomerOrdergui() {

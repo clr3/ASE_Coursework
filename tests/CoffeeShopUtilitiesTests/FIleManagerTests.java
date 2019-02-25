@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 
 import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopUtilities.Discount;
 import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
@@ -17,6 +18,10 @@ import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;
 import customerOrderExceptions.noTimestampException;
+import discountExceptions.NoDiscountFoodItemsException;
+import discountExceptions.NoDiscountIdException;
+import discountExceptions.NoDiscountNameException;
+import discountExceptions.NoDiscountPercentageException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -171,4 +176,30 @@ Can't test because it's private
 		assertTrue(order.containsKey("100"));
 	
 	}
+	
+	
+/**Discounts tests
+ * @throws NoDiscountFoodItemsException 
+ * @throws NoDiscountNameException 
+ * @throws NoDiscountIdException 
+ * @throws NoDiscountPercentageException */
+	@Test
+	void testcreateDiscountFromString() throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
+		FileManager f = new FileManager();
+		Menu menu = new Menu();
+		
+		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2");
+		FoodItem i1 = menu.getFoodItemById("HOT1");
+		FoodItem i2 = menu.getFoodItemById("HOT2");
+
+		
+		assertTrue(d.getDiscountId().contains("COMBO01"));
+		assertEquals("Kids Combo",d.getOffer_name());
+		assertTrue(d.getDiscount_percentage() == 5);
+		assertTrue(d.getItem_list().contains(i1));
+		assertTrue(d.getItem_list().contains(i2));
+
+	
+	}
+	
 }

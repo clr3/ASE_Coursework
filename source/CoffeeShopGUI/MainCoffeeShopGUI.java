@@ -41,8 +41,10 @@ public class MainCoffeeShopGUI {
 	
 
 	public static void main(String args[]) {
+
 		
 		MainCoffeeShopGUI main = new MainCoffeeShopGUI();
+
 		
 	}
 	
