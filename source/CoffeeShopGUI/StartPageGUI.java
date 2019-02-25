@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.Menu;
 import CoffeeShopUtilities.OrderManager;
 
@@ -22,20 +23,32 @@ public class StartPageGUI extends JPanel{
 	private GridBagConstraints constraints = new GridBagConstraints();
 	
 	private JFrame frame;
+	
 	private JButton staffButton;
 	private JButton customerButton;
 	private JButton exitButton;
 	private MenuGUI menu_gui;
 	private OrderManager om;
+	private int orderNumber = 0;
+	private int customerID = 0;
 	
-	
+	/**Initialise */
+	public StartPageGUI() {}
+  
 	/**Initialise the buttons */
 	public StartPageGUI(Menu menu_obj, JFrame frame) {
+		//start(menu_obj, frame);
+	}
+	
+	public StartPageGUI(JFrame frame ) {
+		start(frame);
+	}
+	
+	public void start(JFrame frame) {
 		om = new OrderManager();
 		this.frame = frame;
-		menu_gui = new MenuGUI(menu_obj, om);
 		setLayout(new GridBagLayout());
-		create_staff_button();
+		//create_staff_button();
 		create_customer_button();
 		createExitButton();
 		
@@ -63,8 +76,7 @@ public class StartPageGUI extends JPanel{
 		constraints.gridheight = 1; //set back
 		constraints.gridwidth = 1;
 		add_component(exitButton, x = 6, y = 6);
-				
-				
+					
 	}
 	
 	/**
@@ -80,13 +92,23 @@ public class StartPageGUI extends JPanel{
 	
 	/**
 	 * Create Button for showing the menu
+	 * Create a new CustomerOrder
 	 * */
 	public void create_customer_button() {
 		customerButton = new JButton("View Menu");
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Open Menu Page 
-				//stem.out.println("Menu");
+
+				//Create a New order
+				String orderNo = Integer.toString(orderNumber++);
+				String cId = Integer.toString(customerID++);
+				
+				CustomerOrder order = new CustomerOrder(orderNo, cId);
+				om.submitNewOrder(Integer.toString(orderNumber),order);
+				
+				menu_gui = new MenuGUI(om,order);
+
 				menu_gui.showMenuPage();
 			}
 			
@@ -102,7 +124,9 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open staff View
 				System.out.println("Staff");
-
+				StaffGUI staff_gui = new StaffGUI(om);
+				staff_gui.showStaffView();
+				
 			}
 			
 		});
@@ -120,6 +144,7 @@ public class StartPageGUI extends JPanel{
 				om.writeReports();
 				System.out.println("Order summary report is saved to summary_report.csv");
 				frame.setVisible(false);
+				//frame.dispose();
 
 			}
 			

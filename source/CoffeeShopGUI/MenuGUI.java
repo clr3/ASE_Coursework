@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
@@ -42,6 +43,12 @@ class MenuGUI extends JPanel{
     private double totalCost = 0;
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
+
+	
+	//Each menu has 1 order attached to it
+	private CustomerOrder order = new CustomerOrder();
+	private CustomerOrdergui customerOrderGui = new CustomerOrdergui(order);
+
 	private OrderManager om;
 
     /** 
@@ -52,6 +59,31 @@ class MenuGUI extends JPanel{
     public MenuGUI(Menu menu_obj1,OrderManager omgr){
     		this.om = omgr;
     		this.menu_obj = menu_obj1;
+            JPanel jp = new JPanel();
+            jp.add(createCategoryPanel());
+            JButton b1=new JButton("Coffee Shop - Food Menu");;  
+            JButton b2=new JButton("Copyright @ HW");;  
+              
+            f.add(b1,BorderLayout.NORTH);  
+            f.add(b2,BorderLayout.SOUTH);  
+            f.add(jp,BorderLayout.WEST);  
+            f.add(currentFoodItemPanel,BorderLayout.CENTER);  
+
+              
+            f.setSize(600,600);  
+            f.setVisible(false); 
+            f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+   }  
+    
+    /** 
+     * Constructor for Menu GUI
+     * 
+     * @param Menu menu_obj1
+     */
+    public MenuGUI(OrderManager omgr, CustomerOrder o){
+    		this.om = omgr;
+    		this.order = o;
+    		this.menu_obj = new Menu();
             JPanel jp = new JPanel();
             jp.add(createCategoryPanel());
             JButton b1=new JButton("Coffee Shop - Food Menu");;  
@@ -225,7 +257,13 @@ class MenuGUI extends JPanel{
         orderButton.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	om.addNewOrder(cart, totalCost);
+
+            	//Open order page
+            	//cart - property contains the selected fooditems
+              CustomerOrdergui co = new CustomerOrdergui();
+            	customerOrderGui.show_order();
+            	
+
              }
         });
         panel.add(orderButton);
@@ -263,6 +301,9 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+                //remove from customer order
+                order.removeItem(itemValue);
+                
              }
         });
         
@@ -272,7 +313,9 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
-             }
+                //Add to customer order
+                order.addItem(itemValue);
+            }
         });
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
