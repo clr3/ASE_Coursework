@@ -121,9 +121,53 @@ public class FileManager {
 		return newItem;
 	}
 	
+	/**
+	 *
+	 * 
+	 * Creates a string per menu item and writes the information to the file
+	 * 
+	 *  @throws IOException 
+	 * @Param Customer Order
+	 * */
+	public void write_newFoodItem_toMenuCSV(FoodItem i) throws IOException {
+		
+		FileWriter file = new FileWriter(menuFile, true);
+		
+		
+		file.append(i.getItemID() + ";");
+			file.append(i.getName() + ";");
+			file.append(i.getPrice() + ";");
+			file.append(i.getDescription() + ";");
+			file.append(i.getCategory() + "\n");
+		
+		file.flush();
+		file.close();
+	}
 	
-	
-	public void write_to_csv() {
+	/**
+	 * @throws IOException 
+	 * @Param Customer Order
+	 * 
+	 * Creates a string per menu item and writes the information to the file
+	 * */
+	public void write_Order_toCSV(CustomerOrder c)  {
+		
+		FileWriter file;
+		try {
+			file = new FileWriter(orderHistoryFile, true);
+			ArrayList<FoodItem> itemsList = c.getOrderItems();
+			
+			for(FoodItem i: itemsList) {
+				file.append(c.getOrderId() + ";");
+				file.append(c.getCustomerId() + ";");
+				file.append(i.getItemID() + ";");
+				file.append(c.getTimestamp().toString()+ "\n");
+			}
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+		System.out.println("There was a problem loading order to the file");
+		}
 		
 	}
 	
@@ -183,11 +227,7 @@ public class FileManager {
 		return create_menu(menuFile);
 	}
 	
-	/*No File for discount yet */
-	public ArrayList<String> read_discounts(){
-		ArrayList<String> discounts = new ArrayList<String>();
-		return discounts;
-	}
+
 	
 	/**
 	 * @author Cristina Rivera
@@ -199,7 +239,7 @@ public class FileManager {
 	 * @Returns ArrayList<String>
 	 * 
 	 * */
-	public  ArrayList <String> readOrderHistory(){
+	public ArrayList <String> readOrderHistory(){
 		
 		ArrayList<String> orderHistories = null;
 		try {
@@ -211,7 +251,7 @@ public class FileManager {
 	}
 
 	/**
-	 * @author Sethu
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
 	 * @edits Cristina Rivera
 	 * Writes supplied text to file
 	 * 
@@ -241,6 +281,10 @@ public class FileManager {
 	}
 	
 	/**
+	 * 	
+	 * @author Cristina Rivera
+	 * 
+	 * 
 	 * 
 	 * @Param String line_from_csv_file 
 	 * @Param Menu to create the food items
@@ -253,7 +297,7 @@ public class FileManager {
 	 * @throws noOrderItemException 
 	 * 
 	 * */
-	public  CustomerOrder create_CustomerOrder_from_string(String s, Menu menu) throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException{
+	private  CustomerOrder create_CustomerOrder_from_string(String s, Menu menu) throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException{
 		
 		String[] order = new String[4];
 		
@@ -308,7 +352,7 @@ public class FileManager {
 	 * Will return an ArrayList with all valid custmer orders from the file
 	 * 
 	 * */
-	public  ArrayList<CustomerOrder> read_orderHistory(String file_name, Menu menu) throws FileNotFoundException{
+	private  ArrayList<CustomerOrder> read_orderHistory(String file_name, Menu menu) throws FileNotFoundException{
 				
 		ArrayList<CustomerOrder> orderHistories = new ArrayList<CustomerOrder>();
 		
@@ -346,11 +390,7 @@ public class FileManager {
 		return orderHistories;
 	}
 	
-	/**
-	 * @author Cristina Rivera
-	 * 
-	 * 
-	 * */
+
 	
 	/**
 	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -365,7 +405,7 @@ public class FileManager {
 	 * @Returns  HashMap <String, CustomerOrder>
 	 * 
 	 * */
-	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(String file, Menu menu) {
+	private  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(String file, Menu menu) {
 		
 		ArrayList<CustomerOrder> orderHistories = null;
 		try {
@@ -401,9 +441,8 @@ public class FileManager {
 	/**
 	 * @Return HashMap <String, CustomerOrder> for the main order_history
 	 * 
-	 * @CristysComment: I think we could create different files for each day of orders
-	 * This would be easy to implement if we want to do later, but probably not so necessary (unless we had a lot of data)
-	 * */
+	 * 
+	 *  */
 	public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Menu menu) {
 		return buildCustomerOrdersFromOrderHistory(orderHistoryFile, menu);
 	}
@@ -416,7 +455,7 @@ public class FileManager {
 	 * @Returns void
 	 * 
 	 * */
-	FoodItem getFoodItem(String foodItemId, Menu menu) {
+	private FoodItem getFoodItem(String foodItemId, Menu menu) {
 		FoodItem fItem = null;
 		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
 		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();

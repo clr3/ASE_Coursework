@@ -32,7 +32,9 @@ public class StartPageGUI extends JPanel{
 	private int orderNumber = 0;
 	private int customerID = 0;
 	
-	
+	/**Initialise */
+	public StartPageGUI() {}
+  
 	/**Initialise the buttons */
 	public StartPageGUI(Menu menu_obj, JFrame frame) {
 		//start(menu_obj, frame);
@@ -97,6 +99,7 @@ public class StartPageGUI extends JPanel{
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Open Menu Page 
+
 				//Create a New order
 				String orderNo = Integer.toString(orderNumber++);
 				String cId = Integer.toString(customerID++);
@@ -105,6 +108,7 @@ public class StartPageGUI extends JPanel{
 				om.submitNewOrder(Integer.toString(orderNumber),order);
 				
 				menu_gui = new MenuGUI(om,order);
+
 				menu_gui.showMenuPage();
 			}
 			
@@ -120,7 +124,9 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open staff View
 				System.out.println("Staff");
-
+				StaffGUI staff_gui = new StaffGUI(om);
+				staff_gui.showStaffView();
+				
 			}
 			
 		});

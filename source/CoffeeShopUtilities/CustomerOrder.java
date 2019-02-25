@@ -1,5 +1,22 @@
 package CoffeeShopUtilities;
 
+/**
+ * @Edits Cristina Rivera
+ * 
+ * 
+ * IMPORTANT
+ * Set FinalBillAmount with help from the menu. 
+ * Update the final price after discount have been calculated. 
+ * 
+ * @SugestionsByCristy
+ * 	Have a discounts class that can work for both menu and customerOrder
+ * 	
+ * */
+
+
+
+
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +30,7 @@ public class CustomerOrder {
 	private String customerId;
 	private ArrayList<FoodItem> orderItems;
 	private BigDecimal finalBillAmount; // Bill amount after discount
+	private BigDecimal totalBillAmount; // Bill amount before discount
 	private Date timestamp;
 	
 	private String foodItem = null;
@@ -26,8 +44,23 @@ public class CustomerOrder {
 		this.finalBillAmount = finalBillAmount;
 	}
 	
+	public CustomerOrder(String orderId, String customerId) {
+		this.orderId = orderId;
+		this.customerId = customerId;
+		
+		// Create an empty ArrayList
+		this.orderItems = new ArrayList<FoodItem>();
+		//Create time stamp for today
+		this.timestamp = new Date();
+		this.finalBillAmount = getTotalBill();
+	}
+	
 	public CustomerOrder() {
-		// TODO Auto-generated constructor stub
+		// Create an empty ArrayList
+		this.orderItems = new ArrayList<FoodItem>();
+		//Create time stamp for today
+		this.timestamp = new Date();
+		this.finalBillAmount = getTotalBill();
 	}
 
 	public CustomerOrder(String orderId, String customerId) {
@@ -52,7 +85,7 @@ public class CustomerOrder {
 		this.orderId = orderId;
 	}
 	public void setOrderItems(ArrayList<FoodItem> orderItems) {
-		this.orderItems = orderItems;
+		this.orderItems.addAll(orderItems);
 	}
 	public Date getTimestamp() {
 		return timestamp;
@@ -64,24 +97,29 @@ public class CustomerOrder {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+	/**
+	 * @Return BigDecimal amount to bepayed after discount was applied
+	 * */
 	public BigDecimal getFinalBillAmount() {
 		return finalBillAmount;
 	}
-
+	/**
+	 * Set the final price after discount has been applied
+	 * */
 	public void setFinalBillAmount(BigDecimal finalBillAmount) {
 		this.finalBillAmount = finalBillAmount;
 	}
-	/*Will need a method to convert the String to Item using the menu
-	 * */
-	public void addItem(String foodID){
-		this.foodItem = foodID;
-	}
-	public String getItem(){
-		return this.foodItem;
-	}
+	
 	/**
 	 * 
+	 * Use this method to apply the discount..
+	 * @Paramam Discount
+	 * */
+	public void setFinalBillAmount() {
+		this.finalBillAmount = getTotalBill();
+	}
+	/**
+	 * @Author Sethu 
 	 * This method returns the FoodItem for the given foodItemId
 	 * 
 	 * 
@@ -101,12 +139,47 @@ public class CustomerOrder {
 		}
 		return fItem;
 	}
-	/*Add a single Item to the order */
-	public void addItem(FoodItem foodID){
-		orderItems.add(foodID);
-	}
 
-	//TODO
-	//Implement the methods defined in class diagram
+	 /* @Author Cristina
+	 * Add a single Item to the order */
+
+	public void addItem(FoodItem foodID){
+		this.orderItems.add(foodID);
+		setFinalBillAmount();
+	}
+	/**
+	 * @Author Cristina 
+	 * Remove an item from the order*/
+	public void removeItem(FoodItem foodID) {
+		if(!orderItems.isEmpty()) {
+			//Remove first instance from the list
+			if(orderItems.contains(foodID)) { 	this.orderItems.remove(foodID);}
+			//recalculate total
+			setFinalBillAmount();
+		}
+	}
+	
+	/**
+	 * @Author Cristina 
+	 * Calculates the total cost from the food Items in the order
+	 * @Return BigDecimal with the total of all items
+	 */
+	private BigDecimal getTotalBill() {
+		if(!orderItems.isEmpty()) {
+			double total = 0;
+			//add the prices from the items 
+			for(FoodItem f: orderItems) {
+				total += f.getPrice();
+			}
+			return new BigDecimal(total);
+		}else {return new BigDecimal(0);}
+	}
+	
+	/**
+	 * Empty the array list if the order it reset 
+	 * */
+	public void clearOrder() {
+		orderItems.clear();
+	}
 
 }

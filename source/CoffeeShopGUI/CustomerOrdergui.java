@@ -3,30 +3,12 @@ package CoffeeShopGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
-import CoffeeShopUtilities.Menu;
-
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.IOException;
+import javax.swing.*;
+import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopUtilities.FoodItem;
 import java.math.BigDecimal;
 /**
  * This class creates the main frame and serves as the primary interface
@@ -41,17 +23,24 @@ import java.math.BigDecimal;
  * Create a Jfrme that shows the order and the total.
  *
  */
-public class CustomerOrdergui extends JFrame {
+public class CustomerOrdergui extends JDialog {
 
 	private BigDecimal totalCost;
-	//private MenuReader menuRead;
+
+	
+	private JPanel ordersPanel;
+	
+
 	private JPanel receipt;
+  
 	private JPanel centerPanel;
 	private JTextField orderPrice;
-	private ArrayList <Menu> itemsOrdered;
-	private JTextPane orderItems;
+	private ArrayList <FoodItem> itemsOrdered;
 	private String itemInformation;
 	
+
+	private CustomerOrder order;
+
 	public CustomerOrdergui() {
 		/**
 		 * Initializing IVs 
@@ -60,12 +49,11 @@ public class CustomerOrdergui extends JFrame {
 		itemInformation = "";
 		
 		itemsOrdered = new ArrayList<Menu>();
+}
 	
-		setSize(1500,1500);
-		setTitle("My Order");
-		setBackground(Color.WHITE);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
+
+	public CustomerOrdergui(CustomerOrder c) {
+		this.order= c;
 
 	}
 	
@@ -76,61 +64,33 @@ public class CustomerOrdergui extends JFrame {
 	 */
 	/**
 	*@edits cristina Rivera / I don`t think this is necesary
-	*
+	*/
+	public void show_order() {
+		/**
+		 * Initializing 
+		 */
+	
+		setSize(500,400);
+		setLocation(400,400);
+		setName("My Order");
+		setBackground(Color.WHITE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setVisible(true);
+
 	public void create() {
 		JPanel mainPanel = (JPanel) getContentPane();
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
 		
-		splitPane.setDividerLocation(780);
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(splitPane, BorderLayout.CENTER);
-		
+		setLayout(new BorderLayout());
+		add(show_order_items(), BorderLayout.PAGE_START);
+		add(discount_message("Discunt Dislplayed Here Passed By the Menu"), BorderLayout.CENTER);
+		add(total_cost());
+		add(option_buttons());
 		
 	}
-	*/
-	/**
-	 * An important method that allows for scrolling. This is crucial for long menus that wont fit on the same screen
-	 * The button panel is created in a standard grid layout and eventually returns a scroll pane with all buttons
-	 * @return
-	 *
-	private JScrollPane getItemButtons() {
-		JPanel pan = new JPanel();
-		pan.setLayout(new GridLayout(0,2));
-		
-		ArrayList<Menu> itemButtons = menuRead.getMenu();
-		/**
-		 * making a button for each item
-		 * Adding action listeners so that they can respond to clicks
-		 * Refresh panel is a private method that updates the right panel to reflect the current status of the order
-		 *
-		for (final Menu itemButton: itemButtons) {
 
-			final JButton createButton = new JButton(itemButton.getName());
-			createButton.setToolTipText(itemButton.getName());
-			
-			createButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					refreshPanel(itemButton);
-				}
-			});
-			pan.add(createButton);
-			createButton.setPreferredSize(new Dimension(30,60));
-			
-		}
-		/
-		/**
-		 * Specifying the border specification and add a scroll pane to the main button panel
-		 * Specifying the nature of the border
-		 * Returning scroller since we have implemented a scrollable panel
-		 /
-		JScrollPane scroller = new JScrollPane(pan);
-		Border etchedBorder = BorderFactory.createEtchedBorder();
-		Border border = BorderFactory.createTitledBorder(etchedBorder, "Items",TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Lucida", Font.BOLD, 20) , Color.BLACK);
-		pan.setBorder(border);
-		return scroller;
+    
 
-		}
-*/
 	/**
 	 * Receipt panel deals with the current order
 	 * Specify all the dimensions and colors
@@ -138,12 +98,13 @@ public class CustomerOrdergui extends JFrame {
 	 * The textfield is constantly updated with the current price
 	 * We set the textfield.setEditable to false so that it cannot be altered by the user
 	 * Place order and Clear Order buttons are added here with their respective ActionListeners
-	 * @return
+	 *
+	 *
 	 */
-	private JPanel getReceipt() {
+	/**private JPanel getReceipt() {
 		
 		receipt = new JPanel();
-		JLabel label = new JLabel("Customer Order:");
+		JLabel label = new JLabel("Receipt:");
 		receipt.setLayout(new BorderLayout());
 		
 		JPanel lowerPanel = new JPanel();
@@ -164,7 +125,7 @@ public class CustomerOrdergui extends JFrame {
 		receipt.add(centerPanelScroller, BorderLayout.CENTER);
 		
 		orderPrice = new JTextField(20);
-		orderPrice.setText("Total Cost = $0.00");
+		orderPrice.setText("Total Cost = $ " + order.getFinalBillAmount().toString());
 		orderPrice.setEditable(false);
 		
 		JButton placeOrder = new JButton("Place Order");
@@ -184,9 +145,9 @@ public class CustomerOrdergui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				/**
+				/*
 				 * private method that clears all content
-				 */
+				 *
 				delete();
 				
 			}
@@ -197,10 +158,28 @@ public class CustomerOrdergui extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				/*
+				 * We call menu read and log our order. Also display an option pane to notify.
+				 * If there is no order, then an option pane will notify a user that there is not one
+				 * 
+				 *
+				try {
+					if (!orderPrice.getText().equals("Total Cost = $0.00")) {
+						menuRead.logOrder(itemsOrdered, totalCost);
+						JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
+						delete();
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
+					}
+					
+
 				if (!orderPrice.getText().equals("Total Cost = $0.00")) {
 					//menuRead.logOrder(itemsOrdered, totalCost);
 					JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
 					delete();
+
 				}
 				else {
 					JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
@@ -209,9 +188,10 @@ public class CustomerOrdergui extends JFrame {
 			}
 			
 		});
-		/**
+    
+		/*
 		 * Adding to the panel
-		 */
+		 *
 		lowerPanel.add(orderPrice, BorderLayout.NORTH);
 		lowerPanel.add(placeOrder, BorderLayout.CENTER);
 		lowerPanel.add(clearOrder, BorderLayout.SOUTH);
@@ -219,17 +199,104 @@ public class CustomerOrdergui extends JFrame {
 		receipt.setBackground(Color.WHITE);
 		return receipt;
 		
+	}*/
+	
+	
+	/**
+	 * @author Cristina Rivera
+	 * Have a Panel that can show all the items in the order 
+	 * Name of the item in the left and 
+	 */
+	public JPanel show_order_items() {
+		revalidate();
+		repaint();
+		ordersPanel = new JPanel();
+		
+		
+		ArrayList<FoodItem> items = order.getOrderItems();
+		
+		ordersPanel.setLayout(new BoxLayout(ordersPanel, BoxLayout.X_AXIS));
+			
+		JPanel food = new JPanel();
+		JPanel cost = new JPanel();
+		food.setLayout(new BoxLayout(food, BoxLayout.Y_AXIS));
+		cost.setLayout(new BoxLayout(cost, BoxLayout.Y_AXIS));
+
+		
+		
+		ordersPanel.setBackground(Color.LIGHT_GRAY);
+		
+		if(items.isEmpty()) {
+			food.add(new JLabel("Nothing Added to the Cart Yet..."));
+		}else{
+			for(FoodItem item: items) {
+		
+				food.add(new JLabel(item.getName()));
+						
+				cost.add(new JLabel(" => " + Double.toString(item.getPrice())));
+			}
+		}
+		ordersPanel.add(food);
+		ordersPanel.add(cost);
+		ordersPanel.setOpaque(true);
+		
+		return ordersPanel;
+		
 	}
 	
-	private void delete() {
-		
-		orderPrice.setText("Total Cost = $0.00");
-		totalCost = new BigDecimal(0);
-		itemsOrdered.clear();
-		itemInformation = "";
-		orderItems.setText(null);
-		
+	/**
+	 * 
+	 * @Param message showing the discount that will be applied. 
+	 * */	
+	public JLabel discount_message(String discount) {
+		JLabel d = new JLabel(discount);
+		return d;
 	}
+	/**It is required that the finalBillAmount in the customer order has been updated 
+	 * */
+	private JLabel total_cost() {
+		JLabel costText = new JLabel();
+		costText.setText("Total Cost = $" + order.getFinalBillAmount());
+	
+		return costText;
+	}
+	/**
+	 * Has 2 Buttons, one for confirming the order and one for canceling (going back to menu)
+	 * */
+	private JPanel option_buttons() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		JButton cancel = new JButton("Back to Menu");
+		JButton accept = new JButton ("Continue");
+		
+		
+		cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Close the window and let the customer change the order
+				setVisible(false);
+				dispose();
+			}
+			
+		});
+		
+		accept.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				accept.setVisible(false);
+				/*
+				 * Could add a dialogue thanking the user or showing customer order
+				 * 
+				 * 
+				 * */
+			}
+			
+		});
+		
+		panel.add(cancel);
+		panel.add(accept);
+		
+		return panel;
+	}
+	
 	/** 
 	 * Constantly updates the order panel based on commands
 	 * @param itemButton
@@ -243,6 +310,8 @@ public class CustomerOrdergui extends JFrame {
 		
 		totalCost = totalCost.add(itemPrice) ;
 		orderPrice.setText("Total cost = $" + totalCost);
-	}
-	*/
+
+	}*/
+	
+
 	}

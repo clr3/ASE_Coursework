@@ -7,8 +7,11 @@ import javax.swing.JFrame;
 
 public class MainCoffeeShopGUI {
 
+	public MainCoffeeShopGUI() {}
+
 		
 	public MainCoffeeShopGUI(Menu menu_obj) {
+
 		int mainFrameWidth = 300;
 		int mainFrameHight = 400;
 		
@@ -17,7 +20,8 @@ public class MainCoffeeShopGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		frame.setSize(mainFrameWidth , mainFrameHight);
 		
-		frame.setContentPane(new StartPageGUI(menu_obj, frame));
+		frame.setContentPane(new StartPageGUI());
+
 		frame.setVisible(true);
 	}
 	
@@ -39,7 +43,6 @@ public class MainCoffeeShopGUI {
 	public static void main(String args[]) {
 		
 		MainCoffeeShopGUI main = new MainCoffeeShopGUI();
-		
 		
 	}
 	

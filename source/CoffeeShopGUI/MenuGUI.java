@@ -43,8 +43,13 @@ class MenuGUI extends JPanel{
     private double totalCost = 0;
     private Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
+
+	
+	//Each menu has 1 order attached to it
+	private CustomerOrder order = new CustomerOrder();
+	private CustomerOrdergui customerOrderGui = new CustomerOrdergui(order);
+
 	private OrderManager om;
-	private CustomerOrder order;
 
     /** 
      * Constructor for Menu GUI
@@ -252,8 +257,13 @@ class MenuGUI extends JPanel{
         orderButton.addActionListener(new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerOrdergui co = new CustomerOrdergui();
+
+            	//Open order page
+            	//cart - property contains the selected fooditems
+              CustomerOrdergui co = new CustomerOrdergui();
+            	customerOrderGui.show_order();
             	
+
              }
         });
         panel.add(orderButton);
@@ -291,6 +301,9 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+                //remove from customer order
+                order.removeItem(itemValue);
+                
              }
         });
         
@@ -300,7 +313,9 @@ class MenuGUI extends JPanel{
             @Override
              public void actionPerformed(ActionEvent e) {
                 addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
-             }
+                //Add to customer order
+                order.addItem(itemValue);
+            }
         });
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
