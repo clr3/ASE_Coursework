@@ -33,7 +33,7 @@ import CoffeeShopUtilities.OrderManager;
 *
 * @author  Arthidevi Balavignesh
 */
-class MenuGUI extends JPanel{
+public class MenuGUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JFrame f =new JFrame();
     private JPanel currentFoodItemPanel = new JPanel();

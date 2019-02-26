@@ -20,7 +20,7 @@ import foodItemExceptions.NoPriceFoundException;
 
 public class MenuTests {
 	private FileManager fm = new FileManager();
-
+	/**
 	@Test 
 	void testCsvtoDiscount1() {
 		Menu menuObj = new Menu();
@@ -74,7 +74,7 @@ public class MenuTests {
 	    assertTrue(discObj.getItem_list().size() == 2);
 	}
 	
-	
+	*/
 	@Test
 	void testFoodItemObjCreation() {
 		Menu menuObj = new Menu();
@@ -89,7 +89,7 @@ public class MenuTests {
 		}
 		assertTrue(menuObj.getFoodItemsByCategory("HOT_BEVERAGE").size() == 2);
 	}
-
+	/**
 	@Test
 	void testDiscountCalculation() {
 		Menu menuObj = new Menu();
@@ -116,5 +116,6 @@ public class MenuTests {
 		FoodItem fi = menuObj.getFoodItemById("COMBO01");
 		assertTrue(fi.getPrice() == 4.75);
 	}
-
+	*/
+	
 }

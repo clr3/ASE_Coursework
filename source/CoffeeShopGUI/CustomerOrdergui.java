@@ -49,7 +49,7 @@ public class CustomerOrdergui extends JDialog {
 		totalCost = new BigDecimal(0);
 		itemInformation = "";
 		
-		itemsOrdered = new ArrayList<Menu>();
+		itemsOrdered = new ArrayList<FoodItem>();
 }
 	
 
@@ -77,10 +77,11 @@ public class CustomerOrdergui extends JDialog {
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-
+	}
+	
 	public void create() {
 		JPanel mainPanel = (JPanel) getContentPane();
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
+		//JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
 		
 		setLayout(new BorderLayout());
 		add(show_order_items(), BorderLayout.PAGE_START);
