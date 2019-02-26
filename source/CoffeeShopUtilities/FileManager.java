@@ -305,12 +305,16 @@ public class FileManager {
 		else {
 			//Create Food Items From String
 			String[] foodItems = discountln[3].split(":");
-			Menu menu = new Menu();
-			ArrayList<FoodItem> items = new ArrayList<FoodItem>();
+			Menu menu = new Menu(true);
+			System.out.println("Discount List Size = " + foodItems.length);
 			
 			for (int i = 0; i < foodItems.length; i++) {
-				
-				items.add(menu.getFoodItemById(foodItems[i]));
+				String newItemID = foodItems[i];
+				System.out.println("Item[" + i + "] = " + newItemID);
+				d.addItemToDiscount(menu.getFoodItemById(newItemID));
+				if(d.containsItemID(newItemID)) { 
+					System.out.println("Item Added to the list")
+					;}
 			}
 			
 			

@@ -18,6 +18,13 @@ import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
 
+
+/**
+ * This class should not be used to test the FIleManager, 
+ * it should be used to test the MENU specific functions and calculations
+ * 
+ * 
+ * */
 public class MenuTests {
 	private FileManager fm = new FileManager();
 	/**
@@ -75,7 +82,10 @@ public class MenuTests {
 	}
 	
 	*/
-	@Test
+	/**
+	 * This TEST IS THE SAME AS IN THE FILE MANAGER
+	 *
+	 * @Test
 	void testFoodItemObjCreation() {
 		Menu menuObj = new Menu();
 		FoodItem foodObj,foodObj1;
@@ -88,7 +98,7 @@ public class MenuTests {
 			e.printStackTrace();
 		}
 		assertTrue(menuObj.getFoodItemsByCategory("HOT_BEVERAGE").size() == 2);
-	}
+	}*/
 	/**
 	@Test
 	void testDiscountCalculation() {

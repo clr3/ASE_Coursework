@@ -36,8 +36,14 @@ public class Menu {
      * Constructor for Menu Class
      * 
      */
-	public Menu() {}
-
+	public Menu(Boolean createFromFile) {		
+		if(createFromFile) {importMenuData();}		
+	}
+	
+	public Menu() {
+		
+	}
+	
 
 	/**
 	 * Constructor for Menu Class
@@ -63,12 +69,9 @@ public class Menu {
 			e.printStackTrace();
 		}
 
-		createDiscount();
-		addDiscountToMenu();
-
-
-		createDiscount();
-		addDiscountToMenu();		
+		//createDiscount();
+		//addDiscountToMenu();
+	
 	}
 
 	/**
@@ -100,7 +103,7 @@ public class Menu {
 		try {
 			discounts = fm.createDiscountsFromFile();
 		} catch (FileNotFoundException e) {
-			System.out.println("Discounts File Nor Found");
+			System.out.println("Discounts File Not Found");
 			e.printStackTrace();
 		}
 		
@@ -137,6 +140,18 @@ public class Menu {
 		return discount_obj;
 	}
 */
+	
+	//Try not to use discounts as food items.
+	//Create a specialCategory For discounts maybe? Then other type of discounts could be implemented?
+	/**Refreactor the name of Discount to "Combo", this way
+	 	* we know that that combo has a a 
+	 	* -name
+	 	* -an id 
+	 	* -a list of items
+	 	* -discount percentage
+	 	*/
+	
+	
 	public void addDiscountToMenu() {
 		HashMap<String, FoodItem> discountsList = new HashMap<String, FoodItem>();
 		for (Discount discount : discounts) {

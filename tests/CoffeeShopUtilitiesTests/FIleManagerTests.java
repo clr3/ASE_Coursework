@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import org.junit.*;
 import org.junit.jupiter.api.Test;
 
 import CoffeeShopUtilities.CustomerOrder;
@@ -30,9 +31,12 @@ import foodItemExceptions.NoPriceFoundException;
 class FileManagerTest {
 
 	
+		FileManager f = new FileManager();	
+
+	
+	
 	@Test
 	void testread_data_by_line() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();	
 		f.read_data_by_line("csvTestFiles/menuTests/menu_correctItem.csv" );
 		
 	}
@@ -82,7 +86,6 @@ Can't test because it's private
 	//
 	@Test
 	void testcreate_menu() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_correctItem.csv");
 		assertTrue(menu.containsKey("HOT1"));
 	}
@@ -91,7 +94,6 @@ Can't test because it's private
 	//Menu should have 2 Items
 	@Test 
 	void testcreate_menu_lowerCaseItemID() throws FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_LowCaseItemID.csv");
 		assertTrue(menu.containsKey("HOT1"));
 		assertEquals(2,menu.size());
@@ -100,7 +102,6 @@ Can't test because it's private
 	//Item should be created without a description
 	@Test 
 	void testcreate_menu_noDescription() throws FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noDescription.csv");
 		assertTrue(menu.containsKey("HOT1"));
 	}
@@ -109,7 +110,6 @@ Can't test because it's private
 	//Menu should be created with valid entries
 	@Test 
 	void testcreate_menu_noitemID() throws FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noItemID.csv");
 		assertTrue(menu.containsKey("HOT2"));
 	}
@@ -117,7 +117,6 @@ Can't test because it's private
 	//No category should create a category based on the item ID
 	@Test
 	void testcreate_menu_noCategory() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noCategory.csv");
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
 	}
@@ -125,7 +124,6 @@ Can't test because it's private
 	//No category should create a category based on the item ID
 	@Test
 	void testCreateMenu() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu();
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
 	}
@@ -162,8 +160,8 @@ Can't test because it's private
 /**Order Manager Tests*/
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory() {
-		FileManager f = new FileManager();
-		Menu menu = new Menu();
+		Menu menu = new Menu(true);
+		
 		HashMap<String, CustomerOrder> order = f.buildCustomerOrdersFromOrderHistory(menu);
 		assertTrue(order.containsKey("100"));
 	}
@@ -186,18 +184,17 @@ Can't test because it's private
 	@Test
 	void testcreateDiscountFromString() throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
 		FileManager f = new FileManager();
-		Menu menu = new Menu();
+		Menu menu = new Menu(true);
 		
-		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2");
-		FoodItem i1 = menu.getFoodItemById("HOT1");
-		FoodItem i2 = menu.getFoodItemById("HOT2");
-
+		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2:");
+		
 		
 		assertTrue(d.getDiscountId().contains("COMBO01"));
 		assertEquals("Kids Combo",d.getOffer_name());
 		assertTrue(d.getDiscount_percentage() == 5);
-		assertTrue(d.getItem_list().contains(i1));
-		assertTrue(d.getItem_list().contains(i2));
+		
+		assertTrue(d.containsItemID("HOT1"));
+		assertTrue(d.containsItemID("HOT2"));
 
 	
 	}
