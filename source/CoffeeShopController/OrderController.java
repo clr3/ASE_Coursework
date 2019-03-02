@@ -13,6 +13,7 @@ public class OrderController {
 	OrderManager orderManager; //Used to add the order to the orderManager
 	FoodItem newItem;
 	FoodItem itemToRemove;
+	FoodCategory itemCategory;
 	
 public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 	
@@ -29,23 +30,30 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 	public void setNewItem(FoodItem f) {
 		this.newItem = f;
 	}
-	public void serRemoveItem(FoodItem f) {
+	public void setRemoveItem(FoodItem f) {
 		this.itemToRemove = f ;
 	}
-	
-	/**Add Item to the Order*/
+	public void setItemCategory(FoodItem f) {
+		this.itemCategory = f.getCategory() ;
+	}
+	/**Add Item to the Order
+	 * 	 
+	 * * Update the display to show the new prices and amounts
+	 */
 	public class AddItem implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		order.addItem(newItem);
-		
+		menuGui.updateItemsDisplay(itemCategory);
 		}
 	
 	}
 
-	/**Remove Item from the Order*/
+	/**Remove Item from the Order
+	 * Update the display to show the new prices and amounts
+	 * */
 	public class RemoveItem implements ActionListener{
 
 		@Override
@@ -53,6 +61,7 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 			if(!order.getOrderItems().isEmpty()) {
 				order.removeItem(itemToRemove);
 			}
+			menuGui.updateItemsDisplay(itemCategory);
 		}
 	}
 

@@ -40,7 +40,7 @@ public class MenuGUI extends JPanel{
 	private JFrame f =new JFrame();
     private JLabel totalCostValue;
     private JPanel itemsPanel = new JPanel();
-    
+    private JPanel currentFoodItemPanel = new JPanel();
     //private HashMap<String,Integer> cart = new HashMap<String,Integer>();
     //private double totalCost = 0;
     private Menu menu_obj = new Menu(true);
@@ -80,8 +80,8 @@ public class MenuGUI extends JPanel{
             f.add(b1,BorderLayout.NORTH);  
             f.add(b2,BorderLayout.SOUTH);  
             f.add(jp,BorderLayout.WEST);  
-            itemsPanel.add(createItemsDisplay());
-            f.add(itemsPanel,BorderLayout.CENTER);  
+            //itemsPanel.add(createItemsDisplay());
+            f.add(currentFoodItemPanel,BorderLayout.CENTER);  
 
               
             f.setSize(600,600);  
@@ -122,7 +122,7 @@ public class MenuGUI extends JPanel{
 	            categoryButton.addActionListener(new ActionListener() {
 	                @Override
 	                 public void actionPerformed(ActionEvent e) {
-	                    addFoodItems(key);
+	                	  updateItemsDisplay(key);
 	                 }
 	            });
 	            jf.add(categoryButton);  
@@ -184,7 +184,7 @@ public class MenuGUI extends JPanel{
 	 * Adds food items to the FoodItem main panel
 	 *
 	 */
-    private void addFoodItems(FoodCategory categoryName ) {
+    private void addFoodItems(FoodCategory categoryName) {
         removePanel(currentFoodItemPanel);
         currentFoodItemPanel = new JPanel();
         
@@ -308,17 +308,10 @@ public class MenuGUI extends JPanel{
      * Method to update the display where all the items are shown
      * */
     
-    public void updateItemsDisplay() {
-    	
-    	
+    public void updateItemsDisplay(FoodCategory cat) {  	
+    	addFoodItems(cat);    	
     }
     
-    public JPanel createItemsDisplay(){
-        JPanel currentFoodItemPanel = new JPanel();
-        
-        
-        return currentFoodItemPanel;
-    }
     
     /**
 	 * Get item count from the cart
@@ -367,6 +360,7 @@ public class MenuGUI extends JPanel{
 	public void setAddButtonsActionListener(ActionListener al) {
 		for(int i = 0; i < plusButtons.size(); i++) {
 			controller.setNewItem(labels.get(i));
+			controller.setItemCategory(labels.get(i));
 			plusButtons.get(i).addActionListener(al);
 		}
 	}
@@ -376,6 +370,7 @@ public class MenuGUI extends JPanel{
 	public void setRemoveButtonsActionListener(ActionListener al) {
 		for(int i = 0; i < plusButtons.size(); i++) {
 			controller.setNewItem(labels.get(i));
+			controller.setItemCategory(labels.get(i));
 			minusButtons.get(i).addActionListener(al);
 		}
 	}
