@@ -89,7 +89,7 @@ public class CustomerOrder {
 		this.timestamp = timestamp;
 	}
 	/**
-	 * @Return BigDecimal amount to bepayed after discount was applied
+	 * @Return BigDecimal amount to be payed after discount was applied
 	 * */
 	public BigDecimal getFinalBillAmount() {
 		return finalBillAmount;
@@ -131,7 +131,7 @@ public class CustomerOrder {
 		return fItem;
 	}
 
-	 /* @Author Cristina
+	 /** @Author Cristina
 	 * Add a single Item to the order */
 
 	public void addItem(FoodItem foodID){
@@ -166,11 +166,59 @@ public class CustomerOrder {
 		}else {return new BigDecimal(0);}
 	}
 	
+	
 	/**
 	 * Empty the array list if the order it reset 
 	 * */
 	public void clearOrder() {
 		orderItems.clear();
 	}
+	/**Returns the number time the foodItem is in the orders
+	 * */
+	public int itemCount(FoodItem f) {
+		int count = 0;
 
+		if (this.orderItems.contains(f)) {
+	    	for(int i = 0; i < orderItems.size(); i++ ) {
+	    		if(orderItems.get(i).equals(f)) {
+	    			count ++;
+	    		}
+	    	}
+	    }
+		return count;
+	}
+	/**
+	 * Method will return and foat
+	 * @returns double total price of single item in the order
+	 * */
+	public double totalItemPrice(FoodItem f) {
+		int count = 0;
+		if (this.orderItems.contains(f)) {
+	    	for(int i = 0; i < orderItems.size(); i++ ) {
+	    		FoodItem item = orderItems.get(i);
+	    		if(item.equals(f)) {
+	    			count += item.getPrice();
+	    		}
+	    	}
+	    }
+		
+		return count;
+	}
+	/**
+	 * Method will return an int
+	 * @returns int total count of single item in the order
+	 * */
+	public int countItem(FoodItem f) {
+		int count = 0;
+		if (this.orderItems.contains(f)) {
+	    	for(int i = 0; i < orderItems.size(); i++ ) {
+	    		FoodItem item = orderItems.get(i);
+	    		if(item.equals(f)) {
+	    			count ++;
+	    		}
+	    	}
+	    }
+		
+		return count;
+	}
 }

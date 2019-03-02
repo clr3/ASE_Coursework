@@ -251,9 +251,9 @@ public class Menu {
 	 * 
 	 * @return HashMap<String , FoodItem>
 	 */
-	public HashMap<String, FoodItem> getFoodItemsByCategory(String categoryName) {
-		if (menu.containsKey(FoodCategory.valueOf(categoryName))) {
-			return menu.get(FoodCategory.valueOf(categoryName));
+	public HashMap<String, FoodItem> getFoodItemsByCategory(FoodCategory categoryName) {
+		if (menu.containsKey(categoryName)) {
+			return menu.get(categoryName);
 		}
 		return null;
 	}

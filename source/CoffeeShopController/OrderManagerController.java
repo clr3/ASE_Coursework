@@ -10,7 +10,7 @@ import CoffeeShopUtilities.OrderManager;
 
 public class OrderManagerController {
 
-	private OrderManager om;
+	private OrderManager om = new OrderManager();
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
@@ -23,6 +23,7 @@ public class OrderManagerController {
 		
 
 	}
+	
 	/**
 	 * Provisionally create a new order number and a number for the customer.
 	 * Name of the customer could be asked before ordering
@@ -39,10 +40,9 @@ public class OrderManagerController {
 			
 			CustomerOrder order = new CustomerOrder(orderNo, cId);
 			om.submitNewOrder(Integer.toString(orderNumber),order);
-			
 			// Open Menu Page 
-			MenuGUI menu_gui = new MenuGUI(om,order);
-			menu_gui.showMenuPage();
+						MenuGUI menu_gui = new MenuGUI(om,order);
+						menu_gui.showMenuPage();
 		}
 		
 	}

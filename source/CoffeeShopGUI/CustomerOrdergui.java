@@ -63,9 +63,6 @@ public class CustomerOrdergui extends JDialog {
 	 * We split the pane horizontally with the ordered items on the right and item buttons to the left
 	 * We get the panels for the frame and put it in the divided pane
 	 */
-	/**
-	*@edits cristina Rivera / I don`t think this is necesary
-	*/
 	public void show_order() {
 		/**
 		 * Initializing 
@@ -76,6 +73,7 @@ public class CustomerOrdergui extends JDialog {
 		setName("My Order");
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		create();
 		setVisible(true);
 	}
 	
