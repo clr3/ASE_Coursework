@@ -238,8 +238,16 @@ public class MenuGUI extends JPanel{
         
         //Moved To OrderController
         panel.add(resetButton);
-        
-        //Moved to OrderController
+        /*
+    	 * @func open the customerOrderGUI JDialog
+    	 * */
+        orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	CustomerOrdergui o = new CustomerOrdergui(order);
+         		o.show_order();
+            }
+        });
         panel.add(orderButton);
         
         Button closeButton = new Button("Close Menu");
@@ -380,12 +388,5 @@ public class MenuGUI extends JPanel{
 	public void setRemoveAllActionListener(ActionListener al) {
 		resetButton.addActionListener(al);
 	}
-	/**
-	 * Add Action Listener "Order" button in the menu
-	 * @func open the customerOrderGUI JDialog
-	 * 
-	 * */	
-	public void setOrderActionListener(ActionListener al) {
-		orderButton.addActionListener(al);
-	}
+		
 }
