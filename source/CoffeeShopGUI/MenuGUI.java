@@ -82,7 +82,6 @@ public class MenuGUI extends JPanel{
             f.add(jp,BorderLayout.WEST);  
             //itemsPanel.add(createItemsDisplay());
             f.add(currentFoodItemPanel,BorderLayout.CENTER);  
-
               
             f.setSize(600,600);  
             f.setVisible(false); 
@@ -219,7 +218,7 @@ public class MenuGUI extends JPanel{
 	            
 	        }
         }
-        
+        controller.setLabels(this.labels);//Set Labels
         jf.add(createTotalCostPanel());
         jf.add(createButtonPanel());
         currentFoodItemPanel.add(jf);
@@ -388,5 +387,12 @@ public class MenuGUI extends JPanel{
 	public void setRemoveAllActionListener(ActionListener al) {
 		resetButton.addActionListener(al);
 	}
-		
+	/**Method to update the order from the controller 
+	 * */
+	public void updateOrder(CustomerOrder o) {
+		this.order = o;
+	}
+	public int getItemNo() {
+		return t;
+	}
 }

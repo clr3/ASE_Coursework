@@ -2,6 +2,7 @@ package CoffeeShopController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import CoffeeShopGUI.*;
 import CoffeeShopUtilities.*;
@@ -14,6 +15,8 @@ public class OrderController {
 	FoodItem newItem;
 	FoodItem itemToRemove;
 	FoodCategory itemCategory;
+	private ArrayList<FoodItem> labels = new ArrayList<FoodItem>();
+	
 	
 public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 	
@@ -36,6 +39,9 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 	public void setItemCategory(FoodItem f) {
 		this.itemCategory = f.getCategory() ;
 	}
+	public void setLabels(ArrayList<FoodItem> l) {
+		this.labels = l;
+	}
 	/**Add Item to the Order
 	 * 	 
 	 * * Update the display to show the new prices and amounts
@@ -44,8 +50,10 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		order.addItem(newItem);
+		FoodItem i = labels.get(menuGui.getItemNo());
+		order.addItem(i);
+		System.out.println("+" + i.getName());
+		menuGui.updateOrder(order);
 		menuGui.updateItemsDisplay(itemCategory);
 		}
 	
@@ -60,7 +68,10 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 		public void actionPerformed(ActionEvent e) {
 			if(!order.getOrderItems().isEmpty()) {
 				order.removeItem(itemToRemove);
+				System.out.println("+" + itemToRemove.getName());
+
 			}
+			menuGui.updateOrder(order);
 			menuGui.updateItemsDisplay(itemCategory);
 		}
 	}
@@ -72,18 +83,11 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 		public void actionPerformed(ActionEvent e) {
 			if(!order.getOrderItems().isEmpty()) {
 				order.clearOrder();
+				System.out.println("Reset");
 			}
+			menuGui.updateOrder(order);
+			menuGui.updateItemsDisplay(itemCategory);
 		}
 	}
-	/**
-	 * Show CustomerOrderGUI JDialog
-	 * */
-	public class Order implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			CustomerOrdergui o = new CustomerOrdergui(order);
-			o.show_order();
-		}
-	}
+	
 }
