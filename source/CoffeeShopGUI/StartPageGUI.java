@@ -1,10 +1,15 @@
 package CoffeeShopGUI;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import CoffeeShopController.MenuController;
 import CoffeeShopUtilities.Menu;
 import CoffeeShopUtilities.OrderManager;
 
@@ -25,7 +30,7 @@ public class StartPageGUI extends JPanel{
 	private JButton staffButton;
 	private JButton customerButton;
 	private JButton exitButton;
-	private MenuGUI menu_gui;
+	private MenuController menuController;
 	private OrderManager om;
 	
 	
@@ -33,7 +38,7 @@ public class StartPageGUI extends JPanel{
 	public StartPageGUI(Menu menu_obj, JFrame frame) {
 		om = new OrderManager();
 		this.frame = frame;
-		menu_gui = new MenuGUI(menu_obj, om);
+		menuController = new MenuController(menu_obj, om);
 		setLayout(new GridBagLayout());
 		create_staff_button();
 		create_customer_button();
@@ -87,7 +92,7 @@ public class StartPageGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// Open Menu Page 
 				//stem.out.println("Menu");
-				menu_gui.showMenuPage();
+				menuController.showMenuPage();
 			}
 			
 		});

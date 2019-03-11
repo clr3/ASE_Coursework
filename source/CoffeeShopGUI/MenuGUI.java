@@ -8,8 +8,6 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import CoffeeShopController.MenuController;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
@@ -32,41 +31,44 @@ import CoffeeShopUtilities.OrderManager;
 *
 * @author  Arthidevi Balavignesh
 */
-class MenuGUI extends JPanel{
+public class MenuGUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JFrame f =new JFrame();
     private JPanel currentFoodItemPanel = new JPanel();
     private JPanel totalCostPanel = new JPanel();
     private JLabel totalCostValue;
-    private HashMap<String,Integer> cart = new HashMap<String,Integer>();
-    private double totalCost = 0;
-    private Menu menu_obj;
+    public HashMap<String,Integer> cart = new HashMap<String,Integer>();
+    public double totalCost = 0;
+    public Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
 	private OrderManager om;
-
+	private MenuController mc;
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1,OrderManager omgr){
+    public MenuGUI(Menu menu_obj1,OrderManager omgr, MenuController mc){
+    		this.mc = mc;
     		this.om = omgr;
     		this.menu_obj = menu_obj1;
-            JPanel jp = new JPanel();
-            jp.add(createCategoryPanel());
-            JButton b1=new JButton("Coffee Shop - Food Menu");;  
-            JButton b2=new JButton("Copyright @ HW");;  
-              
-            f.add(b1,BorderLayout.NORTH);  
-            f.add(b2,BorderLayout.SOUTH);  
-            f.add(jp,BorderLayout.WEST);  
-            f.add(currentFoodItemPanel,BorderLayout.CENTER);  
-
-              
-            f.setSize(600,600);  
-            f.setVisible(false); 
-            f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
    }
+    
+    public void createPage() {
+        JPanel jp = new JPanel();
+        jp.add(createCategoryPanel());
+        JButton b1=new JButton("Coffee Shop - Food Menu");;  
+        JButton b2=new JButton("Copyright @ HW");;  
+          
+        f.add(b1,BorderLayout.NORTH);  
+        f.add(b2,BorderLayout.SOUTH);  
+        f.add(jp,BorderLayout.WEST);  
+        f.add(currentFoodItemPanel,BorderLayout.CENTER);  
+
+        f.setSize(600,600);  
+        f.setVisible(false); 
+        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    }
     
     /** 
      * Shows Menu page
@@ -98,28 +100,16 @@ class MenuGUI extends JPanel{
 	        for(FoodCategory key: keys){
 	            String categoryName = key.toString();
 	            Button categoryButton = new Button(categoryName);
-	            categoryButton.addActionListener(new ActionListener() {
-	                @Override
-	                 public void actionPerformed(ActionEvent e) {
-	                    addFoodItems(categoryName);
-	                 }
-	            });
+	            categoryButton.addActionListener(mc.categoryActionListener(categoryName));
 	            jf.add(categoryButton);  
 	        }
 	        //jf.add(createComboButton());
-	        showFirstCategory();
+	        mc.showFirstCategory();
         }        
         return jf;
     }
    
-	/**
-	 * Shows first category fooditems by default
-	 */
-    private void showFirstCategory() {
-        Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
-        String key = entry.getKey().toString();
-        addFoodItems(key);
-    }
+
     
 	/**
 	 * Returns Total cost panel
@@ -163,7 +153,7 @@ class MenuGUI extends JPanel{
 	 * Adds food items to the FoodItem main panel
 	 *
 	 */
-    private void addFoodItems(String categoryName ) {
+    public void addFoodItems(String categoryName ) {
         removePanel(currentFoodItemPanel);
         currentFoodItemPanel = new JPanel();
         
@@ -211,32 +201,15 @@ class MenuGUI extends JPanel{
         panel.setLayout(new FlowLayout());
         
         Button resetButton = new Button("Reset");
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-            	cart.clear();
-            	totalCost = 0;
-            	showFirstCategory();
-             }
-        });
+        resetButton.addActionListener(mc.resetButtonActionListener());
         panel.add(resetButton);
         
         Button orderButton = new Button("Order Food");
-        orderButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-            	om.addNewOrder(cart, totalCost);
-             }
-        });
+        orderButton.addActionListener(mc.orderButtonActionListener());
         panel.add(orderButton);
         
         Button closeButton = new Button("Close Menu");
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-            	hideMenuPage();
-             }
-        });
+        closeButton.addActionListener(mc.closeButtonActionListener());
         panel.add(closeButton);
     	return panel;
     }
@@ -250,30 +223,20 @@ class MenuGUI extends JPanel{
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         
-    	String itemCountLabelName = String.format("%5s", getItemCountFromCart(itemKey));
+    	String itemCountLabelName = String.format("%5s", mc.getItemCountFromCart(itemKey));
         JLabel itemCountLabel = new JLabel(itemCountLabelName);
     	String itemPriceLabelName = String.format("%6s", df2.format(itemValue.getPrice()));
         JLabel itemPriceLabel = new JLabel(itemPriceLabelName);
-    	String itemCartPriceLabelName = String.format("%6s", df2.format(getItemCartPrice(itemKey, itemValue.getPrice())));
+    	String itemCartPriceLabelName = String.format("%6s", df2.format(mc.getItemCartPrice(itemKey, itemValue.getPrice())));
         JLabel itemCartPriceLabel = new JLabel(itemCartPriceLabelName);
 
     	String minusButtonLabel = String.format("%5s", "-");
         Button minusButton = new Button(minusButtonLabel);
-        minusButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-                removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
-             }
-        });
+        minusButton.addActionListener(mc.minusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
         
     	String plusButtonLabel = String.format("%5s", "+");
         Button plusButton = new Button(plusButtonLabel);
-        plusButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-                addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
-             }
-        });
+        plusButton.addActionListener(mc.plusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
         JLabel foodName = new JLabel(foodItemName);
@@ -286,34 +249,14 @@ class MenuGUI extends JPanel{
         return panel;
     }
     
-	/**
-	 * Get item count from the cart
-	 *
-	 * @return String item count as string
-	 */
-    private String getItemCountFromCart(String itemKey) {
-        int count = 0;
-        if (cart.containsKey(itemKey)) {
-            count = cart.get(itemKey).intValue();
-        }
-        return Integer.toString(count);
-    }
+
    
 	/**
 	 * Add item to the cart, updates item price and total cost
 	 *
 	 */
-    private void addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
-        int count = 0;
-        if (cart.containsKey(itemKey)) {
-            count = cart.get(itemKey).intValue();
-            count++;
-            cart.put(itemKey, count);
-        } else {
-            count = 1;
-            cart.put(itemKey, count);
-        }
-
+    public void addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+    	int count = mc.addItemToCart(itemKey);
         itemCountLabel.setText(Integer.toString(count));
         double itemTotalPrice =  itemValue.getPrice();
         totalCost += itemTotalPrice;
@@ -330,23 +273,16 @@ class MenuGUI extends JPanel{
 	 * Remove item from the cart, updates item price and total cost
 	 *
 	 */
-    private void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+    public void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
         int count = 0;
         double itemTotalPrice =  itemValue.getPrice();
         if (cart.containsKey(itemKey)) {
-            count = cart.get(itemKey).intValue();
-            count--;
-            if(count == 0) {
-                cart.remove(itemKey);
-            } else {
-             cart.put(itemKey, count);
-            }
+        	count = mc.removeItemFromCart(itemKey);
             totalCost = totalCost - itemTotalPrice;
             totalCostValue.setText(df2.format(totalCost));
             totalCostPanel.revalidate();
             totalCostPanel.repaint();
         }
-        double itemTotalPrice1 =  itemValue.getPrice();
         itemCountLabel.setText(Integer.toString(count));
         itemTotalPrice = itemTotalPrice * count;
         itemCartPriceLabel.setText(df2.format(itemTotalPrice));
@@ -354,20 +290,7 @@ class MenuGUI extends JPanel{
         itemCartPriceLabel.repaint();
     }
     
-	/**
-	 * Returns per item total price
-	 *
-	 * @return Double item total price
-	 */
-    private double getItemCartPrice(String itemKey, Double itemPrice) {
-        double itemCost = 0;
-        if (cart.containsKey(itemKey)) {
-            int count =  cart.get(itemKey).intValue();
-            itemCost = itemPrice * count; 
-        }
-        return itemCost;
-    }
-    
+   
 	/**
 	 * Removes the fooditems panel
 	 *
