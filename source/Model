@@ -1,0 +1,34 @@
+/* by AT*/
+
+package Model;
+
+
+
+import java.util.*;
+
+public class model {
+	   private String Menuorder;
+	   private String Customerorder;
+	   private int ordernumber;
+	   
+	   public String Menuorder() {
+	      return Menuorder;
+	   }
+	   
+	   public void ordernumber(int ordernumber) {
+	      this.ordernumber = ordernumber;
+	   }
+	   
+	   public String getMenuorder() {
+		      return Menuorder;
+		   }
+	   
+	   public String getCustomerorder() {
+	      return Customerorder;
+	   }
+	   
+	   public void setCustomerorder(String Customerorder) {
+	      this.Customerorder = Customerorder;
+	   }
+	}
+
