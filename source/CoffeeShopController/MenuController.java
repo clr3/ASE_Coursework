@@ -34,7 +34,7 @@ public class MenuController {
 		menuGUI.showMenuPage();
 	}
 	
-	public ActionListener categoryActionListener(String categoryName) {
+	public ActionListener categoryActionListener(FoodCategory categoryName) {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
@@ -48,7 +48,7 @@ public class MenuController {
 	 */
     public void showFirstCategory() {
         Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
-        String key = entry.getKey().toString();
+        FoodCategory key = entry.getKey();
         menuGUI.addFoodItems(key);
     }
 	
@@ -81,7 +81,7 @@ public class MenuController {
 	    };
 	}
     
-	public ActionListener minusButtonActionListener(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+	public ActionListener minusButtonActionListener(FoodCategory category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
@@ -90,7 +90,7 @@ public class MenuController {
 	 };
 	}
 	
-	public ActionListener plusButtonActionListener(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+	public ActionListener plusButtonActionListener(FoodCategory category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
