@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import CoffeeShopGUI.MenuGUI;
+import CoffeeShopGUI.StaffGUI;
 import CoffeeShopGUI.StartPageGUI;
 import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopUtilities.Menu;
@@ -16,6 +17,8 @@ public class StartPageController {
 	private int customerID = 0;
 	private StartPageGUI startPage;
 	private MenuController mc = new MenuController(new Menu(true), om);
+	
+	private StaffGUI staff = new StaffGUI(om);
 
 	public StartPageController(StartPageGUI p) {
 		
@@ -69,6 +72,7 @@ public class StartPageController {
 		public void actionPerformed(ActionEvent e) {
 			//Will show staff view
 			System.out.println("Staff");
+			staff.showStaffView();
 		}
 		
 	}
