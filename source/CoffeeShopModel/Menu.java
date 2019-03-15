@@ -1,7 +1,7 @@
 /**
 * Menu class for Coffee Shop
 */
-package CoffeeShopUtilities;
+package CoffeeShopModel;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import CoffeeShopUtilities.FileManager;
 import discountExceptions.NoDiscountFoodItemsException;
 import discountExceptions.NoDiscountIdException;
 import discountExceptions.NoDiscountNameException;
@@ -30,39 +31,61 @@ public class Menu {
 			FoodCategory.class);
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
 
+	private int enum_no=5;
+	
+    /** 
+     * Constructor for Menu Class
+     * 
+     */
+	public Menu(Boolean createFromFile) {		
+		if(createFromFile) {importMenuData();}		
+	}
+	
+	public Menu() {
+		
+	}
+	
+
 	/**
 	 * Constructor for Menu Class
 	 * 
 	 */
 	public void importMenuData() {
+
 		FileManager fm = new FileManager();
+		HashMap<String , FoodItem> items = new HashMap<String , FoodItem>();
+	
 		try {
-			ArrayList<String> menu_csv_list = fm.read_data_by_line("csvFiles/menu_coffeeShop.csv");
-			// System.out.println(menu_csv_list);
-			for (int counter = 0; counter < menu_csv_list.size(); counter++) {
-				// System.out.println(menu_csv_list.get(counter));
-				FoodItem foodObj = fm.create_foodItem_fromCSV(menu_csv_list.get(counter));
-				addFoodItems(foodObj.getCategory(), foodObj);
+			
+			items = fm.create_menu();
+	
+			//Iterate the menu items 
+			for(HashMap.Entry<String , FoodItem> item: items.entrySet()) {	
+						
+				addFoodItems(item.getValue().getCategory(), item.getValue());		
 			}
-		} catch (FileNotFoundException | NoCategoryFoundException | NoItemIDException | NoItemNameFoundException
-				| NoPriceFoundException e) {
-			// TODO Auto-generated catch block
+			
+		
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		createDiscount();
-		addDiscountToMenu();		
+		//createDiscount();
+		//addDiscountToMenu();
+	
 	}
 
 	/**
 	 * Creates discount objects from csv
 	 * 
-	 */
+	 *
 	private void createDiscount() {
+		
 		FileManager fm = new FileManager();
 		ArrayList<String> discounts_csv_list;
 		try {
-			discounts_csv_list = fm.read_data_by_line("csvFiles/discounts.csv");
+			//discounts_csv_list = fm.read_data_by_line("csvFiles/discounts.csv");
+			
 			for (int counter = 0; counter < discounts_csv_list.size(); counter++) {
 				Discount discountObj;
 				discountObj = getDiscountObj(discounts_csv_list.get(counter));
@@ -72,8 +95,21 @@ public class Menu {
 				| NoDiscountFoodItemsException e) {
 			e.printStackTrace();
 		}
+		
 	}
-
+*/
+	private void createDiscount() {
+		
+		FileManager fm = new FileManager();
+		try {
+			discounts = fm.createDiscountsFromFile();
+		} catch (FileNotFoundException e) {
+			System.out.println("Discounts File Not Found");
+			e.printStackTrace();
+		}
+		
+	}
+/**	*
 	public Discount getDiscountObj(String discountLine) throws NoDiscountIdException, NoDiscountNameException,
 			NoDiscountPercentageException, NoDiscountFoodItemsException {
 		String[] discountItem = new String[4];
@@ -104,7 +140,19 @@ public class Menu {
 		discounts.add(discount_obj);
 		return discount_obj;
 	}
-
+*/
+	
+	//Try not to use discounts as food items.
+	//Create a specialCategory For discounts maybe? Then other type of discounts could be implemented?
+	/**Refreactor the name of Discount to "Combo", this way
+	 	* we know that that combo has a a 
+	 	* -name
+	 	* -an id 
+	 	* -a list of items
+	 	* -discount percentage
+	 	*/
+	
+	
 	public void addDiscountToMenu() {
 		HashMap<String, FoodItem> discountsList = new HashMap<String, FoodItem>();
 		for (Discount discount : discounts) {
@@ -122,8 +170,8 @@ public class Menu {
 
 	private Double getComboPrice(Discount discount) {
 		Double totalPrice = 0d;
-		for (String foodItemId : discount.getItem_list()) {
-			FoodItem fi = getFoodItemById(foodItemId);
+		for (FoodItem foodItemId : discount.getItem_list()) {
+			FoodItem fi = foodItemId;
 			if (fi != null) {
 				totalPrice += fi.getPrice();
 			}
@@ -136,8 +184,8 @@ public class Menu {
 	private String getComboDetails(Discount discount) {
 		ArrayList<String> comboList = new ArrayList<String>();
 
-		for (String foodItemId : discount.getItem_list()) {
-			FoodItem fi = getFoodItemById(foodItemId);
+		for (FoodItem foodItemId : discount.getItem_list()) {
+			FoodItem fi = foodItemId;
 			if (fi != null) {
 				comboList.add(fi.getName());
 			}
@@ -204,9 +252,9 @@ public class Menu {
 	 * 
 	 * @return HashMap<String , FoodItem>
 	 */
-	public HashMap<String, FoodItem> getFoodItemsByCategory(String categoryName) {
-		if (menu.containsKey(FoodCategory.valueOf(categoryName))) {
-			return menu.get(FoodCategory.valueOf(categoryName));
+	public HashMap<String, FoodItem> getFoodItemsByCategory(FoodCategory categoryName) {
+		if (menu.containsKey(categoryName)) {
+			return menu.get(categoryName);
 		}
 		return null;
 	}

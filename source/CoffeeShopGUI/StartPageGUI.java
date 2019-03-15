@@ -9,9 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import CoffeeShopController.StartPageController;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 import CoffeeShopController.MenuController;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
 
 
 /**
@@ -24,25 +26,38 @@ import CoffeeShopUtilities.OrderManager;
 
 public class StartPageGUI extends JPanel{
 	
+
 	private GridBagConstraints constraints = new GridBagConstraints();
 	
 	private JFrame frame;
-	private JButton staffButton;
-	private JButton customerButton;
-	private JButton exitButton;
-	private MenuController menuController;
+	
+	private JButton staffButton = new JButton("Staff");
+	private JButton customerButton = new JButton("View Menu");;
+	private JButton exitButton = new JButton("Exit");
+	private MenuGUI menu_gui;
+	private StartPageController controller = new StartPageController(this);
+	
+	
+	//private MenuController menuController;
 	private OrderManager om;
 	
-	
+
+	/**Initialise */
+	public StartPageGUI() {}
+  
 	/**Initialise the buttons */
 	public StartPageGUI(Menu menu_obj, JFrame frame) {
-		om = new OrderManager();
+		//start(menu_obj, frame);
+	}
+	
+	public StartPageGUI(JFrame frame ) {
+		start(frame);
+	}
+	
+	public void start(JFrame frame) {
 		this.frame = frame;
-		menuController = new MenuController(menu_obj, om);
-		setLayout(new GridBagLayout());
-		create_staff_button();
-		create_customer_button();
-		createExitButton();
+		
+    setLayout(new GridBagLayout());
 		
 		
 		int x, y;
@@ -68,8 +83,7 @@ public class StartPageGUI extends JPanel{
 		constraints.gridheight = 1; //set back
 		constraints.gridwidth = 1;
 		add_component(exitButton, x = 6, y = 6);
-				
-				
+					
 	}
 	
 	/**
@@ -83,53 +97,29 @@ public class StartPageGUI extends JPanel{
 
 	}
 	
-	/**
-	 * Create Button for showing the menu
+	
+	/**Create Customer Button Action Listener
 	 * */
-	public void create_customer_button() {
-		customerButton = new JButton("View Menu");
-		customerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Open Menu Page 
-				//stem.out.println("Menu");
-				menuController.showMenuPage();
-			}
-			
-		});
-
+	public void setCustomerButtonActionListener(ActionListener al) {
+		customerButton.addActionListener(al);
 	}
-	/**
-	 * Create Button for staff view
-	 * */
-	public void create_staff_button() {
-		staffButton = new JButton("Staff");
-		staffButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Open staff View
-				System.out.println("Staff");
-
-			}
-			
-		});
-
-	}
+	
 	
 	/**
 	 * Create Button to exist the app
 	 * */
-	public void createExitButton() {
-		exitButton = new JButton("Exit");
-		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// print summary report to summary_report.csv
-				om.writeReports();
-				System.out.println("Order summary report is saved to summary_report.csv");
-				frame.setVisible(false);
-
-			}
-			
-		});
-
+	public void addExitActionListener(ActionListener al) {
+		exitButton.addActionListener(al);
+	}
+	/**
+	 * Create Staff Button 
+	 * */
+	public void addStaffActionListener(ActionListener al) {
+		staffButton.addActionListener(al);
+	}
+	public void closeFrame() {
+		frame.setVisible(false);
+		//frame.dispose();
 	}
 	
 	

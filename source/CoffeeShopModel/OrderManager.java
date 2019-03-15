@@ -1,9 +1,19 @@
-package CoffeeShopUtilities;
+package CoffeeShopModel;
+import java.awt.List;
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
  * 
+ * @CommentsByCristy
+ * 
+ * in order to manage the orders, I think we need a way to createNeOrders (with an order Number,
+ * maybe pass it along from the GUI to submitNewOrder(String orderId, CustomerOrder cusOrder) )
+ * 
+ *
+ * 
+ * also I think we need a method to write the order to CSV and remove from the file
  * */
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -15,17 +25,23 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Queue;
+
+import CoffeeShopUtilities.FileManager;
 
 public class OrderManager {
 	
 	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
-
+	private FileManager fm = new FileManager();
 	Menu menu;
+	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+
 	
 	public OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
-		FileManager fm = new FileManager();
+		
 		menu = new Menu();
 		menu.importMenuData();
 		
@@ -108,6 +124,7 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	 * 
 	 * */
 	public void submitNewOrder(String orderId, CustomerOrder cusOrder) {
+		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
 		
 	}
@@ -239,5 +256,25 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	public HashMap<String, CustomerOrder> getOrderMap() {
 		return orderMap;
 	}
+	/**@Edits Cristina Rivera
+	 * Created the FileManager at the beginning to manage orders to/from the file.
+	 * Write the order into CSV File
+	 * Remove CutomerOrder From HashMap
+	 * 
+	 * */
+	public CustomerOrder acceptNextOrder() {
+	
+		Iterator<CustomerOrder> ite = ordersForDisplay.iterator();
+		CustomerOrder o = ite.next();
+		
+		ordersForDisplay.remove(o);
+		fm.write_Order_toCSV(o);
+		orderMap.remove(o.getCustomerId());
+		return o;
+	}
+	public ArrayList<CustomerOrder> getOrdersForDisplay(){
+		return ordersForDisplay;
+	}
+	
 	
 }

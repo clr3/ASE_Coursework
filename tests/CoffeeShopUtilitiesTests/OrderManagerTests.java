@@ -9,10 +9,10 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.OrderManager;
 
 class OrderManagerTests {
 	

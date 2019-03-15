@@ -1,1 +1,1 @@
-ItemID;Name;Price;DescriptionHOT1;Americano;2.70;HOT2;Hot Chocolate;2.30;"""Milk with cocoa and sugar (marshmallows)"""
+ItemID;Name;Price;Description;HOT1;Americano;2.70;;HOT_BEVERAGEHOT2;Hot Chocolate;2.30;"""Milk with cocoa and sugar (marshmallows)""";HOT_BEVERAGE

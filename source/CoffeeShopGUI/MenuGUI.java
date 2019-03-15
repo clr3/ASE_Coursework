@@ -21,10 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import CoffeeShopController.MenuController;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 
 /**
 * Menu order GUI class for Coffee Shop
@@ -100,7 +100,7 @@ public class MenuGUI extends JPanel{
 	        for(FoodCategory key: keys){
 	            String categoryName = key.toString();
 	            Button categoryButton = new Button(categoryName);
-	            categoryButton.addActionListener(mc.categoryActionListener(categoryName));
+	            categoryButton.addActionListener(mc.categoryActionListener(key));
 	            jf.add(categoryButton);  
 	        }
 	        //jf.add(createComboButton());
@@ -166,8 +166,8 @@ public class MenuGUI extends JPanel{
         jf.setVisible(true);
         
         jf.add(createMenuHeaderPanel());
-        
-        HashMap<String, FoodItem> foodItems = menu_obj.getFoodItemsByCategory(categoryName);
+        FoodCategory cat = FoodCategory.valueOf(categoryName);
+        HashMap<String, FoodItem> foodItems = menu_obj.getFoodItemsByCategory(cat);
         if(foodItems!= null && foodItems.size() > 0) {
 	        for (Map.Entry<String, FoodItem> entry : foodItems.entrySet()) {
 	            String itemKey = entry.getKey();
@@ -222,6 +222,7 @@ public class MenuGUI extends JPanel{
     private JPanel addFoodItem(String category, String itemKey, FoodItem itemValue) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
+        FoodCategory cat = FoodCategory.valueOf(category);
         
     	String itemCountLabelName = String.format("%5s", mc.getItemCountFromCart(itemKey));
         JLabel itemCountLabel = new JLabel(itemCountLabelName);
@@ -232,11 +233,11 @@ public class MenuGUI extends JPanel{
 
     	String minusButtonLabel = String.format("%5s", "-");
         Button minusButton = new Button(minusButtonLabel);
-        minusButton.addActionListener(mc.minusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
+        minusButton.addActionListener(mc.minusButtonActionListener(cat, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
         
     	String plusButtonLabel = String.format("%5s", "+");
         Button plusButton = new Button(plusButtonLabel);
-        plusButton.addActionListener(mc.plusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
+        plusButton.addActionListener(mc.plusButtonActionListener(cat, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
         JLabel foodName = new JLabel(foodItemName);

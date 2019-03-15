@@ -8,10 +8,10 @@ import java.util.Map;
 import javax.swing.JLabel;
 
 import CoffeeShopGUI.MenuGUI;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 
 public class MenuController {
 	public MenuGUI menuGUI; 
@@ -34,11 +34,11 @@ public class MenuController {
 		menuGUI.showMenuPage();
 	}
 	
-	public ActionListener categoryActionListener(String categoryName) {
+	public ActionListener categoryActionListener(FoodCategory categoryName) {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	menuGUI.addFoodItems(categoryName);
+	        	menuGUI.addFoodItems(categoryName.toString());
 	         }
 	    };
 	}
@@ -48,8 +48,8 @@ public class MenuController {
 	 */
     public void showFirstCategory() {
         Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
-        String key = entry.getKey().toString();
-        menuGUI.addFoodItems(key);
+        FoodCategory key = entry.getKey();		
+        menuGUI.addFoodItems(key.toString());
     }
 	
 	public ActionListener resetButtonActionListener() {
@@ -81,20 +81,20 @@ public class MenuController {
 	    };
 	}
     
-	public ActionListener minusButtonActionListener(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+	public ActionListener minusButtonActionListener(FoodCategory category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
-        	menuGUI.removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+        	menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
          }
 	 };
 	}
 	
-	public ActionListener plusButtonActionListener(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+	public ActionListener plusButtonActionListener(FoodCategory category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	menuGUI.addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+	        	menuGUI.addItemToCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
 	         }
 	    };
 	}
