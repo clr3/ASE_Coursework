@@ -1,7 +1,7 @@
 /**
 * Menu class for Coffee Shop
 */
-package CoffeeShopUtilities;
+package model;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
+import utilities.FileManager;
 
 /**
  * Menu class for Coffee Shop, Stores and processes menu data

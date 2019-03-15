@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package utilities;
 
 public interface Staff {
 	

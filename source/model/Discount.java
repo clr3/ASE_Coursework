@@ -1,7 +1,7 @@
 /**
 * Discount data class for CoffeeShop App
 */
-package CoffeeShopUtilities;
+package model;
 
 import java.util.ArrayList;
 

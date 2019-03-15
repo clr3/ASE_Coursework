@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package utilities;
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
  * 

@@ -1,4 +1,4 @@
-package CoffeeShopGUI;
+package view;
 
 
 import java.awt.BorderLayout;
@@ -22,7 +22,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import CoffeeShopUtilities.Menu;
+import model.Menu;
 
 import java.io.FileNotFoundException;
 import java.io.File;

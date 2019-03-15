@@ -1,5 +1,9 @@
-package CoffeeShopUtilities;
+package utilities;
 import java.io.*;
+
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
 
 public class menuTestMain {
 

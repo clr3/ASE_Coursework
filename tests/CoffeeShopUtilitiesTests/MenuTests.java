@@ -4,11 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.Discount;
-import CoffeeShopUtilities.FileManager;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
 import discountExceptions.NoDiscountFoodItemsException;
 import discountExceptions.NoDiscountIdException;
 import discountExceptions.NoDiscountNameException;
@@ -17,6 +12,11 @@ import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
+import model.Discount;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
+import utilities.FileManager;
 
 public class MenuTests {
 	private FileManager fm = new FileManager();

@@ -1,6 +1,6 @@
 /** By Armand Tene **/
 
-package CoffeeShopGUI;
+package view;
 
 
 
@@ -24,7 +24,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import CoffeeShopUtilities.CustomerOrder;
+import model.CustomerOrder;
 
 
 /***Staff GUI SHOWs the orders list

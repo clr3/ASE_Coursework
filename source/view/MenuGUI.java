@@ -1,7 +1,7 @@
 /**
 * Menu order GUI class for Coffee Shop
 */
-package CoffeeShopGUI;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -20,11 +20,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import CoffeeShopController.MenuController;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import controller.MenuController;
+import controller.OrderController;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
 
 /**
 * Menu order GUI class for Coffee Shop
@@ -41,14 +41,14 @@ public class MenuGUI extends JPanel{
     public double totalCost = 0;
     public Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
-	private OrderManager om;
+	private OrderController om;
 	private MenuController mc;
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1,OrderManager omgr, MenuController mc){
+    public MenuGUI(Menu menu_obj1,OrderController omgr, MenuController mc){
     		this.mc = mc;
     		this.om = omgr;
     		this.menu_obj = menu_obj1;

@@ -1,7 +1,7 @@
 /**
 * FoodCategory Enum
 */
-package CoffeeShopUtilities;
+package model;
 
 public enum FoodCategory {
 	HOT_BEVERAGE,

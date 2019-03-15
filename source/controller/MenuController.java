@@ -1,4 +1,4 @@
-package CoffeeShopController;
+package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,24 +7,23 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 
-import CoffeeShopGUI.MenuGUI;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
+import view.MenuGUI;
 
 public class MenuController {
 	public MenuGUI menuGUI; 
 	public Menu menu_obj;
-	public OrderManager om;
+	public OrderController om;
 	
-	public MenuController(Menu menu_obj, OrderManager om) {
+	public MenuController(Menu menu_obj, OrderController om) {
 		this.menu_obj = menu_obj;
 		this.om = om;
 		this.initView(menu_obj,om);
 	}
 	
-	public void initView(Menu menu_obj, OrderManager om) {	
+	public void initView(Menu menu_obj, OrderController om) {	
 		menuGUI = new MenuGUI(menu_obj, om, this);
 		menuGUI.createPage();
 

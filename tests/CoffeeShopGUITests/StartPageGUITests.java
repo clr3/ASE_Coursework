@@ -5,7 +5,7 @@ package CoffeeShopGUITests;
  * */
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopGUI.StartPageGUI;
+import view.StartPageGUI;
 
 class StartPageGUITests {
 

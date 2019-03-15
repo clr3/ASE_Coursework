@@ -1,7 +1,7 @@
 /**
 * FoodItem data class for Coffee Shop
 */
-package CoffeeShopUtilities;
+package model;
 
 import foodItemExceptions.NoCategoryFoundException;
 

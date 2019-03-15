@@ -9,10 +9,10 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.OrderManager;
+import controller.OrderController;
+import model.CustomerOrder;
+import model.FoodCategory;
+import model.FoodItem;
 
 class OrderManagerTests {
 	
@@ -26,7 +26,7 @@ class OrderManagerTests {
 	    ArrayList<FoodItem>(); fList.add(fi); 
 	    CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
 	  
-	    OrderManager om = new OrderManager(); 
+	    OrderController om = new OrderController(); 
 	    om.submitNewOrder(orderId, co) ;
 	  
 	    HashMap<String, CustomerOrder> order = om.getOrderMap();
@@ -46,7 +46,7 @@ class OrderManagerTests {
 		
 		CustomerOrder co = new CustomerOrder("999", "10", fList, new BigDecimal(10), new Date());
 	  
-	    OrderManager om = new OrderManager(); 
+	    OrderController om = new OrderController(); 
 	    om.submitNewOrder(orderId, co);
 	  
 	    String report = om.generateReports();

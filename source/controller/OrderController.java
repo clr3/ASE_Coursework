@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package controller;
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
  * 
@@ -17,13 +17,19 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class OrderManager {
+import model.CustomerOrder;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
+import utilities.FileManager;
+
+public class OrderController {
 	
 	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
 
 	Menu menu;
 	
-	public OrderManager() {
+	public OrderController() {
 		// The order history files are loaded during the creation of Order Manager
 		FileManager fm = new FileManager();
 		menu = new Menu();

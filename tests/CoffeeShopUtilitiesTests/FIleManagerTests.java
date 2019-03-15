@@ -7,12 +7,7 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FileManager;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import controller.OrderController;
 import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;
@@ -21,6 +16,11 @@ import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
+import model.CustomerOrder;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
+import utilities.FileManager;
 
 class FileManagerTest {
 
@@ -151,7 +151,7 @@ Can't test because it's private
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory_noPastOrders() {
 			
-		OrderManager om = new OrderManager();
+		OrderController om = new OrderController();
 		HashMap<String, CustomerOrder> order = om.getOrderMap();
 		assertTrue(order.containsKey("100"));
 	

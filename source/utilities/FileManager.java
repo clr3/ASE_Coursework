@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package utilities;
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
  * 
@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import CoffeeShopUtilities.FoodItem;
 import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;
@@ -22,6 +21,10 @@ import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
+import model.CustomerOrder;
+import model.FoodCategory;
+import model.FoodItem;
+import model.Menu;
 
 public class FileManager {
 	

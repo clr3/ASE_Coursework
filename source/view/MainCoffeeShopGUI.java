@@ -1,7 +1,8 @@
-package CoffeeShopGUI;
+package view;
 
-import CoffeeShopUtilities.Menu;
 import javax.swing.JFrame;
+
+import model.Menu;
 
 public class MainCoffeeShopGUI {
 
