@@ -8,8 +8,6 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +21,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 import CoffeeShopController.OrderController;
 import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopController.MenuController;
+
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
 import CoffeeShopUtilities.Menu;
@@ -39,11 +40,11 @@ public class MenuGUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JFrame f =new JFrame();
     private JLabel totalCostValue;
-    private JPanel itemsPanel = new JPanel();
-    private JPanel currentFoodItemPanel = new JPanel();
-    //private HashMap<String,Integer> cart = new HashMap<String,Integer>();
-    //private double totalCost = 0;
+  
     private Menu menu_obj = new Menu(true);
+    public HashMap<String,Integer> cart = new HashMap<String,Integer>();
+    public double totalCost = 0;
+    
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
 	
 	private ArrayList<FoodItem> labels = new ArrayList<FoodItem>();
@@ -60,33 +61,34 @@ public class MenuGUI extends JPanel{
 	private CustomerOrder order = new CustomerOrder();
 	private OrderManager om;
 
-	private OrderController controller = new OrderController(this,order,om);
-	
-	private int t = 0; //int to keep count of all the objects in the menu
-    
+	private MenuController mc;
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(OrderManager omgr, CustomerOrder o){
+
+    public MenuGUI(Menu menu_obj1,OrderManager omgr, MenuController mc){
+    		this.mc = mc;
     		this.om = omgr;
-    		this.order = o;
-            JPanel jp = new JPanel();
-            jp.add(createCategoryPanel());
-            JButton b1=new JButton("Coffee Shop - Food Menu");;  
-            JButton b2=new JButton("Copyright @ HW");;  
-              
-            f.add(b1,BorderLayout.NORTH);  
-            f.add(b2,BorderLayout.SOUTH);  
-            f.add(jp,BorderLayout.WEST);  
-            //itemsPanel.add(createItemsDisplay());
-            f.add(currentFoodItemPanel,BorderLayout.CENTER);  
-              
-            f.setSize(600,600);  
-            f.setVisible(false); 
-            f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    		this.menu_obj = menu_obj1;
    }
+    
+    public void createPage() {
+        JPanel jp = new JPanel();
+        jp.add(createCategoryPanel());
+        JButton b1=new JButton("Coffee Shop - Food Menu");;  
+        JButton b2=new JButton("Copyright @ HW");;  
+          
+        f.add(b1,BorderLayout.NORTH);  
+        f.add(b2,BorderLayout.SOUTH);  
+        f.add(jp,BorderLayout.WEST);  
+        f.add(currentFoodItemPanel,BorderLayout.CENTER);  
+
+        f.setSize(600,600);  
+        f.setVisible(false); 
+        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+    }
     
     /** 
      * Shows Menu page
@@ -118,28 +120,18 @@ public class MenuGUI extends JPanel{
 	        for(FoodCategory key: keys){
 	            String categoryName = key.toString();
 	            Button categoryButton = new Button(categoryName);
-	            categoryButton.addActionListener(new ActionListener() {
-	                @Override
-	                 public void actionPerformed(ActionEvent e) {
-	                	  updateItemsDisplay(key);
-	                 }
-	            });
+
+	            categoryButton.addActionListener(mc.categoryActionListener(categoryName));
 	            jf.add(categoryButton);  
 	        }
 	        //jf.add(createComboButton());
-	        //showFirstCategory();
+	        mc.showFirstCategory();
+
         }        
         return jf;
     }
    
-	/**
-	 * Shows first category fooditems by default
-	 *
-    private void showFirstCategory() {
-        Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
-        String key = entry.getKey().toString();
-        addFoodItems(entry.getKey().getCategory());
-    }*/
+
     
 	/**
 	 * Returns Total cost panel
@@ -183,7 +175,9 @@ public class MenuGUI extends JPanel{
 	 * Adds food items to the FoodItem main panel
 	 *
 	 */
-    private void addFoodItems(FoodCategory categoryName) {
+    private void addFoodItems(FoodCategory categoryName) {}
+
+    public void addFoodItems(String categoryName ) {
         removePanel(currentFoodItemPanel);
         currentFoodItemPanel = new JPanel();
         
@@ -235,28 +229,18 @@ public class MenuGUI extends JPanel{
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         
-        //Moved To OrderController
+
+        Button resetButton = new Button("Reset");
+        resetButton.addActionListener(mc.resetButtonActionListener());
         panel.add(resetButton);
-        /*
-    	 * @func open the customerOrderGUI JDialog
-    	 * */
-        orderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	CustomerOrdergui o = new CustomerOrdergui(order);
-         		o.show_order();
-            }
-        });
+        
+        Button orderButton = new Button("Order Food");
+        orderButton.addActionListener(mc.orderButtonActionListener());
         panel.add(orderButton);
         
         Button closeButton = new Button("Close Menu");
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-             public void actionPerformed(ActionEvent e) {
-            	hideMenuPage();
-             }
-        });
-        
+        closeButton.addActionListener(mc.closeButtonActionListener());
+
         panel.add(closeButton);
     	return panel;
     }
@@ -269,23 +253,22 @@ public class MenuGUI extends JPanel{
     private JPanel addFoodItem(FoodItem itemValue) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        /*
-         * 
-         */
-    	String itemCountLabelName = String.format("%5s", getItemCountFromCart(itemValue));
+
+        
+    	String itemCountLabelName = String.format("%5s", mc.getItemCountFromCart(itemKey));
         JLabel itemCountLabel = new JLabel(itemCountLabelName);
     	String itemPriceLabelName = String.format("%6s", df2.format(itemValue.getPrice()));
         JLabel itemPriceLabel = new JLabel(itemPriceLabelName);
-    	String itemCartPriceLabelName = String.format("%6s", df2.format(order.totalItemPrice(itemValue)));
+    	String itemCartPriceLabelName = String.format("%6s", df2.format(mc.getItemCartPrice(itemKey, itemValue.getPrice())));
         JLabel itemCartPriceLabel = new JLabel(itemCartPriceLabelName);
 
     	String minusButtonLabel = String.format("%5s", "-");
+        Button minusButton = new Button(minusButtonLabel);
+        minusButton.addActionListener(mc.minusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
+        
     	String plusButtonLabel = String.format("%5s", "+");
-
-        
-        this.minusButtons.add(new JButton(minusButtonLabel));
-        this.plusButtons.add(new JButton(plusButtonLabel));
-        
+        Button plusButton = new Button(plusButtonLabel);
+        plusButton.addActionListener(mc.plusButtonActionListener(category, itemKey,itemValue, itemCountLabel, itemCartPriceLabel));
         
     	String foodItemName = String.format("%-30s", itemValue.getName());
         JLabel foodName = new JLabel(foodItemName);
@@ -298,19 +281,7 @@ public class MenuGUI extends JPanel{
         return panel;
     }
     
-	/*
-	 * Get item count from the cart
-	 *
-	 * @return String item count as string
-	 *
-    private String getItemCountFromCart(String itemKey) {
-        int count = 0;
-        if (cart.containsKey(itemKey)) {
-            count = cart.get(itemKey).intValue();
-        }
-        return Integer.toString(count);
-    }*/
-    
+
     /**
      * Method to update the display where all the items are shown
      * */
@@ -338,11 +309,49 @@ public class MenuGUI extends JPanel{
            
            return  order.getFinalBillAmount().toString();
        }
-    
- 
+
 
    
+	/**
+	 * Add item to the cart, updates item price and total cost
+	 *
+	 */
+    public void addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+    	int count = mc.addItemToCart(itemKey);
+        itemCountLabel.setText(Integer.toString(count));
+        double itemTotalPrice =  itemValue.getPrice();
+        totalCost += itemTotalPrice;
+        itemTotalPrice = itemTotalPrice * count;
+        itemCartPriceLabel.setText(df2.format(itemTotalPrice));
+        itemCartPriceLabel.revalidate();
+        itemCartPriceLabel.repaint();
+        totalCostValue.setText(df2.format(totalCost));
+        totalCostPanel.revalidate();
+        totalCostPanel.repaint();
+    }
     
+	/**
+	 * Remove item from the cart, updates item price and total cost
+	 *
+	 */
+    public void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+        int count = 0;
+        double itemTotalPrice =  itemValue.getPrice();
+        if (cart.containsKey(itemKey)) {
+        	count = mc.removeItemFromCart(itemKey);
+            totalCost = totalCost - itemTotalPrice;
+            totalCostValue.setText(df2.format(totalCost));
+            totalCostPanel.revalidate();
+            totalCostPanel.repaint();
+        }
+        itemCountLabel.setText(Integer.toString(count));
+        itemTotalPrice = itemTotalPrice * count;
+        itemCartPriceLabel.setText(df2.format(itemTotalPrice));
+        itemCartPriceLabel.revalidate();
+        itemCartPriceLabel.repaint();
+    }
+    
+   
 	/**
 	 * Removes the fooditems panel
 	 *
@@ -361,32 +370,6 @@ public class MenuGUI extends JPanel{
     }
 
 	
-    /**
-	 * Add Action Listener to all ADD buttons in the menu
-	 * */
-	public void setAddButtonsActionListener(ActionListener al) {
-		for(int i = 0; i < plusButtons.size(); i++) {
-			controller.setNewItem(labels.get(i));
-			controller.setItemCategory(labels.get(i));
-			plusButtons.get(i).addActionListener(al);
-		}
-	}
-	/**
-	 * Add Action Listener to all Remove buttons in the menu
-	 * */	
-	public void setRemoveButtonsActionListener(ActionListener al) {
-		for(int i = 0; i < plusButtons.size(); i++) {
-			controller.setNewItem(labels.get(i));
-			controller.setItemCategory(labels.get(i));
-			minusButtons.get(i).addActionListener(al);
-		}
-	}
-	/**
-	 * Add Action Listener "Remove All Items" button in the menu
-	 * */	
-	public void setRemoveAllActionListener(ActionListener al) {
-		resetButton.addActionListener(al);
-	}
 	/**Method to update the order from the controller 
 	 * */
 	public void updateOrder(CustomerOrder o) {
