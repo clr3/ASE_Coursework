@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import CoffeeShopController.OrderManagerController;
+import CoffeeShopController.StartPageController;
 import CoffeeShopUtilities.CustomerOrder;
 import CoffeeShopController.MenuController;
 import CoffeeShopUtilities.Menu;
@@ -35,13 +35,13 @@ public class StartPageGUI extends JPanel{
 	private JButton customerButton = new JButton("View Menu");;
 	private JButton exitButton = new JButton("Exit");
 	private MenuGUI menu_gui;
-	private OrderManagerController controller = new OrderManagerController(this);
-
-	private MenuController menuController;
+	private StartPageController controller = new StartPageController(this);
+	
+	
+	//private MenuController menuController;
 	private OrderManager om;
-	Menu menu_obj = new Menu(true);
 	
-	
+
 	/**Initialise */
 	public StartPageGUI() {}
   
@@ -56,12 +56,8 @@ public class StartPageGUI extends JPanel{
 	
 	public void start(JFrame frame) {
 		this.frame = frame;
-
-		menuController = new MenuController(menu_obj, om);
-
+		
     setLayout(new GridBagLayout());
-		create_staff_button();
-		//createExitButton();
 		
 		
 		int x, y;
@@ -108,29 +104,18 @@ public class StartPageGUI extends JPanel{
 		customerButton.addActionListener(al);
 	}
 	
-	/**
-	 * Create Button for staff view
-	 * */
-	public void create_staff_button() {
-		staffButton = new JButton("Staff");
-		staffButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Open staff View
-				System.out.println("Staff");
-				//StaffGUI staff_gui = new StaffGUI(om);
-				//staff_gui.showStaffView();
-				
-			}
-			
-		});
-
-	}
 	
 	/**
 	 * Create Button to exist the app
 	 * */
 	public void addExitActionListener(ActionListener al) {
 		exitButton.addActionListener(al);
+	}
+	/**
+	 * Create Staff Button 
+	 * */
+	public void addStaffActionListener(ActionListener al) {
+		staffButton.addActionListener(al);
 	}
 	public void closeFrame() {
 		frame.setVisible(false);

@@ -52,6 +52,8 @@ public class MenuGUI extends JPanel{
     		this.mc = mc;
     		this.om = omgr;
     		this.menu_obj = menu_obj1;
+    		
+    		createPage();
    }
     
     public void createPage() {
@@ -157,6 +159,10 @@ public class MenuGUI extends JPanel{
         removePanel(currentFoodItemPanel);
         currentFoodItemPanel = new JPanel();
         
+    		System.out.println(categoryName.toString());
+    		
+
+        
         f.revalidate();
         f.repaint();
 
@@ -173,7 +179,14 @@ public class MenuGUI extends JPanel{
 	        for (Map.Entry<String, FoodItem> entry : foodItems.entrySet()) {
 	            String itemKey = entry.getKey();
 	            FoodItem itemValue = entry.getValue();
+	            
+	            System.out.println(itemKey);
+	    		System.out.println(itemValue.toString());
+
 	            jf.add(addFoodItem(categoryName, itemKey, itemValue));
+	            
+	            
+	            
 	            if (categoryName == FoodCategory.COMBO) {
 	            	JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	            	//String discountDetailStr = String.format("%-10s", itemValue.getDescription());
@@ -223,7 +236,7 @@ public class MenuGUI extends JPanel{
     private JPanel addFoodItem(FoodCategory category, String itemKey, FoodItem itemValue) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        
+    
     	String itemCountLabelName = String.format("%5s", mc.getItemCountFromCart(itemKey));
         JLabel itemCountLabel = new JLabel(itemCountLabelName);
     	String itemPriceLabelName = String.format("%6s", df2.format(itemValue.getPrice()));

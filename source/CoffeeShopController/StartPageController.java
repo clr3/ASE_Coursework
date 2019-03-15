@@ -6,21 +6,23 @@ import java.awt.event.ActionListener;
 import CoffeeShopGUI.MenuGUI;
 import CoffeeShopGUI.StartPageGUI;
 import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopUtilities.Menu;
 import CoffeeShopUtilities.OrderManager;
 
-public class OrderManagerController {
+public class StartPageController {
 
 	private OrderManager om = new OrderManager();
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
-	
-	public OrderManagerController(StartPageGUI p) {
+	private MenuController mc;
+
+	public StartPageController(StartPageGUI p) {
 		
 		this.startPage = p;
 		startPage.setCustomerButtonActionListener(new NewOrder());
 		startPage.addExitActionListener(new WriteReport());
-		
+		startPage.addStaffActionListener(new StaffView());
 
 	}
 	
@@ -33,16 +35,18 @@ public class OrderManagerController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			System.out.println("MENU Selected..");
+
 			//Create a New order
 			String orderNo = Integer.toString(orderNumber++);
 			String cId = Integer.toString(customerID++);
 			
 			CustomerOrder order = new CustomerOrder(orderNo, cId);
-			om.submitNewOrder(Integer.toString(orderNumber),order);
-			// Open Menu Page 
-						MenuGUI menu_gui = new MenuGUI(om,order);
-						menu_gui.showMenuPage();
+			//om.submitNewOrder(Integer.toString(orderNumber),order);
+			// Open and Display Menu Page 
+			
+			 new MenuController(new Menu(true), om);
+
 		}
 		
 	}
@@ -60,5 +64,13 @@ public class OrderManagerController {
 		
 	}
 	
-	
+	public class StaffView implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//Will show staff view
+			System.out.println("Staff");
+		}
+		
+	}
 }

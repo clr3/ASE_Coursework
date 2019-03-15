@@ -49,6 +49,8 @@ public class MenuController {
     public void showFirstCategory() {
         Map.Entry<FoodCategory, HashMap<String , FoodItem>> entry = menu_obj.getMenu().entrySet().iterator().next();
         FoodCategory key = entry.getKey();
+		System.out.println(key.toString());
+		
         menuGUI.addFoodItems(key);
     }
 	
