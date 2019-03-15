@@ -38,7 +38,7 @@ public class MenuController {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	menuGUI.addFoodItems(categoryName);
+	        	menuGUI.addFoodItems(categoryName.toString());
 	         }
 	    };
 	}
@@ -51,7 +51,7 @@ public class MenuController {
         FoodCategory key = entry.getKey();
 		System.out.println(key.toString());
 		
-        menuGUI.addFoodItems(key);
+        menuGUI.addFoodItems(key.toString());
     }
 	
 	public ActionListener resetButtonActionListener() {
@@ -87,7 +87,7 @@ public class MenuController {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
-        	menuGUI.removeItemFromCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+        	menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
          }
 	 };
 	}
@@ -96,7 +96,7 @@ public class MenuController {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	menuGUI.addItemToCart(category, itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+	        	menuGUI.addItemToCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
 	         }
 	    };
 	}
