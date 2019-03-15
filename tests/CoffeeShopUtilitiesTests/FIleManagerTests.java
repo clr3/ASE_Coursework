@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import org.junit.*;
 import org.junit.jupiter.api.Test;
 
 import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopUtilities.Discount;
 import CoffeeShopUtilities.FileManager;
 import CoffeeShopUtilities.FoodCategory;
 import CoffeeShopUtilities.FoodItem;
@@ -17,6 +19,10 @@ import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;
 import customerOrderExceptions.noTimestampException;
+import discountExceptions.NoDiscountFoodItemsException;
+import discountExceptions.NoDiscountIdException;
+import discountExceptions.NoDiscountNameException;
+import discountExceptions.NoDiscountPercentageException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
@@ -25,11 +31,13 @@ import foodItemExceptions.NoPriceFoundException;
 class FileManagerTest {
 
 	
+		FileManager f = new FileManager();	
+
+	
+	
 	@Test
 	void testread_data_by_line() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
-		
-		f.read_data_by_line("csvTestFiles/foodItemTests/menu_correctItem.csv" );
+		f.read_data_by_line("csvTestFiles/menuTests/menu_correctItem.csv" );
 		
 	}
 	
@@ -78,8 +86,7 @@ Can't test because it's private
 	//
 	@Test
 	void testcreate_menu() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
-		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_correctItem.csv");
+		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_correctItem.csv");
 		assertTrue(menu.containsKey("HOT1"));
 	}
 	
@@ -87,8 +94,7 @@ Can't test because it's private
 	//Menu should have 2 Items
 	@Test 
 	void testcreate_menu_lowerCaseItemID() throws FileNotFoundException {
-		FileManager f = new FileManager();
-		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_LowCaseItemID.csv");
+		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_LowCaseItemID.csv");
 		assertTrue(menu.containsKey("HOT1"));
 		assertEquals(2,menu.size());
 	}
@@ -96,8 +102,7 @@ Can't test because it's private
 	//Item should be created without a description
 	@Test 
 	void testcreate_menu_noDescription() throws FileNotFoundException {
-		FileManager f = new FileManager();
-		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_noDescription.csv");
+		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noDescription.csv");
 		assertTrue(menu.containsKey("HOT1"));
 	}
 	
@@ -105,23 +110,20 @@ Can't test because it's private
 	//Menu should be created with valid entries
 	@Test 
 	void testcreate_menu_noitemID() throws FileNotFoundException {
-		FileManager f = new FileManager();
-		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_noItemID.csv");
+		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noItemID.csv");
 		assertTrue(menu.containsKey("HOT2"));
 	}
 
 	//No category should create a category based on the item ID
 	@Test
 	void testcreate_menu_noCategory() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
-		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/foodItemTests/menu_noCategory.csv");
+		HashMap<String, FoodItem> menu = f.create_menu("csvTestFiles/menuTests/menu_noCategory.csv");
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
 	}
 	
 	//No category should create a category based on the item ID
 	@Test
 	void testCreateMenu() throws NoCategoryFoundException, NoItemIDException, NoItemNameFoundException, FileNotFoundException {
-		FileManager f = new FileManager();
 		HashMap<String, FoodItem> menu = f.create_menu();
 		assertEquals(FoodCategory.HOT_BEVERAGE,menu.get("HOT1").getCategory());
 	}
@@ -130,20 +132,36 @@ Can't test because it's private
  * @throws noOrderItemException 
  * @throws NoOrderIdException 
  * @throws noTimestampException 
- * @throws noCustomerIdException */
-	@Test
-	void test__read_orderHistory() throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException {
-		FileManager f = new FileManager();
-		Menu menu = new Menu();
-		CustomerOrder o = f.create_CustomerOrder_from_string("100;5210;HOT1;2019-01-31", menu);
-		assertEquals("5210", o.getOrderId());
-	}
+ * @throws noCustomerIdException 
 	
+	@Test
+	void test__CustomerOrder_from_string() throws noCustomerIdException, noTimestampException, NoOrderIdException, noOrderItemException {
+		FileManager f = new FileManager();
+		
+		Menu menu_item = new Menu();
+		
+		
+		
+		FoodItem food1 = new FoodItem("COLD001","Tea",5,"masala_tea",FoodCategory.COLD_BEVERAGE);
+		menu_item.addFoodItems(FoodCategory.COLD_BEVERAGE, food1);
+		FoodItem food2 = new FoodItem("HOT001","Coffee",15,"Costa",FoodCategory.HOT_BEVERAGE);
+		menu_item.addFoodItems(FoodCategory.HOT_BEVERAGE, food2);
+		
+		FoodItem food3 = new FoodItem("SAND01","Pizza",10,"Veg_pizza",FoodCategory.SANDWICH);
+		menu_item.addFoodItems(FoodCategory.SANDWICH, food3);
+		
+		FoodItem food4 = new FoodItem("BAKE001","Pie",12,"Strawberry",FoodCategory.BAKE);
+		menu_item.addFoodItems(FoodCategory.BAKE, food4);
+		
+		CustomerOrder o = f.create_CustomerOrder_from_string("100;5210;HOT001;2019-01-31", menu_item);
+		assertEquals("5210", o.getCustomerId());
+	}
+	*/
 /**Order Manager Tests*/
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory() {
-		FileManager f = new FileManager();
-		Menu menu = new Menu();
+		Menu menu = new Menu(true);
+		
 		HashMap<String, CustomerOrder> order = f.buildCustomerOrdersFromOrderHistory(menu);
 		assertTrue(order.containsKey("100"));
 	}
@@ -156,4 +174,29 @@ Can't test because it's private
 		assertTrue(order.containsKey("100"));
 	
 	}
+	
+	
+/**Discounts tests
+ * @throws NoDiscountFoodItemsException 
+ * @throws NoDiscountNameException 
+ * @throws NoDiscountIdException 
+ * @throws NoDiscountPercentageException */
+	@Test
+	void testcreateDiscountFromString() throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
+		FileManager f = new FileManager();
+		Menu menu = new Menu(true);
+		
+		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2:");
+		
+		
+		assertTrue(d.getDiscountId().contains("COMBO01"));
+		assertEquals("Kids Combo",d.getOffer_name());
+		assertTrue(d.getDiscount_percentage() == 5);
+		
+		assertTrue(d.containsItemID("HOT1"));
+		assertTrue(d.containsItemID("HOT2"));
+
+	
+	}
+	
 }
