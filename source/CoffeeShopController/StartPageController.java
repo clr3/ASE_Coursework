@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import CoffeeShopGUI.MenuGUI;
 import CoffeeShopGUI.StaffGUI;
 import CoffeeShopGUI.StartPageGUI;
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 
 public class StartPageController {
 

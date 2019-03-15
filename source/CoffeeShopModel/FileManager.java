@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package CoffeeShopModel;
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
  * 
@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import CoffeeShopUtilities.FoodItem;
+import CoffeeShopModel.FoodItem;
 import customerOrderExceptions.NoOrderIdException;
 import customerOrderExceptions.noCustomerIdException;
 import customerOrderExceptions.noOrderItemException;

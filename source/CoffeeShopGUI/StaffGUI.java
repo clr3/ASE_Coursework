@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.OrderManager;
 
 public class StaffGUI extends JPanel{
 	

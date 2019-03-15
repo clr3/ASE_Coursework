@@ -10,10 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import CoffeeShopController.StartPageController;
-import CoffeeShopUtilities.CustomerOrder;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 import CoffeeShopController.MenuController;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
 
 
 /**

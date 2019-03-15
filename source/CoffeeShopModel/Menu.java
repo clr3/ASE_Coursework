@@ -1,7 +1,7 @@
 /**
 * Menu class for Coffee Shop
 */
-package CoffeeShopUtilities;
+package CoffeeShopModel;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

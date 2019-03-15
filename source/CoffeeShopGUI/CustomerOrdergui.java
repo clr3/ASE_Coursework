@@ -7,8 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FoodItem;
+
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.FoodItem;
+
 import java.math.BigDecimal;
 /**
  * This class creates the main frame and serves as the primary interface

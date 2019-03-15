@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package CoffeeShopModel;
 import java.awt.List;
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>

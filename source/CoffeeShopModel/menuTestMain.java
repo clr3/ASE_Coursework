@@ -1,4 +1,4 @@
-package CoffeeShopUtilities;
+package CoffeeShopModel;
 import java.io.*;
 
 public class menuTestMain {

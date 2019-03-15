@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import CoffeeShopGUI.*;
-import CoffeeShopUtilities.*;
+import CoffeeShopModel.*;
 
 public class OrderController {
 

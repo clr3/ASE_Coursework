@@ -21,10 +21,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import CoffeeShopController.MenuController;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 
 /**
 * Menu order GUI class for Coffee Shop

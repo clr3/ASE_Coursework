@@ -7,9 +7,9 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.CustomerOrder;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
+import CoffeeShopModel.CustomerOrder;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
 
 class customerOrderTests {
 

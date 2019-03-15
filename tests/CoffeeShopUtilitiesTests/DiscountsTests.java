@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.Discount;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
+import CoffeeShopModel.Discount;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
 
 class DiscountsTests {
 

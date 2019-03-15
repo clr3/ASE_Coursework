@@ -8,10 +8,10 @@ import java.util.Map;
 import javax.swing.JLabel;
 
 import CoffeeShopGUI.MenuGUI;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
-import CoffeeShopUtilities.OrderManager;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
+import CoffeeShopModel.OrderManager;
 
 public class MenuController {
 	public MenuGUI menuGUI; 

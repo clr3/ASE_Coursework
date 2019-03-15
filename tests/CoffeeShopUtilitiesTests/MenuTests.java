@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopUtilities.Discount;
-import CoffeeShopUtilities.FileManager;
-import CoffeeShopUtilities.FoodCategory;
-import CoffeeShopUtilities.FoodItem;
-import CoffeeShopUtilities.Menu;
+import CoffeeShopModel.Discount;
+import CoffeeShopModel.FileManager;
+import CoffeeShopModel.FoodCategory;
+import CoffeeShopModel.FoodItem;
+import CoffeeShopModel.Menu;
 import discountExceptions.NoDiscountFoodItemsException;
 import discountExceptions.NoDiscountIdException;
 import discountExceptions.NoDiscountNameException;
