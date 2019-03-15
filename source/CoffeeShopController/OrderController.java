@@ -17,35 +17,26 @@ public class OrderController {
 	FoodCategory itemCategory;
 	private ArrayList<FoodItem> labels = new ArrayList<FoodItem>();
 	
-	
+/**
+ * Use this class to connect the MENU_GUI with the CustomerOrderGui and Order Manager
+ * */	
 public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 	
 		this.order = o;
 		this.menuGui = m;
 		this.orderManager = om;
 		
-		m.setAddButtonsActionListener(new AddItem());
-		m.setRemoveButtonsActionListener(new RemoveItem());
-		m.setRemoveAllActionListener(new ResetOrder());
+		//m.setAddButtonsActionListener(new AddItem());
+		//m.setRemoveButtonsActionListener(new RemoveItem());
+		//m.setRemoveAllActionListener(new ResetOrder());
 	
 		
 	}
-	public void setNewItem(FoodItem f) {
-		this.newItem = f;
-	}
-	public void setRemoveItem(FoodItem f) {
-		this.itemToRemove = f ;
-	}
-	public void setItemCategory(FoodItem f) {
-		this.itemCategory = f.getCategory() ;
-	}
-	public void setLabels(ArrayList<FoodItem> l) {
-		this.labels = l;
-	}
+
 	/**Add Item to the Order
 	 * 	 
 	 * * Update the display to show the new prices and amounts
-	 */
+	 *
 	public class AddItem implements ActionListener{
 
 	@Override
@@ -57,11 +48,11 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 		menuGui.updateItemsDisplay(itemCategory);
 		}
 	
-	}
+	}*/
 
 	/**Remove Item from the Order
 	 * Update the display to show the new prices and amounts
-	 * */
+	 * 
 	public class RemoveItem implements ActionListener{
 
 		@Override
@@ -74,9 +65,9 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 			menuGui.updateOrder(order);
 			menuGui.updateItemsDisplay(itemCategory);
 		}
-	}
+	}*/
 
-	/**Remove All Items from the Order*/
+	/**Remove All Items from the Order
 	public class ResetOrder implements ActionListener{
 
 		@Override
@@ -89,5 +80,5 @@ public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
 			menuGui.updateItemsDisplay(itemCategory);
 		}
 	}
-	
+	*/
 }
