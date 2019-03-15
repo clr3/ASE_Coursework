@@ -39,7 +39,7 @@ public class StartPageGUI extends JPanel{
 
 	private MenuController menuController;
 	private OrderManager om;
-	
+	Menu menu_obj = new Menu(true);
 	
 	
 	/**Initialise */
