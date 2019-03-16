@@ -25,7 +25,10 @@ public final class Logger {
 		public void createLogFile(){
 			String pwd = System.getProperty("user.dir");
 			File logsFolder = new File(pwd + '/' + "logs");
-		   	
+			if(!logsFolder.exists()){
+				logsFolder.mkdir();
+			}
+			
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		   	Calendar cal = Calendar.getInstance();
 		   	
