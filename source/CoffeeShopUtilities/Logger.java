@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 public final class Logger {
 	   private static Logger log_instance = null;
-	   public static final String LOGFILE = "shopLog.txt";
+	   public static final String LOGFILE_PREFIX = "CoffeeShop";
    	   private static File logFile;
 
 	   protected Logger() {
@@ -26,7 +26,11 @@ public final class Logger {
 			String pwd = System.getProperty("user.dir");
 			File logsFolder = new File(pwd + '/' + "logs");
 		   	
-			logFile = new File(logsFolder.getName(),LOGFILE);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		   	Calendar cal = Calendar.getInstance();
+		   	
+		   	String logFileName =  LOGFILE_PREFIX + '-' +  dateFormat.format(cal.getTime()) + ".log";
+			logFile = new File(logsFolder.getName(),logFileName);
 			try{
 				logFile.createNewFile();
 			}catch(IOException e){
