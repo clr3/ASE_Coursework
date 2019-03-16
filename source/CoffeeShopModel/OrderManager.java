@@ -27,7 +27,9 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.Queue;
+import java.util.Set;
 
 import CoffeeShopUtilities.FileManager;
 
@@ -44,9 +46,19 @@ public class OrderManager {
 		//THe FileManager is in charge of reading the files and returning the according data structure
 		
 			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
+			preparePastOrdersList();
 		
 	}
 	
+	/**
+	 * Adds the past orders to the list the staff will be able to view
+	 * */
+	private void preparePastOrdersList() {
+		
+		for(CustomerOrder o: orderMap.values()) {
+			this.ordersForDisplay.add(o);
+		}
+	}
 
 
 	/**
@@ -161,7 +173,8 @@ public class OrderManager {
 	
 	/**
 	 * 
-	 * Getter method for returning the orderMao
+	 * Getter method for returning the orderMap
+	 * 
 	 * */
 	public HashMap<String, CustomerOrder> getOrderMap() {
 		return orderMap;
@@ -182,6 +195,7 @@ public class OrderManager {
 		orderMap.remove(o.getCustomerId());
 		return o;
 	}
+	
 	public ArrayList<CustomerOrder> getOrdersForDisplay(){
 		return ordersForDisplay;
 	}

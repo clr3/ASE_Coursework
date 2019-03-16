@@ -62,12 +62,17 @@ public class MenuController {
 		         }
 		};
 	}
-	
+	/**
+	 * MenuGUI should not be in charge of adding the rders to the order manager
+	 * 
+	 * It should create a customerOrder
+	 * CustomerOrder will be added to order manager from CustomerOrderGUI
+	 * */
 	public ActionListener orderButtonActionListener() {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	om.addNewOrder(menuGUI.cart, menuGUI.totalCost);
+            	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
              }
         };
 	}
