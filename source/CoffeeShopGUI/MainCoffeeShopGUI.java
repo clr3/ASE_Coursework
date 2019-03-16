@@ -2,6 +2,8 @@ package CoffeeShopGUI;
 
 import javax.swing.JFrame;
 
+import CoffeeShopUtilities.Logger;
+
 public class MainCoffeeShopGUI {
 		
 	JFrame frame = new JFrame("Coffee Shop App");
@@ -21,7 +23,7 @@ public class MainCoffeeShopGUI {
 	
 
 	public static void main(String args[]) {
-		
+		Logger.getInstance().log("Coffee shop GUI Starts");
 		MainCoffeeShopGUI main = new MainCoffeeShopGUI();
 		main.startMainGUI();
 
