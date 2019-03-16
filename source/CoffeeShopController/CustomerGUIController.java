@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import CoffeeShopGUI.*;
 import CoffeeShopModel.*;
 
-public class OrderController {
+public class CustomerGUIController {
 
-	MenuGUI menuGui;
+	CustomerOrdergui orderGui;
 	CustomerOrder order;
 	OrderManager orderManager; //Used to add the order to the orderManager
+	
 	FoodItem newItem;
 	FoodItem itemToRemove;
 	FoodCategory itemCategory;
@@ -19,36 +20,36 @@ public class OrderController {
 	
 /**
  * Use this class to connect the MENU_GUI with the CustomerOrderGui and Order Manager
+ * 
+ * The CustomerOrderGUI sill be shown as soon as this class is created 
  * */	
-public OrderController(MenuGUI m, CustomerOrder o, OrderManager om) {
+public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
 	
-		this.order = o;
-		this.menuGui = m;
+		this.orderGui = o;
 		this.orderManager = om;
+		this.order = orderGui.getOrder();
 		
-		//m.setAddButtonsActionListener(new AddItem());
-		//m.setRemoveButtonsActionListener(new RemoveItem());
-		//m.setRemoveAllActionListener(new ResetOrder());
+		orderGui.show_order();
+		
+		
+		o.addPlaceNewOrderActionListener(AcceptOrder());
+		
 	
 		
 	}
 
-	/**Add Item to the Order
-	 * 	 
-	 * * Update the display to show the new prices and amounts
-	 *
-	public class AddItem implements ActionListener{
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		FoodItem i = labels.get(menuGui.getItemNo());
-		order.addItem(i);
-		System.out.println("+" + i.getName());
-		menuGui.updateOrder(order);
-		menuGui.updateItemsDisplay(itemCategory);
-		}
-	
-	}*/
+	/**
+	 * When the button is clicked, the Customer Order Should be added to the order manager 
+	 * */
+	public ActionListener AcceptOrder() {
+		return new ActionListener() {
+		        @Override
+		         public void actionPerformed(ActionEvent e) {
+		        	orderManager.submitNewOrder(order.getOrderId(), order);
+		        	orderGui.acceptButtonClicked();
+		         }
+		};
+	}
 
 	/**Remove Item from the Order
 	 * Update the display to show the new prices and amounts

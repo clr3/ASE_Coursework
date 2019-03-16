@@ -16,7 +16,6 @@ public class StartPageController {
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
-	private MenuController mc = new MenuController(new Menu(true), om);
 	
 	private StaffGUI staff = new StaffGUI(om);
 
@@ -45,8 +44,8 @@ public class StartPageController {
 			String cId = Integer.toString(customerID++);
 			
 			CustomerOrder order = new CustomerOrder(orderNo, cId);
-			//om.submitNewOrder(Integer.toString(orderNumber),order);
-			// Open and Display Menu Page 
+			//Create Menu Controller With new Customer Order
+			MenuController mc = new MenuController(new Menu(true), order,om);
 			mc.showMenuPage();
 
 		}

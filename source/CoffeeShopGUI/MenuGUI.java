@@ -41,16 +41,16 @@ public class MenuGUI extends JPanel{
     public double totalCost = 0;
     public Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
-	private OrderManager om;
+	
 	private MenuController mc;
+	
     /** 
      * Constructor for Menu GUI
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1,OrderManager omgr, MenuController mc){
+    public MenuGUI(Menu menu_obj1, MenuController mc){
     		this.mc = mc;
-    		this.om = omgr;
     		this.menu_obj = menu_obj1;
    }
     
@@ -254,9 +254,9 @@ public class MenuGUI extends JPanel{
    
 	/**
 	 * Add item to the cart, updates item price and total cost
-	 *
+	 *@Return Food Item that's being added
 	 */
-    public void addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+    public FoodItem addItemToCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
     	int count = mc.addItemToCart(itemKey);
         itemCountLabel.setText(Integer.toString(count));
         double itemTotalPrice =  itemValue.getPrice();
@@ -268,13 +268,14 @@ public class MenuGUI extends JPanel{
         totalCostValue.setText(df2.format(totalCost));
         totalCostPanel.revalidate();
         totalCostPanel.repaint();
+        return itemValue;
     }
     
 	/**
 	 * Remove item from the cart, updates item price and total cost
-	 *
+	 * @Return FoodItem to remove
 	 */
-    public void removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
+    public FoodItem removeItemFromCart(String category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
         int count = 0;
         double itemTotalPrice =  itemValue.getPrice();
         if (cart.containsKey(itemKey)) {
@@ -289,6 +290,7 @@ public class MenuGUI extends JPanel{
         itemCartPriceLabel.setText(df2.format(itemTotalPrice));
         itemCartPriceLabel.revalidate();
         itemCartPriceLabel.repaint();
+        return itemValue;
     }
     
    
