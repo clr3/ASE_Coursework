@@ -35,85 +35,20 @@ public class OrderManager {
 	
 	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
 	private FileManager fm = new FileManager();
-	Menu menu;
+	Menu menu = new Menu(true);
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 
 	
 	public OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
+		//THe FileManager is in charge of reading the files and returning the according data structure
 		
-		menu = new Menu();
-		menu.importMenuData();
+			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
 		
-		//Moved Method to File Manager Class
-		//this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
-		
-		// Crsty - After uncommenting the above line, delete the below code (try catch block), and
-		// the methods buildCustomerOrdersFromOrderHistory and getFoodItem
-		// Run the OrderManagerUnit Tests and verify that order_summary.csv file is created
-		try {
-			ArrayList<String> orderHistories = fm.readOrderHistory();
-			this.orderMap = buildCustomerOrdersFromOrderHistory(orderHistories);
-		} catch (FileNotFoundException e) {
-			System.out.println ("OrderManager failed to load the order history. File not found error!");
-		}
-		
-	}
-	
-public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(ArrayList<String> orderHistories) throws FileNotFoundException{
-		
-		HashMap <String, CustomerOrder> orderMap = new HashMap <String, CustomerOrder>();
-		
-		for (String order: orderHistories){
-			String[] item = order.split(";");
-			
-			CustomerOrder custOrder;
-			
-			FoodItem fItem = getFoodItem(item[2]);
-			
-			ArrayList<FoodItem> fItemList = new ArrayList<FoodItem>();
-			fItemList.add(fItem);
-			
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = null;
-			try {
-				date = format.parse(item[3]);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//build the CustomerOrder if its a new order. If order exists, then add/append the order item to existing CustomerOrder
-			if (orderMap.containsKey(item[0])) {
-				custOrder = orderMap.get(item[0]);
-				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();
-				currentFoodItemList.add(fItem);
-				custOrder.setOrderItems(currentFoodItemList);
-			} else {
-				custOrder = new CustomerOrder(item[0], item[1], fItemList, new BigDecimal(0), date);
-				orderMap.put(item[0], custOrder);
-			}
-			
-		}
-		return orderMap;
-	}
-
-	private FoodItem getFoodItem (String foodItemId) {
-		FoodItem fItem = null;
-		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
-		Collection<HashMap<String , FoodItem>> menuMapList = menuEnumMap.values();
-		
-		for (HashMap<String , FoodItem> menuMap : menuMapList) {
-			if (menuMap.containsKey(foodItemId)) {
-				fItem = menuMap.get(foodItemId);
-			}
-			
-		}
-		return fItem;
 	}
 	
 
-	
+
 	/**
 	 * 
 	 * This method adds a new Customer adder to the existing Order Map
@@ -126,29 +61,6 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	public void submitNewOrder(String orderId, CustomerOrder cusOrder) {
 		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
-		
-	}
-	
-	/**
-	 * 
-	 * This method adds a new Customer adder to the existing Order Map
-	 * 
-	 * 
-	 * @Params String orderId, CustomerOrder cusOrder
-	 * @Returns void
-	 * 
-	 * */
-	public void addNewOrder(HashMap<String, Integer> cart, double price) {
-		
-		ArrayList<FoodItem> foodItemList = new ArrayList<FoodItem>();
-		for (String foodItemId : cart.keySet()) {
-			for (int i = 0; i < cart.get(foodItemId);i++) {
-			foodItemList.add(getFoodItem(foodItemId));
-			}
-		}
-		
-		CustomerOrder co = new CustomerOrder("1000", "5000", foodItemList, new BigDecimal(price), new Date());
-		orderMap.put("1000", co);
 		
 	}
 	
@@ -223,8 +135,6 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	 * 
 	 * This method returns the total count of FoodItems ordered by customers
 	 * 
-	 * 
-	 * @Params 
 	 * @Returns HashMap<FoodItem, Integer>
 	 * 
 	 * */
@@ -275,6 +185,5 @@ public  HashMap <String, CustomerOrder> buildCustomerOrdersFromOrderHistory(Arra
 	public ArrayList<CustomerOrder> getOrdersForDisplay(){
 		return ordersForDisplay;
 	}
-	
 	
 }
