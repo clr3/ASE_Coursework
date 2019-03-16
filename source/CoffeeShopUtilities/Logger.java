@@ -45,6 +45,7 @@ public final class Logger {
 			try{
 				FileWriter out = new FileWriter(logFile, true);
 				out.write(message.toCharArray());
+				out.write(System.lineSeparator());
 				out.close();
 			}catch(IOException e){
 				System.err.println("ERROR: Could not write to log file");
