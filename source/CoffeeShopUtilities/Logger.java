@@ -29,8 +29,8 @@ public final class Logger {
 				logsFolder.mkdir();
 			}
 			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		   	Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+			Calendar cal = Calendar.getInstance();
 		   	
 		   	String logFileName =  LOGFILE_PREFIX + '-' +  dateFormat.format(cal.getTime()) + ".log";
 			logFile = new File(logsFolder.getName(),logFileName);
