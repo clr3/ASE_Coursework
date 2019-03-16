@@ -15,7 +15,7 @@ public final class Logger {
 	   protected Logger() {
 	       createLogFile();
 	   }
-	   public static Logger getInstance() {
+	   public static synchronized Logger getInstance() {
 	      if(log_instance == null) {
 	    	  log_instance = new Logger();
 	      }
