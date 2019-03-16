@@ -52,11 +52,18 @@ public class StaffGUI {
 		return buttonPanel;
 	}
 	
+	/**
+	 * Show the Orders that haven been worked on.
+	 * Shows the OrderID, Customer ID and total numer of items in the order 
+	 * */
 	private JPanel ordersQueue() {
 		
 		
 		ordersQueuePanel = new JPanel();
 		ordersQueuePanel.setLayout(new BoxLayout(ordersQueuePanel, BoxLayout.Y_AXIS));
+		
+		JLabel ordersCount = new JLabel("There are curresntly >" +orderManager.getOrdersForDisplay().size()+ "< people waiting on the queque");
+		ordersQueuePanel.add(ordersCount);
 		
 		for(CustomerOrder order: orderManager.getOrdersForDisplay()) {
 			// OrderNumber 
@@ -64,22 +71,16 @@ public class StaffGUI {
 			JLabel orderLabel = new JLabel(order.getOrderId() + " -> For " + 
 					order.getCustomerId() + ": " );
 			orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
-			ArrayList<FoodItem> items = order.getOrderItems();
-			String orderItems = "";
-			//Show the food item name and price
-			//Hot Chocolate > 3.20
-			for(FoodItem i: items) {
-				orderItems +=  i.getName() + " > " + i.getPrice() + " \n" ;
-			}
-			//Final Bill Amount
-			orderItems += order.getFinalBillAmount();
-			JLabel itemsLabel = new JLabel(orderItems);
+			
+			//GEt Items Count and display
+			JLabel itemsLabel = new JLabel(order.getOrderItems().size() + " Items");
 			itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
 			
 			ordersQueuePanel.add(orderLabel);
 			ordersQueuePanel.add(itemsLabel);
 			
 		}
+		
 		ordersQueuePanel.setVisible(true);
 		ordersQueuePanel.validate();
 		
