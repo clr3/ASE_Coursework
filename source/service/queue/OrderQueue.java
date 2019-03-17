@@ -1,7 +1,17 @@
 package service.queue;
-
+/**
+ * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
+ * 
+ * 
+ * */
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import CoffeeShopModel.CustomerOrder;
+import queueExceptions.QueueEmptyException;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -12,63 +22,69 @@ import java.util.Queue;
  * 
  * */
 
-import java.util.concurrent.PriorityBlockingQueue;
-
-import CoffeeShopModel.CustomerOrder;
-import queueExceptions.QueueEmptyException;
-
 public class OrderQueue {
-	
-	Queue<CustomerOrder> orderPriorityQueue;
-	
+
+	Queue<CustomerOrder> orderQueue;
+
 	// Priority Queue is initialised.
 	public OrderQueue() {
-		orderPriorityQueue = new PriorityBlockingQueue<CustomerOrder>();
+		orderQueue = new ArrayBlockingQueue<CustomerOrder>(100);
 	}
-	
-	
+
 	/**
-	 * Adds a Customer Order to the priority queue
-	 * */
+	 * Adds a Customer Order to the queue
+	 */
 	public void enqueue(CustomerOrder order) {
-		orderPriorityQueue.add(order);
+		orderQueue.add(order);
 	}
-	
+
 	/**
-	 * Adds a list of Customer Order to the priority queue
-	 * */
+	 * Adds a list of Customer Order to the queue
+	 */
 	public void enqueueAll(List<CustomerOrder> orders) {
-		orderPriorityQueue.addAll(orders);
+		orderQueue.addAll(orders);
 	}
-	
+
 	/**
-	 * polls a Customer order from the priority queue. If no orders are present in the queue
-	 * the a Queue Empty Exceptions is thrown
-	 * */
-	public CustomerOrder dequeue() throws QueueEmptyException{
-		
+	 * polls a Customer order from the priority queue. If no orders are present in
+	 * the queue the a Queue Empty Exceptions is thrown
+	 */
+	public CustomerOrder dequeue() throws QueueEmptyException {
+
 		CustomerOrder order = null;
-		order = orderPriorityQueue.poll();
+		order = orderQueue.poll();
 		if (null != order) {
 			return order;
 		} else {
 			throw new QueueEmptyException();
 		}
-		
+
 	}
-	
+
 	/**
-	 * Returns the count of messages in the priority queue
-	 * */
+	 * Returns the count of messages in the queue
+	 */
+	public ArrayList<CustomerOrder> viewAllOrders() {
+		ArrayList<CustomerOrder> coaList = new ArrayList<CustomerOrder>();
+		Iterator<CustomerOrder> itr = orderQueue.iterator();
+		while (itr.hasNext()) {
+			coaList.add(itr.next());
+		}
+		return coaList;
+	}
+
+	/**
+	 * Returns the count of messages in the queue
+	 */
 	public int countOrdersInQueue() {
-		return orderPriorityQueue.size();
+		return orderQueue.size();
 	}
-	
+
 	/**
-	 * Delete all messages from the priority queue
-	 * */
+	 * Delete all messages from the queue
+	 */
 	public void deleteOrdersFromQueue() {
-		orderPriorityQueue.clear();
+		orderQueue.clear();
 	}
 
 }

@@ -32,6 +32,7 @@ public class CustomerOrder {
 	private BigDecimal finalBillAmount; // Bill amount after discount
 	private BigDecimal totalBillAmount; // Bill amount before discount
 	private Date timestamp;
+	private Integer priority = -1; // All orders are given a low priority by default
 	
 	private String foodItem = null;
 	
@@ -224,5 +225,13 @@ public class CustomerOrder {
 	    	return orderItems.get(0);
 	    
 		
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
 	}
 }
