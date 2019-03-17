@@ -7,25 +7,37 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 
+import CoffeeShopGUI.CustomerOrdergui;
 import CoffeeShopGUI.MenuGUI;
+import CoffeeShopModel.CustomerOrder;
 import CoffeeShopModel.FoodCategory;
 import CoffeeShopModel.FoodItem;
 import CoffeeShopModel.Menu;
 import CoffeeShopModel.OrderManager;
 
+
+
+/**
+ * CUSTOMER ORDER CONTROLLER
+ * OrderManager is not needed in this class once we can use it with the singleton pattern
+ * */
 public class MenuController {
 	public MenuGUI menuGUI; 
 	public Menu menu_obj;
-	public OrderManager om;
+	private CustomerOrder myOrder;
+	private OrderManager orderMan;
+	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
 	
-	public MenuController(Menu menu_obj, OrderManager om) {
+	
+	public MenuController(Menu menu_obj, CustomerOrder o, OrderManager om) {
 		this.menu_obj = menu_obj;
-		this.om = om;
-		this.initView(menu_obj,om);
+		this.myOrder = o;
+		this.orderMan = om;
+		this.initView(menu_obj);
 	}
 	
-	public void initView(Menu menu_obj, OrderManager om) {	
-		menuGUI = new MenuGUI(menu_obj, om, this);
+	public void initView(Menu menu_obj) {	
+		menuGUI = new MenuGUI(menu_obj, this);
 		menuGUI.createPage();
 
 	}
@@ -52,6 +64,9 @@ public class MenuController {
         menuGUI.addFoodItems(key.toString());
     }
 	
+    /**
+     * Empty the Customer Order 
+     * */
 	public ActionListener resetButtonActionListener() {
 		return new ActionListener() {
 		        @Override
@@ -59,15 +74,27 @@ public class MenuController {
 		        	menuGUI.cart.clear();
 		        	menuGUI.totalCost = 0;
 		        	showFirstCategory();
+		        	myOrder.clearOrder();
 		         }
 		};
 	}
-	
+	/**
+	 * MenuGUI should not be in charge of adding the oders to the order manager
+	 * 
+	 * It should create a customerOrder
+	 * CustomerOrder will be added to order manager from CustomerOrderGUI
+	 * */
 	public ActionListener orderButtonActionListener() {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	om.addNewOrder(menuGUI.cart, menuGUI.totalCost);
+            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan, orderGUI);
+            		//When the customergui is closed, the menu is closed as well
+            		if(!orderGUI.isVisible()) {
+            		menuGUI.hideMenuPage();
+            		}
+            	//popUpCustOrder.show_order();
+            	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
              }
         };
 	}
@@ -81,11 +108,16 @@ public class MenuController {
 	    };
 	}
     
+	/**
+	 * Remove the selected item from the Customer Order 
+	 * */	
+	
+	
 	public ActionListener minusButtonActionListener(FoodCategory category, String itemKey,FoodItem itemValue, JLabel itemCountLabel,JLabel itemCartPriceLabel) {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
-        	menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+        	myOrder.removeItem( menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
          }
 	 };
 	}
@@ -94,7 +126,7 @@ public class MenuController {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	menuGUI.addItemToCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel);
+	        	myOrder.addItem(menuGUI.addItemToCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
 	         }
 	    };
 	}

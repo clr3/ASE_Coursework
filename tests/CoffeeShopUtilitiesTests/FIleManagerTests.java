@@ -164,6 +164,14 @@ Can't test because it's private
 		
 		HashMap<String, CustomerOrder> order = f.buildCustomerOrdersFromOrderHistory(menu);
 		assertTrue(order.containsKey("100"));
+		assertTrue(order.containsKey("222"));
+		assertTrue(order.containsKey("332"));
+		
+		assertEquals(7,order.get("100").totalItemsCount());
+		assertEquals(5,order.get("222").totalItemsCount());
+		assertEquals(4,order.get("332").totalItemsCount());
+
+		
 	}
 	
 	@Test
@@ -171,8 +179,17 @@ Can't test because it's private
 			
 		OrderManager om = new OrderManager();
 		HashMap<String, CustomerOrder> order = om.getOrderMap();
+		
 		assertTrue(order.containsKey("100"));
-	
+		assertTrue(order.containsKey("222"));
+		assertTrue(order.containsKey("332"));
+		
+		assertEquals(7,order.get("100").totalItemsCount());
+		assertEquals(5,order.get("222").totalItemsCount());
+		assertEquals(4,order.get("332").totalItemsCount());
+		
+		assertEquals(3,om.getOrdersForDisplay().size());
+
 	}
 	
 	

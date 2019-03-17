@@ -411,12 +411,11 @@ public class FileManager {
 		if(s.contains(separator2)) { order = s.split(separator2);}
 
 		CustomerOrder newOrder = new CustomerOrder();
-		String[] oder = s.split(";");
 
 		/*Check for the date first*/
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
-		if (oder[3].isEmpty()) throw new noTimestampException();
+		if (order[3].isEmpty()) throw new noTimestampException();
 		try {
 			date = format.parse(order[3]);
 		} catch (ParseException e) {
@@ -434,7 +433,7 @@ public class FileManager {
 		
 		/*Check for item Key and create Item*/
 		if(order[2].isEmpty()) throw new noOrderItemException();
-		FoodItem fItem = getFoodItem(oder[2], menu);
+		FoodItem fItem = getFoodItem(order[2], menu);
 		newOrder.addItem(fItem);
 	
 		
@@ -527,10 +526,7 @@ public class FileManager {
 				
 				CustomerOrder custOrder = orderMap.get(order.getOrderId());
 				
-				ArrayList<FoodItem> currentFoodItemList = custOrder.getOrderItems();				
-				currentFoodItemList.addAll(order.getOrderItems());
-				
-				orderMap.get(order.getOrderId()).setOrderItems(currentFoodItemList);
+				orderMap.get(order.getOrderId()).addItem(order.getFirstItem());
 				
 			} else {
 				orderMap.put(order.getOrderId(), order);

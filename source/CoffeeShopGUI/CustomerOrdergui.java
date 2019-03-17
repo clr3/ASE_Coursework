@@ -31,36 +31,30 @@ public class CustomerOrdergui extends JDialog {
 
 	
 	private JPanel ordersPanel;
-	
-
 	private JPanel receipt;
   
-	private JPanel centerPanel;
-	private JTextField orderPrice;
 	private ArrayList <FoodItem> itemsOrdered;
 	private String itemInformation;
 	
-
+	private JButton cancel = new JButton("Back to Menu");
+	private JButton accept = new JButton ("Place Order Now");
+	
 
 	private CustomerOrder order;
 
-	public CustomerOrdergui() {
-		/**
-		 * Initializing IVs 
-		 */
+
+
+	public CustomerOrdergui(CustomerOrder c) {
+		this.order= c;
 		totalCost = new BigDecimal(0);
 		itemInformation = "";
 		
 		itemsOrdered = new ArrayList<FoodItem>();
-}
-	
-
-	public CustomerOrdergui(CustomerOrder c) {
-		this.order= c;
-
 	}
 	
 	/**
+	 * Show the Dialog Box
+	 * 
 	 * We use a border layout here
 	 * We split the pane horizontally with the ordered items on the right and item buttons to the left
 	 * We get the panels for the frame and put it in the divided pane
@@ -70,7 +64,7 @@ public class CustomerOrdergui extends JDialog {
 		 * Initializing 
 		 */
 	
-		setSize(500,400);
+		setSize(300,200);
 		setLocation(400,400);
 		setName("My Order");
 		setBackground(Color.WHITE);
@@ -78,7 +72,12 @@ public class CustomerOrdergui extends JDialog {
 		create();
 		setVisible(true);
 	}
-	
+	/**
+	 * @Return CustomerOrder related to this gui
+	 * */
+	public CustomerOrder getOrder() {
+		return this.order;
+	}
 	public void create() {
 		JPanel mainPanel = (JPanel) getContentPane();
 		//JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
@@ -91,118 +90,7 @@ public class CustomerOrdergui extends JDialog {
 		
 	}
 
-    
-
-	/**
-	 * Receipt panel deals with the current order
-	 * Specify all the dimensions and colors
-	 * We add a scroll pane here too incase the order is very long
-	 * The textfield is constantly updated with the current price
-	 * We set the textfield.setEditable to false so that it cannot be altered by the user
-	 * Place order and Clear Order buttons are added here with their respective ActionListeners
-	 *
-	 *
-	 */
-	/**private JPanel getReceipt() {
-		
-		receipt = new JPanel();
-		JLabel label = new JLabel("Receipt:");
-		receipt.setLayout(new BorderLayout());
-		
-		JPanel lowerPanel = new JPanel();
-		lowerPanel.setLayout(new BorderLayout());
-		
-		receipt.add(lowerPanel,BorderLayout.SOUTH);
-		receipt.add(label, BorderLayout.NORTH);
-		
-		centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(0,1));
-		
-		orderItems = new JTextPane();
-		centerPanel.add(orderItems);
-		
-		orderItems.setEditable(false);
-		
-		JScrollPane centerPanelScroller = new JScrollPane(centerPanel);
-		receipt.add(centerPanelScroller, BorderLayout.CENTER);
-		
-		orderPrice = new JTextField(20);
-		orderPrice.setText("Total Cost = $ " + order.getFinalBillAmount().toString());
-		orderPrice.setEditable(false);
-		
-		JButton placeOrder = new JButton("Place Order");
-		JButton clearOrder = new JButton("Clear Order");
-		
-		placeOrder.setPreferredSize(new Dimension(30,50));
-		clearOrder.setPreferredSize(new Dimension(30,50));
-		
-		centerPanel.setBackground(Color.LIGHT_GRAY);
-		placeOrder.setForeground(Color.BLUE);
-		clearOrder.setForeground(Color.RED);
-		
-		placeOrder.setFont(new Font ("Times New Roman", Font.BOLD,40));
-		clearOrder.setFont(new Font ("Times New Roman", Font.BOLD,40));
-		
-		clearOrder.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				/*
-				 * private method that clears all content
-				 *
-				delete();
-				
-			}
-			
-		});
-		
-		placeOrder.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				/*
-				 * We call menu read and log our order. Also display an option pane to notify.
-				 * If there is no order, then an option pane will notify a user that there is not one
-				 * 
-				 *
-				try {
-					if (!orderPrice.getText().equals("Total Cost = $0.00")) {
-						menuRead.logOrder(itemsOrdered, totalCost);
-						JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
-						delete();
-					}
-					else {
-						JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
-					}
-					
-
-				if (!orderPrice.getText().equals("Total Cost = $0.00")) {
-					//menuRead.logOrder(itemsOrdered, totalCost);
-					JOptionPane.showMessageDialog(getContentPane(), "Order has been sent to kitchen", "Order has been logged", JOptionPane.INFORMATION_MESSAGE);
-					delete();
-
-				}
-				else {
-					JOptionPane.showMessageDialog(null,"No items ordered", "Place order", JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-			
-		});
-    
-		/*
-		 * Adding to the panel
-		 *
-		lowerPanel.add(orderPrice, BorderLayout.NORTH);
-		lowerPanel.add(placeOrder, BorderLayout.CENTER);
-		lowerPanel.add(clearOrder, BorderLayout.SOUTH);
-		lowerPanel.setBackground(Color.LIGHT_GRAY);
-		receipt.setBackground(Color.WHITE);
-		return receipt;
-		
-	}*/
-	
+   
 	
 	/**
 	 * @author Cristina Rivera
@@ -268,8 +156,6 @@ public class CustomerOrdergui extends JDialog {
 	private JPanel option_buttons() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		JButton cancel = new JButton("Back to Menu");
-		JButton accept = new JButton ("Continue");
 		
 		
 		cancel.addActionListener(new ActionListener() {
@@ -281,17 +167,6 @@ public class CustomerOrdergui extends JDialog {
 			
 		});
 		
-		accept.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				accept.setVisible(false);
-				/*
-				 * Could add a dialogue thanking the user or showing customer order
-				 * 
-				 * 
-				 * */
-			}
-			
-		});
 		
 		panel.add(cancel);
 		panel.add(accept);
@@ -299,21 +174,23 @@ public class CustomerOrdergui extends JDialog {
 		return panel;
 	}
 	
-	/** 
-	 * Constantly updates the order panel based on commands
-	 * @param itemButton
-	 *
-	private void refreshPanel(final Menu itemButton) {
-		String item = itemButton.getName();
-		BigDecimal itemPrice = itemButton.getCost();
-		 itemInformation += "\n" + item + "\n" + itemPrice + "\n";
-		 orderItems.setText(itemInformation);
-		 itemsOrdered.add(itemButton);
-		
-		totalCost = totalCost.add(itemPrice) ;
-		orderPrice.setText("Total cost = $" + totalCost);
+	public void addPlaceNewOrderActionListener(ActionListener al) {
+		accept.addActionListener(al);
+	}
+	
+	/**
+	 * Accept Button will become not visible
+	 * 
+	 * JDialog message should change to say: Thank you for your order.
+	 * */
+	public void acceptButtonClicked() {
+		accept.setVisible(false);
+		JLabel thankyou = new JLabel("Thank you for your Order");
 
-	}*/
+		JOptionPane.showMessageDialog(this, thankyou, "", JOptionPane.PLAIN_MESSAGE);
+		this.setVisible(false);
+		
+	}
 	
 
 	}

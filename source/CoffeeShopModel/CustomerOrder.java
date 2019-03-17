@@ -56,6 +56,8 @@ public class CustomerOrder {
 	}
 	
 	public CustomerOrder() {
+		this.orderId = "NoID";
+		this.customerId = "NoID";
 		// Create an empty ArrayList
 		this.orderItems = new ArrayList<FoodItem>();
 		//Create time stamp for today
@@ -175,17 +177,9 @@ public class CustomerOrder {
 	}
 	/**Returns the number time the foodItem is in the orders
 	 * */
-	public int itemCount(FoodItem f) {
-		int count = 0;
-
-		if (this.orderItems.contains(f)) {
-	    	for(int i = 0; i < orderItems.size(); i++ ) {
-	    		if(orderItems.get(i).equals(f)) {
-	    			count ++;
-	    		}
-	    	}
-	    }
-		return count;
+	public int totalItemsCount() {
+		
+		return orderItems.size();
 	}
 	/**
 	 * Method will return and foat
@@ -220,5 +214,15 @@ public class CustomerOrder {
 	    }
 		
 		return count;
+	}
+	
+	/**
+	 * 
+	 * @returns FoodItem that was first added to the list
+	 * */
+	public FoodItem getFirstItem() {
+	    	return orderItems.get(0);
+	    
+		
 	}
 }
