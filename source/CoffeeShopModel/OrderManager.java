@@ -32,6 +32,8 @@ import java.util.Queue;
 import java.util.Set;
 
 import CoffeeShopUtilities.FileManager;
+import queueExceptions.QueueEmptyException;
+import service.queue.OrderQueue;
 
 public class OrderManager {
 	
@@ -39,6 +41,8 @@ public class OrderManager {
 	private FileManager fm = new FileManager();
 	Menu menu = new Menu(true);
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	OrderQueue orderQ = new OrderQueue();
+	int newCustomerCount = 100;
 
 	
 	public OrderManager() {
@@ -57,6 +61,8 @@ public class OrderManager {
 		
 		for(CustomerOrder o: orderMap.values()) {
 			this.ordersForDisplay.add(o);
+			orderQ.enqueue(o); // Existing orders are added to Queue
+			
 		}
 	}
 
@@ -70,10 +76,12 @@ public class OrderManager {
 	 * @Returns void
 	 * 
 	 * */
-	public void submitNewOrder(String orderId, CustomerOrder cusOrder) {
+	public void submitNewOrder(String orderId, CustomerOrder customerOrder) {
+		CustomerOrder cusOrder = customerOrder;
+		cusOrder.setCustomerId("NEW"+newCustomerCount++); // New Customer ID created
 		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
-		
+		orderQ.enqueue(cusOrder ); // New orders are added to Queuue
 	}
 	
 
@@ -198,6 +206,27 @@ public class OrderManager {
 	
 	public ArrayList<CustomerOrder> getOrdersForDisplay(){
 		return ordersForDisplay;
+	}
+	
+	/**
+	 * 
+	 * View all Customer Orders on Queue
+	 * 
+	 * */
+	public ArrayList<CustomerOrder> viewAllOrdersOnQueue(){
+		ArrayList<CustomerOrder> coaList = orderQ.viewAllOrders();
+		return coaList;
+	}
+	
+	/**
+	 * 
+	 * Returns the priority Customer Order from Queue
+	 * @throws QueueEmptyException 
+	 * 
+	 * */
+	public CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
+		CustomerOrder coa = orderQ.dequeue();
+		return coa;
 	}
 	
 }
