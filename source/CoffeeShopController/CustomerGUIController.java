@@ -51,35 +51,4 @@ public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
 		};
 	}
 
-	/**Remove Item from the Order
-	 * Update the display to show the new prices and amounts
-	 * 
-	public class RemoveItem implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.removeItem(itemToRemove);
-				System.out.println("+" + itemToRemove.getName());
-
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
-	}*/
-
-	/**Remove All Items from the Order
-	public class ResetOrder implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.clearOrder();
-				System.out.println("Reset");
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
-	}
-	*/
 }

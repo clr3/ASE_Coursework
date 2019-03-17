@@ -181,19 +181,15 @@ public class CustomerOrdergui extends JDialog {
 	/**
 	 * Accept Button will become not visible
 	 * 
-	 * JDialog messahe should change to say: Thank you for your order.
+	 * JDialog message should change to say: Thank you for your order.
 	 * */
 	public void acceptButtonClicked() {
 		accept.setVisible(false);
-		
-		JPanel mainPanel = (JPanel) getContentPane();
-		
-		mainPanel.removeAll();
-		
 		JLabel thankyou = new JLabel("Thank you for your Order");
+
+		JOptionPane.showMessageDialog(this, thankyou, "", JOptionPane.PLAIN_MESSAGE);
+		this.setVisible(false);
 		
-		setLayout(new BorderLayout());
-		add(thankyou, BorderLayout.PAGE_START);
 	}
 	
 
