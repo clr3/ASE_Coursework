@@ -10,7 +10,7 @@ public class MainCoffeeShopGUI {
 	
 	public void startMainGUI() {
 		int mainFrameWidth = 300;
-		int mainFrameHight = 400;
+		int mainFrameHight = 300;
 		
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		

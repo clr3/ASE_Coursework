@@ -1,19 +1,22 @@
 package CoffeeShopGUI;
-import java.awt.Component;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import CoffeeShopController.StartPageController;
-import CoffeeShopModel.CustomerOrder;
-import CoffeeShopModel.Menu;
 import CoffeeShopModel.OrderManager;
-import CoffeeShopController.MenuController;
 
 
 /**
@@ -45,58 +48,49 @@ public class StartPageGUI extends JPanel{
 	/**Initialise */
 	public StartPageGUI() {}
   
-	/**Initialise the buttons */
-	public StartPageGUI(Menu menu_obj, JFrame frame) {
-		//start(menu_obj, frame);
-	}
-	
 	public StartPageGUI(JFrame frame ) {
 		start(frame);
 	}
 	
 	public void start(JFrame frame) {
 		this.frame = frame;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(staffButton);
+        buttonPanel.add(customerButton);
+        buttonPanel.add(exitButton);
+        
+        JLabel b1=new JLabel("    Coffee Shop");;  
+		JLabel wIcon = new JLabel("");
+		String pwd = System.getProperty("user.dir");
+		File imgFolder = new File(pwd + '/' + "images");
+        BufferedImage wPic;
+		try {
+			wPic = ImageIO.read(new File((imgFolder+"/coffee.png")));
+	        wIcon = new JLabel(new ImageIcon(wPic));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-    setLayout(new GridBagLayout());
-		
-		
-		int x, y;
-		constraints.gridheight= 3;  //Span 3 rows
-		constraints.gridwidth = 5;  //Span 5 columns
-		constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.anchor = GridBagConstraints.BELOW_BASELINE;
-       
-		add_component(customerButton, x = 0, y = 0);
-		
-		constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.EAST;
-		constraints.gridheight = 1; //set back
-		constraints.gridwidth = 1;
-		add_component(staffButton, x = 3, y = 6);
-		
-		constraints.weightx = 0.5;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.WEST;
-		constraints.gridheight = 1; //set back
-		constraints.gridwidth = 1;
-		add_component(exitButton, x = 6, y = 6);
-					
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
+        headerPanel.add(wIcon);
+        headerPanel.add(b1);
+        
+        JLabel b2=new JLabel("Copyright @ HW");;  
+          
+      
+        JPanel panel = new JPanel();
+        panel.setSize(600,600);
+        panel.setLayout(new BorderLayout());        
+        panel.add(buttonPanel,BorderLayout.CENTER);
+        panel.add(headerPanel,BorderLayout.PAGE_START); 
+        panel.add(b2, BorderLayout.SOUTH); 
+        add(panel);
+        
 	}
 	
-	/**
-	 * As seen in this tutorial: 
-	 * https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch19s06.html#learnjava3-CHP-19-FIG-7
-	 * */
-	public void add_component(Component component,int x , int y) {
-		constraints.gridx = x;
-		constraints.gridy = y;
-		add(component, constraints);
 
-	}
-	
 	
 	/**Create Customer Button Action Listener
 	 * */
