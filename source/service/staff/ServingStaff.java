@@ -26,10 +26,17 @@ public class ServingStaff implements Runnable {
 	public void run() {
 		while (true) {
 			try {
+				
+				System.out.println("Total Orders on Order Queue = "+orderMgr.viewAllOrdersOnQueue().size());
+				
 				order = orderMgr.fetchOrderFromQueue();
-				System.out.println("Queue size = "+orderMgr.viewAllOrdersOnQueue().size());
+				
 				System.out.println("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
 				Thread.sleep(10000);
+				
+				orderMgr.addProcessedOrderToDeliveryQueue(order);
+				
+				System.out.println("Total Processed Orders on Delivery Queue = "+orderMgr.viewAllOrdersOnDeliveryQueue().size());
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			} catch (QueueEmptyException eq) {

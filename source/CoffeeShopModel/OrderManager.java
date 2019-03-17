@@ -33,6 +33,7 @@ import java.util.Set;
 
 import CoffeeShopUtilities.FileManager;
 import queueExceptions.QueueEmptyException;
+import service.queue.DeliveryQueue;
 import service.queue.OrderQueue;
 
 public class OrderManager {
@@ -43,6 +44,7 @@ public class OrderManager {
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
+	DeliveryQueue deliveryQ = new DeliveryQueue();
 
 	
 	public OrderManager() {
@@ -229,4 +231,22 @@ public class OrderManager {
 		return coa;
 	}
 	
+	/**
+	 * 
+	 * Adds a processed order to Delivery Queue.
+	 * 
+	 * */
+	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
+		deliveryQ.enqueue(order);
+	}
+	
+	/**
+	 * 
+	 * View all Customer Orders on Delivery Queue
+	 * 
+	 * */
+	public ArrayList<CustomerOrder> viewAllOrdersOnDeliveryQueue(){
+		ArrayList<CustomerOrder> coaList = deliveryQ.viewAllOrders();
+		return coaList;
+	}
 }
