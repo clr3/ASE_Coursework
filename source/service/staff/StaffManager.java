@@ -1,6 +1,7 @@
 package service.staff;
 
 import CoffeeShopModel.OrderManager;
+import CoffeeShopUtilities.Logger;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -33,6 +34,18 @@ public class StaffManager {
 		// creates and starts a thread for staff Anna
 		Thread tStaff2 = new Thread(new ServingStaff("Staff - Anna Donald", orderManager));
 		tStaff2.start();
+		
+		while (tStaff1.isAlive() && tStaff2.isAlive()) {
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		orderManager.writeReports();
+		Logger.getInstance().log("Order Reports generated! Check file order_summary.csv");
 	
 	}
 	
@@ -51,7 +64,7 @@ public class StaffManager {
 	public void removeAdditionalServingStaff() {
 		// stops thread for staff Liz
 		if (tTempStaff.isAlive()) {
-			tTempStaff.interrupt();
+			tTempStaff.stop();
 		}
 	}
 	

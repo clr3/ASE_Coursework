@@ -11,6 +11,7 @@ package service.staff;
 
 import CoffeeShopModel.CustomerOrder;
 import CoffeeShopModel.OrderManager;
+import CoffeeShopUtilities.Logger;
 import queueExceptions.QueueEmptyException;
 
 public class ServingStaff implements Runnable {
@@ -27,26 +28,22 @@ public class ServingStaff implements Runnable {
 		while (true) {
 			try {
 				
-				System.out.println("Total Orders on Order Queue = "+orderMgr.viewAllOrdersOnQueue().size());
-				
+				// order is picked up from Order queue
 				order = orderMgr.fetchOrderFromQueue();
 				
-				System.out.println("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
-				Thread.sleep(10000);
+				// Processing order is updated
+				orderMgr.updateOrdersUnderProcessingByStaff(staffName, order);			
+				Logger.getInstance().log("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
+				Thread.sleep(60000);
 				
+				// processed order is added to delivery queue
 				orderMgr.addProcessedOrderToDeliveryQueue(order);
 				
-				System.out.println("Total Processed Orders on Delivery Queue = "+orderMgr.viewAllOrdersOnDeliveryQueue().size());
 			} catch (InterruptedException e) {
-				System.out.println(e.getMessage());
+				Logger.getInstance().log(e.getMessage());
 			} catch (QueueEmptyException eq) {
-				System.out.println("No More Orders to process");
-				try {
-					Thread.sleep(10000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Logger.getInstance().log("No More Orders to process - "+staffName+ " signing off");
+				Thread.currentThread().stop();
 			}
 		}
 	}
