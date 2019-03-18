@@ -222,7 +222,7 @@ public class OrderManager {
 	
 	/**
 	 * 
-	 * Returns the priority Customer Order from Queue
+	 * Returns the  Customer Order from Queue
 	 * @throws QueueEmptyException 
 	 * 
 	 * */
