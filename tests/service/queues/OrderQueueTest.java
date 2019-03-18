@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import CoffeeShopModel.CustomerOrder;
-import CoffeeShopModel.FoodCategory;
-import CoffeeShopModel.FoodItem;
+import model.CustomerOrder;
+import model.FoodCategory;
+import model.FoodItem;
 import queueExceptions.QueueEmptyException;
 import service.queue.OrderQueue;
 
