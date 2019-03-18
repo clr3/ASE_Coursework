@@ -5,10 +5,10 @@ import CoffeeShopModel.OrderManager;
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
  * 
- * This class contains the logic for creating multiple servbing staffs in individual threads.
+ * This class contains the logic for creating multiple serving staffs in individual threads.
  * On start up of this class 2 serving staff threads are started.
  * This class also provides methods for adding temporary staff when the workload is more.
- * Remove staff will take this temporary stff off from work
+ * Remove staff will take this temporary stAff off from work
  *
  * 
  * */
@@ -31,7 +31,7 @@ public class StaffManager {
 		tStaff1.start();
 		
 		// creates and starts a thread for staff Anna
-		Thread tStaff2 = new Thread(new ServingStaff("Staff - Anna McLeod", orderManager));
+		Thread tStaff2 = new Thread(new ServingStaff("Staff - Anna Donald", orderManager));
 		tStaff2.start();
 	
 	}

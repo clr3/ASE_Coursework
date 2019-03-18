@@ -46,7 +46,7 @@ public class OrderQueue {
 	}
 
 	/**
-	 * polls a Customer order from the priority queue. If no orders are present in
+	 * polls a Customer order from the queue. If no orders are present in
 	 * the queue the a Queue Empty Exceptions is thrown
 	 */
 	public CustomerOrder dequeue() throws QueueEmptyException {
@@ -62,7 +62,7 @@ public class OrderQueue {
 	}
 
 	/**
-	 * Returns the count of messages in the queue
+	 * Returns all the Customer Orders in the queue
 	 */
 	public ArrayList<CustomerOrder> viewAllOrders() {
 		ArrayList<CustomerOrder> coaList = new ArrayList<CustomerOrder>();
@@ -74,14 +74,14 @@ public class OrderQueue {
 	}
 
 	/**
-	 * Returns the count of messages in the queue
+	 * Returns the count of Customer Orders in the queue
 	 */
 	public int countOrdersInQueue() {
 		return orderQueue.size();
 	}
 
 	/**
-	 * Delete all messages from the queue
+	 * Delete all Customer Orders from the queue
 	 */
 	public void deleteOrdersFromQueue() {
 		orderQueue.clear();

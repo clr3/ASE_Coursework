@@ -29,14 +29,14 @@ class OrderQueueTest {
 		order = new CustomerOrder();
 		order.setCustomerId("CUS100");
 		order.setOrderId("100");
-		order.setPriority(2);
+		order.setPriority(1);
 		FoodItem fItem = new FoodItem("HOT001","Americano", 2.30, "Delicious Dark Coffee", FoodCategory.HOT_BEVERAGE);
 		order.addItem(fItem);
 		
 		order1 = new CustomerOrder();
 		order1.setCustomerId("CUS101");
-		order1.setOrderId("101");
-		order1.setPriority(1);
+		order.setOrderId("101");
+		order.setPriority(1);
 		FoodItem fItem1 = new FoodItem("HOT002","Latte", 2.50, "Latte", FoodCategory.HOT_BEVERAGE);
 		order1.addItem(fItem1);
 		
@@ -69,19 +69,6 @@ class OrderQueueTest {
 	void testEnqueueAll() {
 		oq.enqueueAll(orders);
 		assertEquals(2, oq.countOrdersInQueue());
-	}
-	
-	@Test
-	void testPriority() {
-		oq.enqueueAll(orders);
-		CustomerOrder order = null;
-		try {
-			order = oq.dequeue();
-		} catch (QueueEmptyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		assertEquals("CUS101", order.getCustomerId().toString());
 	}
 
 	@Test
