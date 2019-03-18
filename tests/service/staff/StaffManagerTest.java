@@ -117,15 +117,15 @@ class StaffManagerTest {
 	@Test
 	void testManageServingStaff() {
 		oq.enqueueAll(orders);
-		assertEquals(8, sMgr.orderManager.viewAllOrdersOnQueue().size());
+		assertEquals(8, sMgr.orderManager.getAllOrdersOnOrderQueue().size());
 		sMgr.manageServingStaff();
 		try {
-			Thread.sleep(40100);
+			Thread.sleep(240100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(0, sMgr.orderManager.viewAllOrdersOnQueue().size());
+		assertEquals(0, sMgr.orderManager.getAllOrdersOnOrderQueue().size());
 		
 	}
 

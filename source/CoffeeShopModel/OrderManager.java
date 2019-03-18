@@ -45,6 +45,7 @@ public class OrderManager {
 	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
 	DeliveryQueue deliveryQ = new DeliveryQueue();
+	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
 
 	
 	public OrderManager() {
@@ -212,10 +213,10 @@ public class OrderManager {
 	
 	/**
 	 * 
-	 * View all Customer Orders on Queue
+	 * Get all Customer Orders on Order Queue
 	 * 
 	 * */
-	public ArrayList<CustomerOrder> viewAllOrdersOnQueue(){
+	public ArrayList<CustomerOrder> getAllOrdersOnOrderQueue(){
 		ArrayList<CustomerOrder> coaList = orderQ.viewAllOrders();
 		return coaList;
 	}
@@ -242,11 +243,29 @@ public class OrderManager {
 	
 	/**
 	 * 
-	 * View all Customer Orders on Delivery Queue
+	 * Get all Customer Orders on Delivery Queue
 	 * 
 	 * */
-	public ArrayList<CustomerOrder> viewAllOrdersOnDeliveryQueue(){
+	public ArrayList<CustomerOrder> getAllOrdersOnDeliveryQueue(){
 		ArrayList<CustomerOrder> coaList = deliveryQ.viewAllOrders();
 		return coaList;
+	}
+	
+	/**
+	 * 
+	 * Get all Customer Orders currently processed by staff
+	 * 
+	 * */
+	public HashMap<String, CustomerOrder> getOrdersUnderProcessingByStaff(){
+		return servingStaffMap;
+	}
+	
+	/**
+	 * 
+	 * Update current Orders processing by staff
+	 * 
+	 * */
+	public void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
+		servingStaffMap.put(staffName, order);
 	}
 }
