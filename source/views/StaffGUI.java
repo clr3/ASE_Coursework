@@ -28,9 +28,7 @@ public class StaffGUI {
 	private JPanel workingOrdersPanel = new JPanel();
 	
 	private OrderManager orderManager = OrderManager.getInstance(); 
-	
-	private StaffManager smanager;
-	
+		
 	//private JButton acceptOrder = new JButton("Accept Next Order");
 	/** Start Serving Button will start the threads.
 	 * - Show the Next order being worked on and a timer of how long left there is.
@@ -54,7 +52,6 @@ public class StaffGUI {
 	}
 	
 	 public void createPage() {
-		 	startServe.addActionListener(this.smanager.serveActionListener());
 		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
 	        
@@ -184,13 +181,7 @@ public class StaffGUI {
 	public void addOrderButtonActionLIstener(ActionListener al) {
 		acceptOrder.addActionListener(al);
 	}*/
-	/**
-	 * Might need to be moved to LOG or OM controller
-	 * @throws QueueEmptyException 
-	 * */
-	public CustomerOrder acceptNextOrder() throws QueueEmptyException {
-		return orderManager.acceptNextOrder();
-	}
+
 	
 	/**
 	 * Removes the fooditems panel
@@ -206,6 +197,8 @@ public class StaffGUI {
         s.remove(tempPanel);
     }
 	
-	
+	public void addStartServeActionListener(ActionListener al) {
+		startServe.addActionListener(al);
+	}
 	
 }

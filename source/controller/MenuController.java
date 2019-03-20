@@ -30,7 +30,7 @@ public class MenuController {
 	public MenuGUI menuGUI; 
 
 	private CustomerOrder myOrder;
-	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
+	
 	
 	
 	public MenuController(CustomerOrder o) {
@@ -90,14 +90,15 @@ public class MenuController {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            		
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderGUI, menuGUI);
-            		//When the customergui is closed, the menu is closed as well
-            		if(!orderGUI.isVisible()) {
-            		menuGUI.hideMenuPage();
-            		}
-            	//popUpCustOrder.show_order();
-            	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
+            	CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
+            	orderGUI.getOrder().printOrderInfo();
+            	
+            	//New Customer GUI Controller
+            	//This GUI Controller shows the GUI 
+            	
+            	new CustomerGUIController(orderGUI, menuGUI);
+            	
+            	
              }
         };
 	}

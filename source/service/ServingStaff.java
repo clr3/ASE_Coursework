@@ -6,6 +6,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import model.CustomerOrder;
 import queueExceptions.QueueEmptyException;
 import utilities.Logger;
+/**
+ * Each Service staff member is a new thread
+ * */
+
 
 public class ServingStaff implements Runnable {
 	
@@ -13,8 +17,9 @@ public class ServingStaff implements Runnable {
 	CustomerOrder order;
 	String staffName;
 	AtomicBoolean running;
-	public ServingStaff(String sn, OrderManager om, AtomicBoolean flag) {
-		orderMgr = om;
+	private int servingTime;
+	
+	public ServingStaff(String sn, AtomicBoolean flag) {
 		staffName = sn;
 		running=flag;
 	}
@@ -29,7 +34,7 @@ public class ServingStaff implements Runnable {
 				// Processing order is updated
 				orderMgr.updateOrdersUnderProcessingByStaff(staffName, order);			
 				Logger.getInstance().log("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
-				Thread.sleep(getRandomServerTimer());
+				Thread.sleep(servingTime);
 				
 				// processed order is added to delivery queue
 				//orderMgr.addProcessedOrderToDeliveryQueue(order);
@@ -48,11 +53,16 @@ public class ServingStaff implements Runnable {
 		int low = 1000;
 		int high = 6000;
 		int result = r.nextInt(high-low) + low;
-		return result;
+		servingTime = result;
+		return servingTime;
 	}
 	
 	public void stopThread() {
 		running.set(false);
 		Thread.currentThread().interrupt();
+	}
+	/**This time will be used for the display*/
+	public int getServingTime() {
+		return servingTime;
 	}
 }

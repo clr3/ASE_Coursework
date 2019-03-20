@@ -18,7 +18,7 @@ import utilities.Logger;
  * Remove staff will take this temporary stAff off from work
  *
  *
- *@Edits Cristna Rivera
+ *@Edits Cristina Rivera
  *
  *
  * 
@@ -27,15 +27,25 @@ import utilities.Logger;
 
 public class StaffManager {
 	
+
 	
 	
 	OrderManager orderManager = OrderManager.getInstance();
 	
 	
-	Thread tTempStaff;
 	private final AtomicBoolean t1running = new AtomicBoolean(true);
 	private final AtomicBoolean t2running = new AtomicBoolean(true);
 	private final AtomicBoolean temprunning = new AtomicBoolean(true);
+	/**Create staff members before Starting*/
+	private ServingStaff s1 = new ServingStaff("Joe Green",t1running);
+	private ServingStaff s2 = new ServingStaff("Anna Donald", t2running);
+	private ServingStaff s3 = new ServingStaff("Liz Atkinson",temprunning);
+	/**CreateEmpty Threads Before Starting*/
+	Thread tStaff1;
+	Thread tStaff2;
+	Thread tTempStaff;
+
+	
 	
 	public StaffManager () {	}
 	
@@ -46,11 +56,11 @@ public class StaffManager {
 	public void manageServingStaff() {
 	
 		// creates and starts a thread for staff Joe
-		Thread tStaff1 = new Thread(new ServingStaff("Staff - Joe Green", orderManager, t1running));
+		tStaff1 = new Thread(s1);
 		tStaff1.start();
 		
 		// creates and starts a thread for staff Anna
-		Thread tStaff2 = new Thread(new ServingStaff("Staff - Anna Donald", orderManager,t2running));
+		tStaff2 = new Thread(s2);
 		tStaff2.start();
 		
 		while (t1running.get() && t2running.get()) {
@@ -81,16 +91,16 @@ public class StaffManager {
 	/**
 	 * Add a new staff on an individual thread.
 	 * */
-	public void addAdditionalServingStaff() {
+	public void addAdditionalServingStaff(ServingStaff s) {
 		// creates and starts a thread for staff Liz
-		tTempStaff = new Thread(new ServingStaff("Staff - Liz Atkinson", orderManager,temprunning));
+		tTempStaff = new Thread(s);
 		tTempStaff.start();
 	}
 	
 	/**
 	 * Add a new staff on an individual thread.
 	 * */
-	public void removeAdditionalServingStaff() {
+	public void removeTempServingStaff() {
 		// stops thread for staff Liz
 		if (tTempStaff.isAlive()) {
 			tTempStaff.stop();
