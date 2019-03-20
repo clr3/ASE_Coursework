@@ -2,6 +2,7 @@ package service;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -36,10 +37,16 @@ public class StaffManager {
 	private final AtomicBoolean t1running = new AtomicBoolean(true);
 	private final AtomicBoolean t2running = new AtomicBoolean(true);
 	private final AtomicBoolean temprunning = new AtomicBoolean(true);
-	/**Create staff members before Starting*/
+	/**Create staff members before Starting
+	 * BAD PRACTICE
+	 * make public so they can be accesed
+	 * */
 	private ServingStaff s1 = new ServingStaff("Joe Green",t1running);
 	private ServingStaff s2 = new ServingStaff("Anna Donald", t2running);
 	private ServingStaff s3 = new ServingStaff("Liz Atkinson",temprunning);
+	
+	private ArrayList<ServingStaff> s = new ArrayList<ServingStaff>();
+	
 	/**CreateEmpty Threads Before Starting*/
 	Thread tStaff1;
 	Thread tStaff2;
@@ -47,7 +54,11 @@ public class StaffManager {
 
 	
 	
-	public StaffManager () {	}
+	public StaffManager () {	
+		s.add(s1);
+		s.add(s2);
+		s.add(s3);
+	}
 	
 	/**
 	 * Manage the serving staff. 
@@ -77,14 +88,7 @@ public class StaffManager {
 	}
 	
 	
-	public ActionListener serveActionListener() {
-		return new ActionListener() {
-		        @Override
-		         public void actionPerformed(ActionEvent e) {
-		        	manageServingStaff();
-		         }
-		};
-	}
+	
 	
 	
 	
@@ -105,6 +109,10 @@ public class StaffManager {
 		if (tTempStaff.isAlive()) {
 			tTempStaff.stop();
 		}
+	}
+	
+	public ArrayList<ServingStaff> getStaffList(){
+		return s;
 	}
 	
 }

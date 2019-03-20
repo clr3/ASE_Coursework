@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import model.CustomerOrder;
 import model.FoodItem;
 import queueExceptions.QueueEmptyException;
 import service.OrderManager;
+import service.ServingStaff;
 import service.StaffManager;
 import utilities.Logger;
 
@@ -39,7 +41,9 @@ public class StaffGUI {
 	
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	
-	private ArrayList<CustomerOrder> workingOrders = new ArrayList<CustomerOrder>();
+	private HashMap<String,CustomerOrder> workingOrders = new HashMap<String ,CustomerOrder>();
+	private StaffManager smgr = new StaffManager();
+	private ArrayList<ServingStaff> staffList = smgr.getStaffList();
 	JFrame s = new JFrame();
 
 	
@@ -56,7 +60,7 @@ public class StaffGUI {
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
 	        
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
-	        s.add(workingOrders(),BorderLayout.SOUTH);
+	       // s.add(workingOrders(),BorderLayout.SOUTH);
 	        ordersQueue();
 	        s.setSize(600,400);  
 	        s.setVisible(false); 
@@ -142,25 +146,32 @@ public class StaffGUI {
 	}
 	
 	/**
-	 * Checks the list of working orders and creates a dosplay from it 
+	 * Checks the list of working orders and creates a display from it 
 	 * */
 	private JPanel workingOrds() {
 		JPanel p = new JPanel();
-		int size = workingOrders.size();
+		int size = staffList.size();
 		
 		p.setLayout(new FlowLayout());
-		for(CustomerOrder o: workingOrders) {
-			p.add(oneOrderDisplay(o));
+		
+		if(size == 0) return p; //Will return an empty panel 
+			
+		
+		for(ServingStaff ss: staffList) {
+			CustomerOrder o = workingOrders.get(ss);
+			p.add(oneOrderDisplay(o, ss));
 		}
+		
 		
 		return p;
 		
 	}
-	private JPanel oneOrderDisplay(CustomerOrder o) {
+	private JPanel oneOrderDisplay(CustomerOrder o, ServingStaff s) {
 		JPanel p = new JPanel();
+		//Display Staff Name 
 		
 		//Display Customers Name
-		JLabel orderLabel = new JLabel("Working on order for " + o.getCustomerId() + ": " );
+		JLabel orderLabel = new JLabel(s.getName() +" is working on order for " + o.getCustomerId() + ": " );
 		orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
 		
 		//Display Order items and Total Price 

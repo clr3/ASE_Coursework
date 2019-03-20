@@ -30,6 +30,7 @@ import model.Discount;
 import model.FoodCategory;
 import model.FoodItem;
 import model.Menu;
+import utilities.DateParser;
 
 public class FileManager {
 	
@@ -566,7 +567,7 @@ public class FileManager {
 				file.append(c.getOrderId() + ";");
 				file.append(c.getCustomerId() + ";");
 				file.append(i.getItemID() + ";");
-				file.append(c.getTimestamp().toString()+ "\n");
+				file.append(DateParser.getInstance().getDateAsString(c.getTimestamp())+ "\n");
 			}
 			file.flush();
 			file.close();

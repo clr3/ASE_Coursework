@@ -40,11 +40,11 @@ public class OrderManager {
 	
 	private FileManager fm = new FileManager();
 	Menu menu = Menu.getInstance();
-	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	//private ArrayList<CustomerOrder> ordersForStaffDisplay = new ArrayList<CustomerOrder>();
 	//public StaffGUI staffGui;
 	
 	private DeliveryQueue deliveryQ = new DeliveryQueue(); //Holds the CustomerOrders that are being processed
-	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
+	private  HashMap<ServingStaff ,CustomerOrder> servingStaffMap = new HashMap<ServingStaff ,CustomerOrder>(); 
 
 	
 	//Using the OrderQueue Instead of the HASHMAP of customerOrders
@@ -220,7 +220,7 @@ public class OrderManager {
 		Logger.getInstance().log("Next order processed");
 		System.out.println("Next order processed");
 		
-		CustomerOrder o = fetchOrderFromQueue();
+		CustomerOrder o = fetchOrderFromQueue(); 	//De-queue next CustomreOrder
 		addProcessedOrderToDeliveryQueue(o);
 		orderMap.remove(o.getCustomerId());
 		
@@ -243,7 +243,7 @@ public class OrderManager {
 	 * @throws QueueEmptyException 
 	 * 
 	 * */
-	public synchronized CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
+	private synchronized CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
 		CustomerOrder coa = orderQ.dequeue();
 		//this.staffGui.reRenderQueue();
 		return coa;
@@ -274,7 +274,7 @@ public class OrderManager {
 	 * Get all Customer Orders currently processed by staff
 	 * 
 	 * */
-	public synchronized HashMap<String, CustomerOrder> getOrdersUnderProcessingByStaff(){
+	public synchronized HashMap<ServingStaff, CustomerOrder> getOrdersUnderProcessingByStaff(){
 		return servingStaffMap;
 	}
 	
@@ -282,9 +282,12 @@ public class OrderManager {
 	 * 
 	 * Update current Orders processing by staff
 	 * 
+	 * An Hashmap will be given to do the display
+	 * 
 	 * */
-	public synchronized void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
+	public synchronized void updateOrdersUnderProcessingByStaff(ServingStaff staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
+		//ordersForStaffDisplay.add(order);
 	}
 	/**
 	 * @throws QueueEmptyException 
@@ -294,5 +297,9 @@ public class OrderManager {
 	public synchronized CustomerOrder processNextOrderForDelivery() throws QueueEmptyException {
 		CustomerOrder o = deliveryQ.dequeue();
 		return o;
+	}
+	public synchronized void staffOrderCompleted(String staffName,CustomerOrder o) {
+		servingStaffMap.remove(staffName, o);
+		//ordersForStaffDisplay.remove(o);
 	}
 }

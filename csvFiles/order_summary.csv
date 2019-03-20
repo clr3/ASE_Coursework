@@ -1,8 +1,8 @@
 Food Category, Item Id, Item Name, Order Count
-HOT_BEVERAGE,HOT2,Hot Chocolate,3
-HOT_BEVERAGE,HOT1,Americano,1
-HOT_BEVERAGE,HOT4,Mocha,0
-HOT_BEVERAGE,HOT3,Cappuccino,0
+HOT_BEVERAGE,HOT2,Hot Chocolate,4
+HOT_BEVERAGE,HOT1,Americano,3
+HOT_BEVERAGE,HOT4,Mocha,2
+HOT_BEVERAGE,HOT3,Cappuccino,1
 HOT_BEVERAGE,HOT6,Earl Grey,0
 HOT_BEVERAGE,HOT5,Latte,2
 COLD_BEVERAGE,COLD1,Iced Coffee,0
@@ -16,4 +16,4 @@ MEALS,MEAL2,Chicken Biryani,0
 MEALS,MEAL1,English Breakfast,0
 
 
-Total Order Value = 75.29
+Total Order Value = 89.89
