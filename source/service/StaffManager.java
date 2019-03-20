@@ -15,17 +15,22 @@ import utilities.Logger;
  * This class also provides methods for adding temporary staff when the workload is more.
  * Remove staff will take this temporary stAff off from work
  *
+ *
+ *@Edits Cristna Rivera
+ *
+ *
  * 
  * */
+
+
 public class StaffManager {
-	OrderManager orderManager;
+	OrderManager orderManager = OrderManager.getInstance();
 	Thread tTempStaff;
 	private final AtomicBoolean t1running = new AtomicBoolean(true);
 	private final AtomicBoolean t2running = new AtomicBoolean(true);
 	private final AtomicBoolean temprunning = new AtomicBoolean(true);
-	public StaffManager (OrderManager oMgr) {
-		orderManager = oMgr;
-	}
+	
+	public StaffManager () {	}
 	
 	/**
 	 * Manage the serving staff. 

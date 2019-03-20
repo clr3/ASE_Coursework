@@ -10,10 +10,12 @@ import views.*;
 
 public class CustomerGUIController {
 
+	
+	private OrderManager orderManager = OrderManager.getInstance(); //Used to add the order to the orderManager
+	
+
 	CustomerOrdergui orderGui;
 	CustomerOrder order;
-	OrderManager orderManager; //Used to add the order to the orderManager
-	
 	FoodItem newItem;
 	FoodItem itemToRemove;
 	FoodCategory itemCategory;
@@ -24,10 +26,9 @@ public class CustomerGUIController {
  * 
  * The CustomerOrderGUI sill be shown as soon as this class is created 
  * */	
-public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
+public CustomerGUIController(CustomerOrdergui o) {
 	
 		this.orderGui = o;
-		this.orderManager = om;
 		this.order = orderGui.getOrder();
 		
 		orderGui.show_order();
@@ -40,13 +41,15 @@ public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
 	}
 
 	/**
-	 * When the button is clicked, the Customer Order Should be added to the order manager 
+	 * When the button is clicked, the Customer Order Should be added to the orders Queue
+	 * 
+	 * 
 	 * */
 	public ActionListener AcceptOrder() {
 		return new ActionListener() {
 		        @Override
 		         public void actionPerformed(ActionEvent e) {
-		        	orderManager.submitNewOrder(order.getOrderId(), order);
+		        	orderManager.submitNewOrder(order);
 		        	orderGui.acceptButtonClicked();
 		         }
 		};

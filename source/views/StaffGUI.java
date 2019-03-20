@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import model.CustomerOrder;
 import model.FoodItem;
+import queueExceptions.QueueEmptyException;
 import service.OrderManager;
 import service.StaffManager;
 import utilities.Logger;
@@ -25,23 +26,36 @@ public class StaffGUI {
 	
 	private JPanel ordersQueuePanel = new JPanel();
 	private JPanel workingOrdersPanel = new JPanel();
-	private OrderManager orderManager;
+	
+	private OrderManager orderManager = OrderManager.getInstance(); 
+	
 	private StaffManager smanager;
-	private JButton acceptOrder = new JButton("Accept Next Order");
+	
+	//private JButton acceptOrder = new JButton("Accept Next Order");
+	/** Start Serving Button will start the threads.
+	 * - Show the Next order being worked on and a timer of how long left there is.
+	 *  */
+	
 	private JButton startServe = new JButton("Start Serving");
-	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	
+	
+	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	
 	private ArrayList<CustomerOrder> workingOrders = new ArrayList<CustomerOrder>();
 	JFrame s = new JFrame();
 
-	public StaffGUI(OrderManager o, StaffManager sm) {
-		this.orderManager = o;
-		this.orderManager.staffGui = this;
-		this.smanager = sm;
+	
+/**INITIALIZE StaffGui */
+	public StaffGUI() {
+		//this.orderManager = o;
+		//this.orderManager.staffGui = this;
+		//this.smanager = sm;
 		createPage();
 	}
 	
 	 public void createPage() {
 		 	startServe.addActionListener(this.smanager.serveActionListener());
+		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
 	        
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
@@ -62,7 +76,7 @@ public class StaffGUI {
 	private JPanel acceptOrderButton() {
 		JPanel buttonPanel = new JPanel();
 		
-		buttonPanel.add(acceptOrder);
+		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
 		return buttonPanel;
 	}
@@ -166,16 +180,16 @@ public class StaffGUI {
 		
 		return p;
 	}
-	
+	/*
 	public void addOrderButtonActionLIstener(ActionListener al) {
 		acceptOrder.addActionListener(al);
-	}
+	}*/
 	/**
 	 * Might need to be moved to LOG or OM controller
+	 * @throws QueueEmptyException 
 	 * */
-	public void acceptNextOrder() {
-		this.workingOrders.add(orderManager.acceptNextOrder());
-		 
+	public CustomerOrder acceptNextOrder() throws QueueEmptyException {
+		return orderManager.acceptNextOrder();
 	}
 	
 	/**

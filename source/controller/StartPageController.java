@@ -10,16 +10,31 @@ import service.StaffManager;
 import views.StaffGUI;
 import views.StartPageGUI;
 
+
+/**
+ * 
+ * */
 public class StartPageController {
 
-	private OrderManager om = new OrderManager();
+	
+	/**
+	
+	 *	The following controlls are in this class:
+	 *
+	 *	- Create a new menuGUI, attached to a Customer Order
+	 *	- show StaffGUI
+	 *	- close the program and write OrderHistory
+	 *
+	 * */
+	
+	 /* Singletons and Threads are used by the controllers. 	 */
+	private OrderManager om = OrderManager.getInstance();
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
 	
-	private StaffManager sm = new StaffManager(om);
-	private StaffGUI staff = new StaffGUI(om, sm);
-
+	//private StaffManager sm = new StaffManager();
+	
 	public StartPageController(StartPageGUI p) {
 		
 		this.startPage = p;
@@ -44,9 +59,9 @@ public class StartPageController {
 			String orderNo = Integer.toString(orderNumber++);
 			String cId = Integer.toString(customerID++);
 			
-			CustomerOrder order = new CustomerOrder(orderNo, cId);
+			CustomerOrder order =om.createNewOrder();
 			//Create Menu Controller With new Customer Order
-			MenuController mc = new MenuController(new Menu(true), order,om);
+			MenuController mc = new MenuController(new Menu(true), order);
 			mc.showMenuPage();
 
 		}
@@ -72,7 +87,7 @@ public class StartPageController {
 		public void actionPerformed(ActionEvent e) {
 			//Will show staff view
 			System.out.println("Staff");
-			staff.showStaffView();
+			//staff.showStaffView();
 		}
 		
 	}

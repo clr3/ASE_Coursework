@@ -22,17 +22,19 @@ import views.MenuGUI;
  * OrderManager is not needed in this class once we can use it with the singleton pattern
  * */
 public class MenuController {
+	
+	/*Remember to use the Singletons*/
+	private OrderManager orderMngr = OrderManager.getInstance();
+
 	public MenuGUI menuGUI; 
 	public Menu menu_obj;
 	private CustomerOrder myOrder;
-	private OrderManager orderMan;
 	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
 	
 	
-	public MenuController(Menu menu_obj, CustomerOrder o, OrderManager om) {
+	public MenuController(Menu menu_obj, CustomerOrder o) {
 		this.menu_obj = menu_obj;
 		this.myOrder = o;
-		this.orderMan = om;
 		this.initView(menu_obj);
 	}
 	
@@ -88,7 +90,7 @@ public class MenuController {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan, orderGUI);
+            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderGUI);
             		//When the customergui is closed, the menu is closed as well
             		if(!orderGUI.isVisible()) {
             		menuGUI.hideMenuPage();
