@@ -177,6 +177,9 @@ public class CustomerOrdergui extends JDialog {
 	public void addPlaceNewOrderActionListener(ActionListener al) {
 		accept.addActionListener(al);
 	}
+	public void addBackToMenuActionListener(ActionListener al) {
+		cancel.addActionListener(al);
+	}
 	
 	/**
 	 * Accept Button will become not visible
@@ -190,6 +193,10 @@ public class CustomerOrdergui extends JDialog {
 		JOptionPane.showMessageDialog(this, thankyou, "", JOptionPane.PLAIN_MESSAGE);
 		this.setVisible(false);
 		
+	}
+	
+	public void closeGui() {
+		this.setVisible(false);
 	}
 	
 

@@ -39,7 +39,7 @@ public class OrderManager {
 	
 	
 	private FileManager fm = new FileManager();
-	Menu menu = new Menu(true);
+	Menu menu = Menu.getInstance();
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	//public StaffGUI staffGui;
 	

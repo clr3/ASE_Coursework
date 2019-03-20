@@ -19,9 +19,9 @@ public class StartPageController {
 	
 	/**
 	
-	 *	The following controlls are in this class:
+	 *	The following controls are in this class:
 	 *
-	 *	- Create a new menuGUI, attached to a Customer Order
+	 *	- Create a new menuGUI, attached to a new Customer Order
 	 *	- show StaffGUI
 	 *	- close the program and write OrderHistory
 	 *
@@ -55,12 +55,10 @@ public class StartPageController {
 			// TODO Auto-generated method stub
 			System.out.println("MENU Selected..");
 
-			//Create a New order
-			CustomerOrder order =om.createNewOrder();
-			
 			
 			//Create Menu Controller With new Customer Order
-			MenuController mc = new MenuController(order);
+			MenuController mc = new MenuController(om.createNewOrder());
+
 			mc.showMenuPage();
 
 		}
@@ -79,14 +77,17 @@ public class StartPageController {
 		}
 		
 	}
-	
+	/**
+	 * Show staff GUI
+	 * */
 	public class StaffView implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//Will show staff view
 			System.out.println("Staff");
-			//staff.showStaffView();
+			StaffGUI staff = new StaffGUI();
+			staff.showStaffView();
 		}
 		
 	}

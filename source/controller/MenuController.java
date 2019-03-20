@@ -25,21 +25,21 @@ public class MenuController {
 	
 	/*Remember to use the Singletons*/
 	private OrderManager orderMngr = OrderManager.getInstance();
+	public Menu menu_obj = Menu.getInstance();
 
 	public MenuGUI menuGUI; 
-	public Menu menu_obj = Menu.getInstance();
+
 	private CustomerOrder myOrder;
 	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
 	
 	
 	public MenuController(CustomerOrder o) {
-		this.menu_obj = menu_obj;
 		this.myOrder = o;
-		this.initView(menu_obj);
+		this.initView();
 	}
 	
-	public void initView(Menu menu_obj) {	
-		menuGUI = new MenuGUI(menu_obj, this);
+	public void initView() {	
+		menuGUI = new MenuGUI(this);
 		menuGUI.createPage();
 
 	}
@@ -84,13 +84,14 @@ public class MenuController {
 	 * MenuGUI should not be in charge of adding the oders to the order manager
 	 * 
 	 * It should create a customerOrder
-	 * CustomerOrder will be added to order manager from CustomerOrderGUI
+	 * CustomerOrder will be added to orderManager/file from CustomerOrderGUI
 	 * */
 	public ActionListener orderButtonActionListener() {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderGUI);
+            		
+            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderGUI, menuGUI);
             		//When the customergui is closed, the menu is closed as well
             		if(!orderGUI.isVisible()) {
             		menuGUI.hideMenuPage();
@@ -119,8 +120,10 @@ public class MenuController {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
-        	myOrder.removeItem( menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
-         }
+        	
+        	myOrder.removeItem(menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
+        	
+        }
 	 };
 	}
 	

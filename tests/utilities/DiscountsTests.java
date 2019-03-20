@@ -20,7 +20,7 @@ class DiscountsTests {
 	}
 	@Test
 	void test_addItemToDiscount() {
-		Menu m = new Menu(true);
+		Menu m = Menu.getInstance();
 		
 		d.setDiscountId("COMBO01");
 		d.setOffer_name("Kids Combo");
