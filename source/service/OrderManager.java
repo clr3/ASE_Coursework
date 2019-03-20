@@ -42,13 +42,14 @@ public class OrderManager {
 	Menu menu = new Menu(true);
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	//public StaffGUI staffGui;
-	DeliveryQueue deliveryQ = new DeliveryQueue();
+	
+	//private DeliveryQueue deliveryQ = new DeliveryQueue(); //Holds the CustomerOrders that are being processed
 	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
 
 	
 	//Using the OrderQueue Instead of the HASHMAP of customerOrders
 	private static OrderManager om = new OrderManager();
-	private OrderQueue orderQ = new OrderQueue();
+	private OrderQueue orderQ = new OrderQueue();	//Holds Orders as they are added
 
 	
 	private OrderManager() {
@@ -110,13 +111,14 @@ public class OrderManager {
 	 * 
 	 * 
 	 * @Params null
-	 * @Returns void
+	 * @Returns String with the report for testing
 	 * 
 	 * */
-	public synchronized void writeReports() {
+	public synchronized String writeReports() {
 		String report = generateReports();
 		FileManager fm = new FileManager();
 		fm.writeToFile("order_summary.csv", report);
+		return report;
 	}
 	
 	/**
@@ -208,7 +210,9 @@ public class OrderManager {
 	/**@throws QueueEmptyException 
 	 * @Edits Cristina Rivera
 	 * Created the FileManager at the beginning to manage orders to/from the file.
+	 * 
 	 * Remove Next CutomerOrder From Queue
+	 * Add the order to delivery queue
 	 * Return the next order to be written in the file
 	 * 
 	 * */
@@ -217,7 +221,6 @@ public class OrderManager {
 		System.out.println("Next order processed");
 		
 		CustomerOrder o = fetchOrderFromQueue();
-		
 		//fm.write_Order_toCSV(o);
 		orderMap.remove(o.getCustomerId());
 		
@@ -251,20 +254,20 @@ public class OrderManager {
 	 * 
 	 * Adds a processed order to Delivery Queue.
 	 * 
-	 * */
+	 * *
 	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
 		deliveryQ.enqueue(order);
-	}
+	}*/
 	
 	/**
 	 * 
 	 * Get all Customer Orders on Delivery Queue
 	 * 
-	 * */
+	 * *
 	public synchronized ArrayList<CustomerOrder> getAllOrdersOnDeliveryQueue(){
 		ArrayList<CustomerOrder> coaList = deliveryQ.viewAllOrders();
 		return coaList;
-	}
+	}*/
 	
 	/**
 	 * 

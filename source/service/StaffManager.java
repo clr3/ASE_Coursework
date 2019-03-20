@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import utilities.Logger;
 
 /**
+ * 
+ * THREADS FOR STAFF
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
  * 
  * This class contains the logic for creating multiple serving staffs in individual threads.
@@ -24,7 +26,12 @@ import utilities.Logger;
 
 
 public class StaffManager {
+	
+	
+	
 	OrderManager orderManager = OrderManager.getInstance();
+	
+	
 	Thread tTempStaff;
 	private final AtomicBoolean t1running = new AtomicBoolean(true);
 	private final AtomicBoolean t2running = new AtomicBoolean(true);

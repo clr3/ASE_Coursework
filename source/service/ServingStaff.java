@@ -9,7 +9,7 @@ import utilities.Logger;
 
 public class ServingStaff implements Runnable {
 	
-	OrderManager orderMgr;
+	OrderManager orderMgr = OrderManager.getInstance();
 	CustomerOrder order;
 	String staffName;
 	AtomicBoolean running;
@@ -24,7 +24,7 @@ public class ServingStaff implements Runnable {
 			try {
 				
 				// order is picked up from Order queue
-				order = orderMgr.fetchOrderFromQueue();
+				order = orderMgr.acceptNextOrder();
 				
 				// Processing order is updated
 				orderMgr.updateOrdersUnderProcessingByStaff(staffName, order);			
@@ -32,7 +32,7 @@ public class ServingStaff implements Runnable {
 				Thread.sleep(getRandomServerTimer());
 				
 				// processed order is added to delivery queue
-				orderMgr.addProcessedOrderToDeliveryQueue(order);
+				//orderMgr.addProcessedOrderToDeliveryQueue(order);
 				
 			} catch (InterruptedException e) {
 				Logger.getInstance().log("Thread interupted: "+e.getMessage());

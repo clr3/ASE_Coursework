@@ -95,13 +95,13 @@ class StaffManagerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		oq = new OrderQueue();
-		oMgr = new OrderManager();
-		oMgr.submitNewOrder("100", order);
-		oMgr.submitNewOrder("101", order1);
-		oMgr.submitNewOrder("102", order2);
-		oMgr.submitNewOrder("103", order3);
-		oMgr.submitNewOrder("104", order4);
-		sMgr = new StaffManager(oMgr);
+		oMgr = OrderManager.getInstance();
+		oMgr.submitNewOrder(order);
+		oMgr.submitNewOrder(order1);
+		oMgr.submitNewOrder(order2);
+		oMgr.submitNewOrder(order3);
+		oMgr.submitNewOrder(order4);
+		sMgr = new StaffManager();
 	}
 
 	/**
