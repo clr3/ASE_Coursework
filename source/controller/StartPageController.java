@@ -56,12 +56,11 @@ public class StartPageController {
 			System.out.println("MENU Selected..");
 
 			//Create a New order
-			String orderNo = Integer.toString(orderNumber++);
-			String cId = Integer.toString(customerID++);
-			
 			CustomerOrder order =om.createNewOrder();
+			
+			
 			//Create Menu Controller With new Customer Order
-			MenuController mc = new MenuController(new Menu(true), order);
+			MenuController mc = new MenuController(order);
 			mc.showMenuPage();
 
 		}

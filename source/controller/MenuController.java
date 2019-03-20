@@ -27,12 +27,12 @@ public class MenuController {
 	private OrderManager orderMngr = OrderManager.getInstance();
 
 	public MenuGUI menuGUI; 
-	public Menu menu_obj;
+	public Menu menu_obj = Menu.getInstance();
 	private CustomerOrder myOrder;
 	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
 	
 	
-	public MenuController(Menu menu_obj, CustomerOrder o) {
+	public MenuController(CustomerOrder o) {
 		this.menu_obj = menu_obj;
 		this.myOrder = o;
 		this.initView(menu_obj);
