@@ -43,7 +43,7 @@ public class OrderManager {
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	//public StaffGUI staffGui;
 	
-	//private DeliveryQueue deliveryQ = new DeliveryQueue(); //Holds the CustomerOrders that are being processed
+	private DeliveryQueue deliveryQ = new DeliveryQueue(); //Holds the CustomerOrders that are being processed
 	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
 
 	
@@ -221,7 +221,7 @@ public class OrderManager {
 		System.out.println("Next order processed");
 		
 		CustomerOrder o = fetchOrderFromQueue();
-		//fm.write_Order_toCSV(o);
+		addProcessedOrderToDeliveryQueue(o);
 		orderMap.remove(o.getCustomerId());
 		
 		return o;
@@ -254,20 +254,20 @@ public class OrderManager {
 	 * 
 	 * Adds a processed order to Delivery Queue.
 	 * 
-	 * *
-	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
+	 * */
+	private void addProcessedOrderToDeliveryQueue(CustomerOrder order){
 		deliveryQ.enqueue(order);
-	}*/
+	}
 	
 	/**
 	 * 
 	 * Get all Customer Orders on Delivery Queue
 	 * 
-	 * *
+	 * */
 	public synchronized ArrayList<CustomerOrder> getAllOrdersOnDeliveryQueue(){
 		ArrayList<CustomerOrder> coaList = deliveryQ.viewAllOrders();
 		return coaList;
-	}*/
+	}
 	
 	/**
 	 * 
@@ -285,5 +285,14 @@ public class OrderManager {
 	 * */
 	public synchronized void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
+	}
+	/**
+	 * @throws QueueEmptyException 
+	 * 
+	 * */
+	
+	public synchronized CustomerOrder processNextOrderForDelivery() throws QueueEmptyException {
+		CustomerOrder o = deliveryQ.dequeue();
+		return o;
 	}
 }

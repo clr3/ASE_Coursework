@@ -71,6 +71,37 @@ public class FileManager {
 		inputStream.close();
 		return csv_line_list;
 	}
+	
+	/**
+	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
+	 * @edits Cristina Rivera
+	 * Writes supplied text to file
+	 * 
+	 * @param filename the name of the file to be written to
+	 * @param report the text to be written to the file
+	 */
+	public void writeToFile(String filename, String report) {
+	
+		String file = "csvFiles/"+filename;
+		
+		FileWriter fw;
+		 try {
+		    fw = new FileWriter(file);
+		    fw.write(report);
+		 	fw.close();
+		 }
+		 //message and stop if file not found
+		 catch (FileNotFoundException fnf){
+			 System.out.println(file + " not found ");
+			 System.exit(0);
+		 }
+		 //stack trace here because we don't expect to come here
+		 catch (IOException ioe){
+		    ioe.printStackTrace();
+		    System.exit(1);
+		 }
+	}
+	
 /*----FoodItems and Menu----*/
 	/**
 	 * Create a new food item from a line of text from the csv file
@@ -152,32 +183,7 @@ public class FileManager {
 		file.close();
 	}
 	
-	/**
-	 * @throws IOException 
-	 * @Param Customer Order
-	 * 
-	 * Creates a string per menu item and writes the information to the file
-	 * */
-	public void write_Order_toCSV(CustomerOrder c)  {
-		
-		FileWriter file;
-		try {
-			file = new FileWriter(orderHistoryFile, true);
-			ArrayList<FoodItem> itemsList = c.getOrderItems();
-			
-			for(FoodItem i: itemsList) {
-				file.append(c.getOrderId() + ";");
-				file.append(c.getCustomerId() + ";");
-				file.append(i.getItemID() + ";");
-				file.append(c.getTimestamp().toString()+ "\n");
-			}
-			file.flush();
-			file.close();
-		} catch (IOException e) {
-		System.out.println("There was a problem loading order to the file");
-		}
-		
-	}
+
 	
 	/**
 	 * Creates a HashMap<String, FoodItem> that holds food items 
@@ -352,36 +358,7 @@ public class FileManager {
 		return orderHistories;
 	}
 
-	/**
-	 * @author Sethu Lekshmy<sl1984@hw.ac.uk>
-	 * @edits Cristina Rivera
-	 * Writes supplied text to file
-	 * 
-	 * @param filename the name of the file to be written to
-	 * @param report the text to be written to the file
-	 */
-	public void writeToFile(String filename, String report) {
-	
-		String file = "csvFiles/"+filename;
-		
-		FileWriter fw;
-		 try {
-		    fw = new FileWriter(file);
-		    fw.write(report);
-		 	fw.close();
-		 }
-		 //message and stop if file not found
-		 catch (FileNotFoundException fnf){
-			 System.out.println(file + " not found ");
-			 System.exit(0);
-		 }
-		 //stack trace here because we don't expect to come here
-		 catch (IOException ioe){
-		    ioe.printStackTrace();
-		    System.exit(1);
-		 }
-	}
-	
+
 	/**
 	 * 	
 	 * @author Cristina Rivera
@@ -452,16 +429,20 @@ public class FileManager {
 	 * @Returns ArrayList<CustomerOrder> with customer orders read from the file
 	 * Will return an ArrayList with all valid custmer orders from the file
 	 * 
+	 * Leave the file empty so it can be re-written 
+	 * 
 	 * */
 	private  ArrayList<CustomerOrder> read_orderHistory(String file_name, Menu menu) throws FileNotFoundException{
 				
 		ArrayList<CustomerOrder> orderHistories = new ArrayList<CustomerOrder>();
 		
+		//Read from the file
 		File file = new File(file_name);
 		
 		Scanner inputStream = new Scanner(file);
 		
 		int count = 0;
+		String emptyLine = "\n";
 		
 		while(inputStream.hasNext()) {
 			String data = inputStream.nextLine();
@@ -487,7 +468,8 @@ public class FileManager {
 			count++;
 		}
 		inputStream.close();
-	
+		
+		
 		return orderHistories;
 	}
 	
@@ -566,9 +548,33 @@ public class FileManager {
 		}
 		return fItem;
 	}
-
-
-
+	/**
+	 * @throws IOException 
+	 * @Param Customer Order
+	 * 
+	 * Creates a string per menu item and writes the information to the file
+	 * */
+	public void write_Order_toCSV(CustomerOrder c)  {
+		
+		FileWriter file;
+		
+		try {
+			file = new FileWriter(orderHistoryFile, true);
+			ArrayList<FoodItem> itemsList = c.getOrderItems();
+			
+			for(FoodItem i: itemsList) {
+				file.append(c.getOrderId() + ";");
+				file.append(c.getCustomerId() + ";");
+				file.append(i.getItemID() + ";");
+				file.append(c.getTimestamp().toString()+ "\n");
+			}
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+		System.out.println("There was a problem loading order to the file");
+		}
+		
+	}
 
 
 
