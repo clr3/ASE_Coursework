@@ -1,45 +1,21 @@
 package service;
-import java.awt.List;
-/**
- * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
- * 
- * @CommentsByCristy
- * 
- * in order to manage the orders, I think we need a way to createNeOrders (with an order Number,
- * maybe pass it along from the GUI to submitNewOrder(String orderId, CustomerOrder cusOrder) )
- * 
- *
- * 
- * also I think we need a method to write the order to CSV and remove from the file
- * */
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map.Entry;
 
 import model.CustomerOrder;
 import model.FoodCategory;
 import model.FoodItem;
 import model.Menu;
-
-import java.util.Queue;
-import java.util.Set;
-
 import queueExceptions.QueueEmptyException;
 import service.queue.DeliveryQueue;
 import service.queue.OrderQueue;
+import utilities.Logger;
+import views.StaffGUI;
 
 public class OrderManager {
 	
@@ -49,6 +25,7 @@ public class OrderManager {
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
+	public StaffGUI staffGui;
 	DeliveryQueue deliveryQ = new DeliveryQueue();
 	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
 
@@ -90,6 +67,7 @@ public class OrderManager {
 		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
 		orderQ.enqueue(cusOrder ); // New orders are added to Queuue
+		this.staffGui.reRenderQueue();
 	}
 	
 
@@ -202,7 +180,8 @@ public class OrderManager {
 	 * 
 	 * */
 	public CustomerOrder acceptNextOrder() {
-	
+		Logger.getInstance().log("Next order processed");
+		System.out.println("Next order processed");
 		Iterator<CustomerOrder> ite = ordersForDisplay.iterator();
 		CustomerOrder o = ite.next();
 		
@@ -234,6 +213,7 @@ public class OrderManager {
 	 * */
 	public CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
 		CustomerOrder coa = orderQ.dequeue();
+		this.staffGui.reRenderQueue();
 		return coa;
 	}
 	

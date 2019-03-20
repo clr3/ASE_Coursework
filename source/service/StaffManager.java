@@ -1,5 +1,8 @@
 package service;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import utilities.Logger;
@@ -22,7 +25,6 @@ public class StaffManager {
 	private final AtomicBoolean temprunning = new AtomicBoolean(true);
 	public StaffManager (OrderManager oMgr) {
 		orderManager = oMgr;
-		
 	}
 	
 	/**
@@ -41,7 +43,7 @@ public class StaffManager {
 		
 		while (t1running.get() && t2running.get()) {
 			try {
-				Thread.sleep(60000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -51,6 +53,18 @@ public class StaffManager {
 		Logger.getInstance().log("Order Reports generated! Check file order_summary.csv");
 	
 	}
+	
+	
+	public ActionListener serveActionListener() {
+		return new ActionListener() {
+		        @Override
+		         public void actionPerformed(ActionEvent e) {
+		        	manageServingStaff();
+		         }
+		};
+	}
+	
+	
 	
 	/**
 	 * Add a new staff on an individual thread.

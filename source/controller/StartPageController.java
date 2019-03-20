@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import model.CustomerOrder;
 import model.Menu;
 import service.OrderManager;
-import views.MenuGUI;
+import service.StaffManager;
 import views.StaffGUI;
 import views.StartPageGUI;
 
@@ -17,7 +17,8 @@ public class StartPageController {
 	private int customerID = 0;
 	private StartPageGUI startPage;
 	
-	private StaffGUI staff = new StaffGUI(om);
+	private StaffManager sm = new StaffManager(om);
+	private StaffGUI staff = new StaffGUI(om, sm);
 
 	public StartPageController(StartPageGUI p) {
 		

@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import model.CustomerOrder;
@@ -28,7 +29,7 @@ public class ServingStaff implements Runnable {
 				// Processing order is updated
 				orderMgr.updateOrdersUnderProcessingByStaff(staffName, order);			
 				Logger.getInstance().log("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
-				Thread.sleep(60000);
+				Thread.sleep(getRandomServerTimer());
 				
 				// processed order is added to delivery queue
 				orderMgr.addProcessedOrderToDeliveryQueue(order);
@@ -40,6 +41,14 @@ public class ServingStaff implements Runnable {
 				stopThread();
 			}
 		}
+	}
+	
+	private int getRandomServerTimer() {
+		Random r = new Random();
+		int low = 1000;
+		int high = 6000;
+		int result = r.nextInt(high-low) + low;
+		return result;
 	}
 	
 	public void stopThread() {
