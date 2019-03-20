@@ -26,6 +26,7 @@ public class MenuController {
 	public Menu menu_obj;
 	private CustomerOrder myOrder;
 	private OrderManager orderMan;
+	private CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
 	
 	
 	public MenuController(Menu menu_obj, CustomerOrder o, OrderManager om) {
@@ -87,8 +88,11 @@ public class MenuController {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan,new CustomerOrdergui(myOrder));
-
+            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan, orderGUI);
+            		//When the customergui is closed, the menu is closed as well
+            		if(!orderGUI.isVisible()) {
+            		menuGUI.hideMenuPage();
+            		}
             	//popUpCustOrder.show_order();
             	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
              }
