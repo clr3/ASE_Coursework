@@ -19,6 +19,7 @@ public class TimerGUI{
 	private OrderManager orderManager;
 	private StaffManager smanager;
 	private JFrame f =new JFrame();
+	public HashMap<FoodCategory, JTextField> processTimeInputMapList = new HashMap<FoodCategory, JTextField>();
 
 	public TimerGUI(OrderManager o, StaffManager sm) {
 		this.orderManager = o;
@@ -45,6 +46,7 @@ public class TimerGUI{
 	
 	
     private JPanel createProcessTimePanel() {
+    	processTimeInputMapList.clear();
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout( p, BoxLayout.Y_AXIS));
     	for (HashMap.Entry<FoodCategory, Integer> entry : orderManager.getAllProcessTime().entrySet()) {
@@ -54,8 +56,10 @@ public class TimerGUI{
             JLabel l = new JLabel(key.toString());
             JTextField t = new JTextField(5);
             t.setText(String.valueOf(timeInSec));
+            processTimeInputMapList.put(key, t);
+            
             JButton b = new JButton("Save"); 
-            b.addActionListener(orderManager.processTimeActionListener(key, t));
+            b.addActionListener(orderManager.processTimeActionListener(key));
 
     		JPanel p1 = new JPanel();
     		p1.setLayout(new FlowLayout());
