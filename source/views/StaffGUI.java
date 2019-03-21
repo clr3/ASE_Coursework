@@ -39,7 +39,6 @@ public class StaffGUI {
 	 *  */
 	
 	private JButton startServe = new JButton("Start Serving");
-
 	private JButton processTimeButton = new JButton("Process Timer");
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	
@@ -63,8 +62,8 @@ public class StaffGUI {
 		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
 	        processTimeButton.addActionListener(this.smanager.showTimerPageActionListener(this.orderManager));
-	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
-
+	        
+		 s.add(orderButtons(),BorderLayout.CENTER);  
 	        s.add(workingOrders(),BorderLayout.SOUTH);
 	        //s.add(createProcessTimePanel(),BorderLayout.SOUTH);
 
@@ -82,10 +81,9 @@ public class StaffGUI {
 	 * Button to accept The Next Order from the file Manager
 	 * @Return JPanel containing a button
 	 * */
-	private JPanel acceptOrderButton() {
+	private JPanel orderButtons() {
 		JPanel buttonPanel = new JPanel();
 		
-		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
 		buttonPanel.add(processTimeButton);
 		return buttonPanel;
@@ -219,5 +217,7 @@ public class StaffGUI {
 		startServe.addActionListener(al);
 	}
 	
-
+	public void addProcessTimeActionListener(ActionListener al) {
+		processTimeButton.addActionListener(al);
+	}
 }
