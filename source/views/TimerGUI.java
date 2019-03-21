@@ -2,6 +2,7 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
@@ -11,23 +12,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.StaffGuiController;
 import model.FoodCategory;
 import service.OrderManager;
 import service.StaffManager;
 
 public class TimerGUI{
-	private OrderManager orderManager;
+	private OrderManager orderManager = OrderManager.getInstance();
 	private StaffManager smanager;
 	private JFrame f =new JFrame();
 	public HashMap<FoodCategory, JTextField> processTimeInputMapList = new HashMap<FoodCategory, JTextField>();
-
-	public TimerGUI(OrderManager o, StaffManager sm) {
-		this.orderManager = o;
+	 JButton b = new JButton("Save"); 
+	 
+	private StaffGuiController control;
+	 
+	public TimerGUI(StaffManager sm, StaffGuiController c) {
 		this.smanager = sm;
-		this.orderManager.timerPage = this;
+		//this.control = c;
+		//this.orderManager.timerPage = this;
 		createPage();
 	}
 	
+	public TimerGUI getPage() {
+		return this;
+	}
     public void createPage() {
         JPanel jp = new JPanel();
         jp.add(createProcessTimePanel());
@@ -58,8 +66,8 @@ public class TimerGUI{
             t.setText(String.valueOf(timeInSec));
             processTimeInputMapList.put(key, t);
             
-            JButton b = new JButton("Save"); 
-            b.addActionListener(orderManager.processTimeActionListener(key));
+           
+            b.addActionListener(control.processTimeActionListener(key));
 
     		JPanel p1 = new JPanel();
     		p1.setLayout(new FlowLayout());
@@ -75,4 +83,7 @@ public class TimerGUI{
     	f.setVisible(true);
     }
 
+    public void addSaveActionListener(ActionListener al) {
+		b.addActionListener(al);
+	}
 }

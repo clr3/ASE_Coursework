@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import model.FoodCategory;
 import service.OrderManager;
 import service.StaffManager;
-import service.TimerGUI;
 import views.StaffGUI;
+import views.TimerGUI;
 
 /**
  * @After StaffGUI is opened
@@ -60,7 +60,8 @@ public class StaffGuiController {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	om.setProcessTime(timerPage, category);
+	        	om.setTimerGui(timerPage);
+	        	om.setProcessTime(category);
 	         }
 	    };
 	}

@@ -264,6 +264,7 @@ public class StaffGUI {
 	public void updateStaffView() {		
 		reRenderQueue();
 		workingOrders();	
+	}
 		
 	
 }

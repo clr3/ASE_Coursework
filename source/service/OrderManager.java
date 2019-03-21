@@ -50,7 +50,8 @@ public class OrderManager {
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 
 	public StaffGUI staffGui;
-	public TimerGUI timerPage;System.out.println(ss.getName() + " is procesing :" + o.getOrderId());
+	public TimerGUI timerPage;
+
 			
 
 	//private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
@@ -69,7 +70,6 @@ public class OrderManager {
 	private static OrderManager om = new OrderManager();
 	private OrderQueue orderQ = new OrderQueue();	//Holds Orders as they are added
 	
-	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
 
 	private OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
@@ -79,8 +79,8 @@ public class OrderManager {
 			preparePastOrdersList();
 		
 	}
-	public void setTimerGui(TimerGUI t){
-		this.timerPage = t;
+	public void setTimerGui(views.TimerGUI timerPage2){
+		this.timerPage = timerPage2;
 	}
 	
 	public static OrderManager getInstance() {

@@ -7,7 +7,6 @@ import model.CustomerOrder;
 import model.Menu;
 import service.OrderManager;
 import service.StaffManager;
-import service.TimerGUI;
 import views.StaffGUI;
 import views.StartPageGUI;
 import views.TimerGUI;
@@ -34,11 +33,14 @@ public class StartPageController {
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
+	private StaffManager sm = new StaffManager();
+	private StaffGuiController control = new StaffGuiController();
 	
 
 	//private StaffManager sm = new StaffManager(om);
-	private TimerGUI timerGui = new TimerGUI(om, sm);
-	private StaffGUI staff = new StaffGUI(om, sm, timerGui);
+	private TimerGUI timerGui = new TimerGUI(sm, control);
+	private StaffGUI staff = new StaffGUI(sm);
+	
 
 
 	public StartPageController(StartPageGUI p) {
@@ -47,6 +49,8 @@ public class StartPageController {
 		startPage.setCustomerButtonActionListener(new NewOrder());
 		startPage.addExitActionListener(new WriteReport());
 		startPage.addStaffActionListener(new StaffView());
+		//Set the TimerGUI at the begining
+		om.setTimerGui(timerGui);
 
 	}
 	
@@ -93,8 +97,7 @@ public class StartPageController {
 			//Will show staff view
 			System.out.println("Staff");
 			
-			StaffGuiController c = new StaffGuiController();
-			c.getGUI().showStaffView();
+			control.getGUI().showStaffView();
 			//StaffGUI staff = new StaffGUI();
 			//staff.showStaffView();
 		}
