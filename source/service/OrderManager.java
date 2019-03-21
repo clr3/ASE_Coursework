@@ -8,8 +8,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import javax.swing.JTextField;
+import java.util.concurrent.ConcurrentHashMap;
 
 import model.CustomerOrder;
 import model.FoodCategory;
@@ -33,7 +32,7 @@ public class OrderManager {
 	public StaffGUI staffGui;
 	public TimerGUI timerPage;
 	DeliveryQueue deliveryQ = new DeliveryQueue();
-	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
+	private  ConcurrentHashMap<String ,CustomerOrder> servingStaffMap = new ConcurrentHashMap<String ,CustomerOrder>(); 
 	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
 	
 	public OrderManager() {
@@ -246,7 +245,7 @@ public class OrderManager {
 	 * Get all Customer Orders currently processed by staff
 	 * 
 	 * */
-	public HashMap<String, CustomerOrder> getOrdersUnderProcessingByStaff(){
+	public ConcurrentHashMap<String, CustomerOrder> getOrdersUnderProcessingByStaff(){
 		return servingStaffMap;
 	}
 	
@@ -257,6 +256,7 @@ public class OrderManager {
 	 * */
 	public void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
+		staffGui.reRenderQueue();
 	}
 	
 	private void setDefaultProcessTime() {
