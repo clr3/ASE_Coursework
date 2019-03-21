@@ -2,10 +2,10 @@ package service;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import utilities.Logger;
+import views.TimerGUI;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -58,14 +58,20 @@ public class StaffManager {
 	public ActionListener serveActionListener() {
 		return new ActionListener() {
 		        @Override
-		         public void actionPerformed(ActionEvent e) {
-		        	manageServingStaff();
-		         }
-		};
-	}
-	
-	
-	
+				public void actionPerformed(ActionEvent e) {
+					new Thread() {
+						public void run() {
+							try {
+								manageServingStaff();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+						}
+					}.start();
+		        }
+		    };
+		}
 	/**
 	 * Add a new staff on an individual thread.
 	 * */
@@ -84,5 +90,17 @@ public class StaffManager {
 			tTempStaff.stop();
 		}
 	}
+	
+	public ActionListener showTimerPageActionListener(OrderManager om) {
+		return new ActionListener() {
+	        @Override
+	         public void actionPerformed(ActionEvent e) {
+	        	om.timerPage.showTimerPage();
+	         }
+	    };
+	}
+	
+	
+	
 	
 }
