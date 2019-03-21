@@ -33,18 +33,25 @@ public class Menu {
 
 	private int enum_no=5;
 	
+	private static Menu m = new Menu(true);
+	
     /** 
      * Constructor for Menu Class
      * 
      */
-	public Menu(Boolean createFromFile) {		
+	private Menu(Boolean createFromFile) {		
 		if(createFromFile) {importMenuData();}		
 	}
 	
-	public Menu() {
+	private Menu() {
 		
 	}
-	
+	/**
+	 * Returns Menu created fromCSV file
+	 * */
+	public static Menu getInstance() {
+		return m;
+	}
 
 	/**
 	 * Constructor for Menu Class

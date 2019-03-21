@@ -20,7 +20,9 @@ import javax.swing.SwingConstants;
 import model.CustomerOrder;
 import model.FoodCategory;
 import model.FoodItem;
+import queueExceptions.QueueEmptyException;
 import service.OrderManager;
+import service.ServingStaff;
 import service.StaffManager;
 import utilities.Logger;
 
@@ -28,32 +30,44 @@ public class StaffGUI {
 	
 	private JPanel ordersQueuePanel = new JPanel();
 	private JPanel workingOrdersPanel = new JPanel();
-	private OrderManager orderManager;
-	private StaffManager smanager;
-	private JButton acceptOrder = new JButton("Accept Next Order");
+	
+	private OrderManager orderManager = OrderManager.getInstance(); 
+		
+	//private JButton acceptOrder = new JButton("Accept Next Order");
+	/** Start Serving Button will start the threads.
+	 * - Show the Next order being worked on and a timer of how long left there is.
+	 *  */
+	
 	private JButton startServe = new JButton("Start Serving");
-	private JButton processTimeButton = new JButton("Process Timer");
 
-	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
-	private ArrayList<CustomerOrder> workingOrders = new ArrayList<CustomerOrder>();
+	private JButton processTimeButton = new JButton("Process Timer");
+	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	
+	private HashMap<String,CustomerOrder> workingOrders = new HashMap<String ,CustomerOrder>();
+	private StaffManager smgr = new StaffManager();
+	private ArrayList<ServingStaff> staffList = smgr.getStaffList();
+
 	JFrame s = new JFrame();
 	private TimerGUI timeGui;
 
-	public StaffGUI(OrderManager o, StaffManager sm, TimerGUI timerGui) {
-		this.orderManager = o;
-		this.orderManager.staffGui = this;
-		this.smanager = sm;
+  
+/**INITIALIZE StaffGui */
+	public StaffGUI( TimerGUI timerGui) {
+		
 		this.timeGui = timerGui;
+
 		createPage();
 	}
 	
 	 public void createPage() {
-		 	startServe.addActionListener(this.smanager.serveActionListener());
+		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
 	        processTimeButton.addActionListener(this.smanager.showTimerPageActionListener(this.orderManager));
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
+
 	        s.add(workingOrders(),BorderLayout.SOUTH);
 	        //s.add(createProcessTimePanel(),BorderLayout.SOUTH);
+
 	        ordersQueue();
 	       // s.add(comp)
 	        s.setSize(600,400);  
@@ -71,7 +85,7 @@ public class StaffGUI {
 	private JPanel acceptOrderButton() {
 		JPanel buttonPanel = new JPanel();
 		
-		buttonPanel.add(acceptOrder);
+		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
 		buttonPanel.add(processTimeButton);
 		return buttonPanel;
@@ -138,25 +152,32 @@ public class StaffGUI {
 	}
 	
 	/**
-	 * Checks the list of working orders and creates a dosplay from it 
+	 * Checks the list of working orders and creates a display from it 
 	 * */
 	private JPanel workingOrds() {
 		JPanel p = new JPanel();
-		int size = workingOrders.size();
+		int size = staffList.size();
 		
 		p.setLayout(new FlowLayout());
-		for(CustomerOrder o: workingOrders) {
-			p.add(oneOrderDisplay(o));
+		
+		if(size == 0) return p; //Will return an empty panel 
+			
+		
+		for(ServingStaff ss: staffList) {
+			CustomerOrder o = workingOrders.get(ss);
+			p.add(oneOrderDisplay(o, ss));
 		}
+		
 		
 		return p;
 		
 	}
-	private JPanel oneOrderDisplay(CustomerOrder o) {
+	private JPanel oneOrderDisplay(CustomerOrder o, ServingStaff s) {
 		JPanel p = new JPanel();
+		//Display Staff Name 
 		
 		//Display Customers Name
-		JLabel orderLabel = new JLabel("Working on order for " + o.getCustomerId() + ": " );
+		JLabel orderLabel = new JLabel(s.getName() +" is working on order for " + o.getCustomerId() + ": " );
 		orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
 		
 		//Display Order items and Total Price 
@@ -173,17 +194,11 @@ public class StaffGUI {
 		
 		return p;
 	}
-	
+	/*
 	public void addOrderButtonActionLIstener(ActionListener al) {
 		acceptOrder.addActionListener(al);
-	}
-	/**
-	 * Might need to be moved to LOG or OM controller
-	 * */
-	public void acceptNextOrder() {
-		this.workingOrders.add(orderManager.acceptNextOrder());
-		 
-	}
+	}*/
+
 	
 	/**
 	 * Removes the fooditems panel
@@ -198,4 +213,11 @@ public class StaffGUI {
         tempPanel.repaint();
         s.remove(tempPanel);
     }
+
+	
+	public void addStartServeActionListener(ActionListener al) {
+		startServe.addActionListener(al);
+	}
+	
+
 }

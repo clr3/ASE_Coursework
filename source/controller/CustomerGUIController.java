@@ -5,14 +5,30 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import model.*;
+import service.FileManager;
 import service.OrderManager;
 import views.*;
 
+/***
+ * 
+ * The following controls are in this class:
+ * 
+ * 
+ * 	- Accept the order and add it to the csvfile aswell as the CustomerOrders Queue 
+ *	- Close Menu once the order has been made
+ *
+ */
+
 public class CustomerGUIController {
 
-	CustomerOrdergui orderGui;
+	
+	private OrderManager orderManager = OrderManager.getInstance(); //Used to add the order to the orderManager
+	
+
+	CustomerOrdergui orderGui; //Is attached to a CustomrOrder
+	MenuGUI menuGui;
+	
 	CustomerOrder order;
-	OrderManager orderManager; //Used to add the order to the orderManager
 	
 	FoodItem newItem;
 	FoodItem itemToRemove;
@@ -24,63 +40,50 @@ public class CustomerGUIController {
  * 
  * The CustomerOrderGUI sill be shown as soon as this class is created 
  * */	
-public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
+	public CustomerGUIController(CustomerOrdergui o, MenuGUI m) {
 	
 		this.orderGui = o;
-		this.orderManager = om;
+		this.menuGui = m;
 		this.order = orderGui.getOrder();
 		
 		orderGui.show_order();
 		
-		
-		o.addPlaceNewOrderActionListener(AcceptOrder());
-		
-	
+		orderGui.addPlaceNewOrderActionListener(AcceptOrder());
+		orderGui.addBackToMenuActionListener(CancelOrder());
 		
 	}
 
 	/**
-	 * When the button is clicked, the Customer Order Should be added to the order manager 
+	 * When the button is clicked, 
+	 * -the Customer Order Should be added to the orders Queue
+	 * -Show Message for accepting the order
+	 * -Add order to csv file
+	 * 
 	 * */
 	public ActionListener AcceptOrder() {
 		return new ActionListener() {
 		        @Override
 		         public void actionPerformed(ActionEvent e) {
-		        	orderManager.submitNewOrder(order.getOrderId(), order);
+		        	FileManager writer = new FileManager();
+		        	orderManager.submitNewOrder(order);
+		        	writer.write_Order_toCSV(order);
 		        	orderGui.acceptButtonClicked();
+		        	menuGui.hideMenuPage();
 		         }
 		};
 	}
-
-	/**Remove Item from the Order
-	 * Update the display to show the new prices and amounts
-	 * 
-	public class RemoveItem implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.removeItem(itemToRemove);
-				System.out.println("+" + itemToRemove.getName());
-
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
-	}*/
-
-	/**Remove All Items from the Order
-	public class ResetOrder implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.clearOrder();
-				System.out.println("Reset");
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
+	
+	/**
+	 * When the button is clicked, 
+	 * -Close CustomerOrderGui, go back to menu
+	 *
+	 * */
+	public ActionListener CancelOrder() {
+		return new ActionListener() {
+		        @Override
+		         public void actionPerformed(ActionEvent e) {
+		        	orderGui.closeGui();
+		         }
+		};
 	}
-	*/
 }

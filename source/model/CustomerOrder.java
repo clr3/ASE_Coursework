@@ -234,4 +234,11 @@ public class CustomerOrder {
 	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
+	
+	public void printOrderInfo() {
+		System.out.println("OrderID: "+this.orderId +" \n");
+		System.out.println("CustomerID: "+this.customerId +" \n");
+		System.out.println("Items #: " +this.totalItemsCount() +" \n");
+
+	}
 }
