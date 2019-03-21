@@ -16,9 +16,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.CustomerOrder;
+import model.FoodCategory;
 import model.FoodItem;
 import queueExceptions.QueueEmptyException;
 import service.OrderManager;
@@ -48,8 +50,9 @@ public class StaffGUI {
 	private StaffManager smgr;
 	private ArrayList<ServingStaff> staffList;
 	JFrame s = new JFrame();
+	private TimerGUI timeGui;	//REmember to initialize
 
-	
+  
 /**INITIALIZE StaffGui */
 	public StaffGUI(StaffManager sm) {
 		//this.orderManager = o;
@@ -93,7 +96,6 @@ public class StaffGUI {
 	}
 	
 	public synchronized void reRenderQueue() {
-		Logger.getInstance().log("re render queue");
 		ordersQueue();
 	}
 
@@ -105,7 +107,6 @@ public class StaffGUI {
 	private synchronized void ordersQueue() {
 		removePanel(ordersQueuePanel);
 		ordersQueuePanel = new JPanel();
-		Logger.getInstance().log(" "+orderManager.getAllOrdersOnOrderQueue().size());
 		s.revalidate();
         s.repaint();
 		ordersQueuePanel.setLayout(new BoxLayout(ordersQueuePanel, BoxLayout.Y_AXIS));
@@ -137,7 +138,6 @@ public class StaffGUI {
 		ordersQueuePanel.setVisible(true);
         s.add(ordersQueuePanel,BorderLayout.NORTH); 
         s.revalidate();
-		Logger.getInstance().log(" painted");
 	}
 	
 	/**In this case, a single member of staff
@@ -235,6 +235,7 @@ public class StaffGUI {
         tempPanel.repaint();
         s.remove(tempPanel);
     }
+
 	
 	public void addStartServeActionListener(ActionListener al) {
 		startServe.addActionListener(al);
@@ -264,5 +265,5 @@ public class StaffGUI {
 		reRenderQueue();
 		workingOrders();	
 		
-	}
+	
 }

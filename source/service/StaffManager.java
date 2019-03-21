@@ -2,6 +2,7 @@ package service;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -110,6 +111,9 @@ public class StaffManager {
 		}
 	}
 	
+
+	
+
 	public ArrayList<ServingStaff> getStaffList(){
 		return s;
 	}
@@ -122,4 +126,5 @@ public class StaffManager {
 		s3.addStaffDislplay(view);
 	}
 	
+
 }
