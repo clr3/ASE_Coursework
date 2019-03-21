@@ -77,17 +77,12 @@ public class StartPageGUI extends JPanel{
         headerPanel.add(wIcon);
         headerPanel.add(b1);
         
-        JLabel b2=new JLabel("Copyright @ HW");;  
-          
-      
-        JPanel panel = new JPanel();
-        panel.setSize(600,600);
-        panel.setLayout(new BorderLayout());        
-        panel.add(buttonPanel,BorderLayout.CENTER);
-        panel.add(headerPanel,BorderLayout.PAGE_START); 
-        panel.add(b2, BorderLayout.SOUTH); 
-        add(panel);
-        
+        JButton b2=new JButton("Copyright @ HW");;  
+
+        this.setLayout(new BorderLayout());        
+        this.add(buttonPanel,BorderLayout.CENTER);
+        this.add(headerPanel,BorderLayout.PAGE_START); 
+        this.add(b2, BorderLayout.SOUTH); 
 	}
 	
 

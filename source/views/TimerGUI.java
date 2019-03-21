@@ -14,7 +14,11 @@ import javax.swing.JTextField;
 import model.FoodCategory;
 import service.OrderManager;
 import service.StaffManager;
-
+/**
+* Timer GUI class for Coffee Shop
+*
+* @author  Arthidevi Balavignesh
+*/
 public class TimerGUI{
 	private OrderManager orderManager;
 	private StaffManager smanager;
@@ -39,7 +43,7 @@ public class TimerGUI{
         //f.add(jp,BorderLayout.WEST);  
         f.add(jp,BorderLayout.CENTER);  
 
-        f.setSize(600,600);  
+        f.setSize(400,400);  
         f.setVisible(false); 
         f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
     }
