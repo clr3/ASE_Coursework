@@ -45,6 +45,7 @@ public class CustomerOrdergui extends JDialog {
 
 
 	public CustomerOrdergui(CustomerOrder c) {
+		
 		this.order= c;
 		totalCost = new BigDecimal(0);
 		itemInformation = "";
@@ -103,7 +104,6 @@ public class CustomerOrdergui extends JDialog {
 		ordersPanel = new JPanel();
 		
 		
-		ArrayList<FoodItem> items = order.getOrderItems();
 		
 		ordersPanel.setLayout(new BoxLayout(ordersPanel, BoxLayout.X_AXIS));
 			
@@ -116,9 +116,12 @@ public class CustomerOrdergui extends JDialog {
 		
 		ordersPanel.setBackground(Color.LIGHT_GRAY);
 		
-		if(items.isEmpty()) {
+		//If the order is empty, this will happen
+		if(order.totalItemsCount() == 0) {
 			food.add(new JLabel("Nothing Added to the Cart Yet..."));
 		}else{
+			ArrayList<FoodItem> items = order.getOrderItems();
+
 			for(FoodItem item: items) {
 		
 				food.add(new JLabel(item.getName()));
@@ -177,23 +180,26 @@ public class CustomerOrdergui extends JDialog {
 	public void addPlaceNewOrderActionListener(ActionListener al) {
 		accept.addActionListener(al);
 	}
+	public void addBackToMenuActionListener(ActionListener al) {
+		cancel.addActionListener(al);
+	}
 	
 	/**
 	 * Accept Button will become not visible
 	 * 
-	 * JDialog messahe should change to say: Thank you for your order.
+	 * JDialog message should change to say: Thank you for your order.
 	 * */
 	public void acceptButtonClicked() {
 		accept.setVisible(false);
-		
-		JPanel mainPanel = (JPanel) getContentPane();
-		
-		mainPanel.removeAll();
-		
 		JLabel thankyou = new JLabel("Thank you for your Order");
+
+		JOptionPane.showMessageDialog(this, thankyou, "", JOptionPane.PLAIN_MESSAGE);
+		this.setVisible(false);
 		
-		setLayout(new BorderLayout());
-		add(thankyou, BorderLayout.PAGE_START);
+	}
+	
+	public void closeGui() {
+		this.setVisible(false);
 	}
 	
 

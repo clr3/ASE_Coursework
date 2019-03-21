@@ -12,6 +12,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import model.CustomerOrder;
 import queueExceptions.QueueEmptyException;
+import utilities.Logger;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -35,6 +36,7 @@ public class OrderQueue {
 	 * Adds a Customer Order to the queue
 	 */
 	public void enqueue(CustomerOrder order) {
+		Logger.getInstance().log("Customer order added to Queue");
 		orderQueue.add(order);
 	}
 
@@ -42,6 +44,7 @@ public class OrderQueue {
 	 * Adds a list of Customer Order to the queue
 	 */
 	public void enqueueAll(List<CustomerOrder> orders) {
+		Logger.getInstance().log("All customer orders added to Queue");
 		orderQueue.addAll(orders);
 	}
 
@@ -50,7 +53,7 @@ public class OrderQueue {
 	 * the queue the a Queue Empty Exceptions is thrown
 	 */
 	public CustomerOrder dequeue() throws QueueEmptyException {
-
+		Logger.getInstance().log("Customer order Dequeued");
 		CustomerOrder order = null;
 		order = orderQueue.poll();
 		if (null != order) {
@@ -84,6 +87,7 @@ public class OrderQueue {
 	 * Delete all Customer Orders from the queue
 	 */
 	public void deleteOrdersFromQueue() {
+		Logger.getInstance().log("Delete all customer orders from queue");
 		orderQueue.clear();
 	}
 

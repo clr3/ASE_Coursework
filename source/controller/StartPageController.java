@@ -6,18 +6,39 @@ import java.awt.event.ActionListener;
 import model.CustomerOrder;
 import model.Menu;
 import service.OrderManager;
-import views.MenuGUI;
+import service.StaffManager;
 import views.StaffGUI;
 import views.StartPageGUI;
+import views.TimerGUI;
 
+
+/**
+ * 
+ * */
 public class StartPageController {
 
-	private OrderManager om = new OrderManager();
+	
+	/**
+	
+	 *	The following controls are in this class:
+	 *
+	 *	- Create a new menuGUI, attached to a new Customer Order
+	 *	- show StaffGUI
+	 *	- close the program and write OrderHistory
+	 *
+	 * */
+	
+	 /* Singletons and Threads are used by the controllers. 	 */
+	private OrderManager om = OrderManager.getInstance();
 	private int orderNumber = 0;
 	private int customerID = 0;
 	private StartPageGUI startPage;
 	
-	private StaffGUI staff = new StaffGUI(om);
+
+	//private StaffManager sm = new StaffManager(om);
+	private TimerGUI timerGui = new TimerGUI(om, sm);
+	private StaffGUI staff = new StaffGUI(om, sm, timerGui);
+
 
 	public StartPageController(StartPageGUI p) {
 		
@@ -39,13 +60,10 @@ public class StartPageController {
 			// TODO Auto-generated method stub
 			System.out.println("MENU Selected..");
 
-			//Create a New order
-			String orderNo = Integer.toString(orderNumber++);
-			String cId = Integer.toString(customerID++);
 			
-			CustomerOrder order = new CustomerOrder(orderNo, cId);
 			//Create Menu Controller With new Customer Order
-			MenuController mc = new MenuController(new Menu(true), order,om);
+			MenuController mc = new MenuController(om.createNewOrder());
+
 			mc.showMenuPage();
 
 		}
@@ -64,13 +82,16 @@ public class StartPageController {
 		}
 		
 	}
-	
+	/**
+	 * Show staff GUI
+	 * */
 	public class StaffView implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//Will show staff view
 			System.out.println("Staff");
+			StaffGUI staff = new StaffGUI();
 			staff.showStaffView();
 		}
 		

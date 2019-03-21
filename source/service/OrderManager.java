@@ -1,95 +1,120 @@
 package service;
-import java.awt.List;
-/**
- * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
- * 
- * @CommentsByCristy
- * 
- * in order to manage the orders, I think we need a way to createNeOrders (with an order Number,
- * maybe pass it along from the GUI to submitNewOrder(String orderId, CustomerOrder cusOrder) )
- * 
- *
- * 
- * also I think we need a method to write the order to CSV and remove from the file
- * */
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map.Entry;
+
+import javax.swing.JTextField;
 
 import model.CustomerOrder;
 import model.FoodCategory;
 import model.FoodItem;
 import model.Menu;
-
-import java.util.Queue;
-import java.util.Set;
-
 import queueExceptions.QueueEmptyException;
 import service.queue.DeliveryQueue;
 import service.queue.OrderQueue;
+import utilities.Logger;
+import views.StaffGUI;
+import views.TimerGUI;
 
+/**@Edits Cristina Rivera
+ * Singleton Pattern in OrderManager 
+ * Synchronized 
+ * */
+/**
+ * Creates a queue from the past orders stored in the csv file.
+ * 
+ * Allows to add and remove items from the queue.
+ * 
+ * NO GUIs should be connected to this class
+ * 
+ * */
 public class OrderManager {
 	
-	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
-	private FileManager fm = new FileManager();
-	Menu menu = new Menu(true);
-	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
-	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
-	DeliveryQueue deliveryQ = new DeliveryQueue();
-	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
+	int newCustomerOrderCount = 100;
 
 	
-	public OrderManager() {
+	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
+	
+	
+	private FileManager fm = new FileManager();
+
+	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
+	int newCustomerCount = 100;
+	public StaffGUI staffGui;
+	public TimerGUI timerPage;
+	//private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
+	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
+
+	Menu menu = Menu.getInstance();
+	//private ArrayList<CustomerOrder> ordersForStaffDisplay = new ArrayList<CustomerOrder>();
+	//public StaffGUI staffGui;
+	
+	private DeliveryQueue deliveryQ = new DeliveryQueue(); //Holds the CustomerOrders that are being processed
+	private  HashMap<ServingStaff ,CustomerOrder> servingStaffMap = new HashMap<ServingStaff ,CustomerOrder>(); 
+
+
+	
+	//Using the OrderQueue Instead of the HASHMAP of customerOrders
+	private static OrderManager om = new OrderManager();
+	private OrderQueue orderQ = new OrderQueue();	//Holds Orders as they are added
+
+	
+	private OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
 		//THe FileManager is in charge of reading the files and returning the according data structure
-		
+			setDefaultProcessTime();
 			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
 			preparePastOrdersList();
 		
 	}
 	
+	public static OrderManager getInstance() {
+		
+		return om;
+	}
 	/**
 	 * Adds the past orders to the list the staff will be able to view
 	 * */
-	private void preparePastOrdersList() {
+	private synchronized void preparePastOrdersList() {
 		
 		for(CustomerOrder o: orderMap.values()) {
-			this.ordersForDisplay.add(o);
 			orderQ.enqueue(o); // Existing orders are added to Queue
 			
 		}
 	}
-
+/**
+ * @Return CustomerOrder with a new CustomerID and orderID.
+ * 
+ * This can be used with the menu to add and remove items before adding to the queue
+ * */
+	public CustomerOrder createNewOrder() {
+		CustomerOrder o = new CustomerOrder();
+		o.setCustomerId("NEW"+newCustomerCount++); // New Customer ID created
+		o.setOrderId("ID"+newCustomerOrderCount++); //create an order id
+		return o;
+	}
 
 	/**
 	 * 
-	 * This method adds a new Customer adder to the existing Order Map
-	 * 
+	 * This method adds a new CustomerOrder to the end of the queue
 	 * 
 	 * @Params String orderId, CustomerOrder cusOrder
 	 * @Returns void
 	 * 
 	 * */
-	public void submitNewOrder(String orderId, CustomerOrder customerOrder) {
+	public synchronized void submitNewOrder(CustomerOrder customerOrder) {
+		
 		CustomerOrder cusOrder = customerOrder;
-		cusOrder.setCustomerId("NEW"+newCustomerCount++); // New Customer ID created
-		ordersForDisplay.add(cusOrder);
-		orderMap.put(orderId, cusOrder);
+		orderMap.put(cusOrder.getOrderId(), cusOrder);
 		orderQ.enqueue(cusOrder ); // New orders are added to Queuue
+		//this.staffGui.reRenderQueue();
 	}
 	
 
@@ -100,13 +125,14 @@ public class OrderManager {
 	 * 
 	 * 
 	 * @Params null
-	 * @Returns void
+	 * @Returns String with the report for testing
 	 * 
 	 * */
-	public void writeReports() {
+	public synchronized String writeReports() {
 		String report = generateReports();
 		FileManager fm = new FileManager();
 		fm.writeToFile("order_summary.csv", report);
+		return report;
 	}
 	
 	/**
@@ -119,7 +145,7 @@ public class OrderManager {
 	 * @Returns String
 	 * 
 	 * */
-	public String generateReports() {
+	private String generateReports() {
 		
 		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
 		//StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
@@ -166,7 +192,7 @@ public class OrderManager {
 	 * @Returns HashMap<FoodItem, Integer>
 	 * 
 	 * */
-	private HashMap<FoodItem, Integer> getFoodItemCount () {
+	private synchronized HashMap<FoodItem, Integer> getFoodItemCount () {
 		
 		HashMap<FoodItem, Integer> foodItemCountMap = new HashMap<FoodItem, Integer>();
 		
@@ -192,38 +218,37 @@ public class OrderManager {
 	 * Getter method for returning the orderMap
 	 * 
 	 * */
-	public HashMap<String, CustomerOrder> getOrderMap() {
+	public synchronized HashMap<String, CustomerOrder> getOrderMap() {
 		return orderMap;
 	}
-	/**@Edits Cristina Rivera
+	/**@throws QueueEmptyException 
+	 * @Edits Cristina Rivera
 	 * Created the FileManager at the beginning to manage orders to/from the file.
-	 * Write the order into CSV File
-	 * Remove CutomerOrder From HashMap
+	 * 
+	 * Remove Next CutomerOrder From Queue
+	 * Add the order to delivery queue
+	 * Return the next order to be written in the file
 	 * 
 	 * */
-	public CustomerOrder acceptNextOrder() {
-	
-		Iterator<CustomerOrder> ite = ordersForDisplay.iterator();
-		CustomerOrder o = ite.next();
+	public synchronized CustomerOrder acceptNextOrder() throws QueueEmptyException {
+		Logger.getInstance().log("Next order processed");
+		System.out.println("Next order processed");
 		
-		ordersForDisplay.remove(o);
-		fm.write_Order_toCSV(o);
+		CustomerOrder o = fetchOrderFromQueue(); 	//De-queue next CustomreOrder
+		addProcessedOrderToDeliveryQueue(o);
 		orderMap.remove(o.getCustomerId());
+		
 		return o;
 	}
 	
-	public ArrayList<CustomerOrder> getOrdersForDisplay(){
-		return ordersForDisplay;
-	}
 	
 	/**
 	 * 
 	 * Get all Customer Orders on Order Queue
 	 * 
 	 * */
-	public ArrayList<CustomerOrder> getAllOrdersOnOrderQueue(){
-		ArrayList<CustomerOrder> coaList = orderQ.viewAllOrders();
-		return coaList;
+	public synchronized ArrayList<CustomerOrder> getAllOrdersOnOrderQueue(){
+		return  orderQ.viewAllOrders();
 	}
 	
 	/**
@@ -232,17 +257,19 @@ public class OrderManager {
 	 * @throws QueueEmptyException 
 	 * 
 	 * */
-	public CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
+	private synchronized CustomerOrder fetchOrderFromQueue() throws QueueEmptyException{
 		CustomerOrder coa = orderQ.dequeue();
+		//this.staffGui.reRenderQueue();
 		return coa;
 	}
 	
+/**NON of this Delivery Queue is necessary*/
 	/**
 	 * 
 	 * Adds a processed order to Delivery Queue.
 	 * 
 	 * */
-	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
+	private void addProcessedOrderToDeliveryQueue(CustomerOrder order){
 		deliveryQ.enqueue(order);
 	}
 	
@@ -251,7 +278,7 @@ public class OrderManager {
 	 * Get all Customer Orders on Delivery Queue
 	 * 
 	 * */
-	public ArrayList<CustomerOrder> getAllOrdersOnDeliveryQueue(){
+	public synchronized ArrayList<CustomerOrder> getAllOrdersOnDeliveryQueue(){
 		ArrayList<CustomerOrder> coaList = deliveryQ.viewAllOrders();
 		return coaList;
 	}
@@ -261,7 +288,7 @@ public class OrderManager {
 	 * Get all Customer Orders currently processed by staff
 	 * 
 	 * */
-	public HashMap<String, CustomerOrder> getOrdersUnderProcessingByStaff(){
+	public synchronized HashMap<ServingStaff, CustomerOrder> getOrdersUnderProcessingByStaff(){
 		return servingStaffMap;
 	}
 	
@@ -269,8 +296,57 @@ public class OrderManager {
 	 * 
 	 * Update current Orders processing by staff
 	 * 
+	 * An Hashmap will be given to do the display
+	 * 
 	 * */
-	public void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
+	public synchronized void updateOrdersUnderProcessingByStaff(ServingStaff staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
+		//ordersForStaffDisplay.add(order);
 	}
+	/**
+	 * @throws QueueEmptyException 
+	 * 
+	 * */
+	
+	public synchronized CustomerOrder processNextOrderForDelivery() throws QueueEmptyException {
+		CustomerOrder o = deliveryQ.dequeue();
+		return o;
+	}
+	public synchronized void staffOrderCompleted(String staffName,CustomerOrder o) {
+		servingStaffMap.remove(staffName, o);
+		//ordersForStaffDisplay.remove(o);
+	}
+	
+	private void setDefaultProcessTime() {
+		processTimeMap.put(FoodCategory.HOT_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.COLD_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.BAKE, 5000);
+		processTimeMap.put(FoodCategory.SANDWICH, 8000);
+		processTimeMap.put(FoodCategory.BEVERAGE, 4000);
+		processTimeMap.put(FoodCategory.MEALS, 9000);
+	}
+	
+	public void setProcessTime(FoodCategory fc) {
+		String timeStr = timerPage.processTimeInputMapList.get(fc).getText();
+		int time = Integer.parseInt(timeStr);
+		int timeInMilliSec = time * 1000;
+		//FoodCategory fcType = FoodCategory.valueOf(fc);
+		if(processTimeMap.containsKey(fc)) {
+			processTimeMap.replace(fc, timeInMilliSec);
+		}
+	}
+	
+	public HashMap<FoodCategory, Integer> getAllProcessTime() {
+		return processTimeMap;
+	}
+	
+	public ActionListener processTimeActionListener(FoodCategory category) {
+		return new ActionListener() {
+	        @Override
+	         public void actionPerformed(ActionEvent e) {
+	        	setProcessTime(category);
+	         }
+	    };
+	}
+
 }

@@ -22,21 +22,24 @@ import views.MenuGUI;
  * OrderManager is not needed in this class once we can use it with the singleton pattern
  * */
 public class MenuController {
+	
+	/*Remember to use the Singletons*/
+	private OrderManager orderMngr = OrderManager.getInstance();
+	public Menu menu_obj = Menu.getInstance();
+
 	public MenuGUI menuGUI; 
-	public Menu menu_obj;
+
 	private CustomerOrder myOrder;
-	private OrderManager orderMan;
 	
 	
-	public MenuController(Menu menu_obj, CustomerOrder o, OrderManager om) {
-		this.menu_obj = menu_obj;
+	
+	public MenuController(CustomerOrder o) {
 		this.myOrder = o;
-		this.orderMan = om;
-		this.initView(menu_obj);
+		this.initView();
 	}
 	
-	public void initView(Menu menu_obj) {	
-		menuGUI = new MenuGUI(menu_obj, this);
+	public void initView() {	
+		menuGUI = new MenuGUI(this);
 		menuGUI.createPage();
 
 	}
@@ -81,16 +84,21 @@ public class MenuController {
 	 * MenuGUI should not be in charge of adding the oders to the order manager
 	 * 
 	 * It should create a customerOrder
-	 * CustomerOrder will be added to order manager from CustomerOrderGUI
+	 * CustomerOrder will be added to orderManager/file from CustomerOrderGUI
 	 * */
 	public ActionListener orderButtonActionListener() {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan,new CustomerOrdergui(myOrder));
-
-            	//popUpCustOrder.show_order();
-            	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
+            	CustomerOrdergui orderGUI = new CustomerOrdergui(myOrder);
+            	orderGUI.getOrder().printOrderInfo();
+            	
+            	//New Customer GUI Controller
+            	//This GUI Controller shows the GUI 
+            	
+            	new CustomerGUIController(orderGUI, menuGUI);
+            	
+            	
              }
         };
 	}
@@ -113,8 +121,10 @@ public class MenuController {
 	 return new ActionListener() {
         @Override
          public void actionPerformed(ActionEvent e) {
-        	myOrder.removeItem( menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
-         }
+        	
+        	myOrder.removeItem(menuGUI.removeItemFromCart(category.toString(), itemKey, itemValue, itemCountLabel, itemCartPriceLabel));
+        	
+        }
 	 };
 	}
 	

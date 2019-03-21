@@ -160,7 +160,7 @@ Can't test because it's private
 /**Order Manager Tests*/
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory() {
-		Menu menu = new Menu(true);
+		Menu menu = Menu.getInstance();
 		
 		HashMap<String, CustomerOrder> order = f.buildCustomerOrdersFromOrderHistory(menu);
 		assertTrue(order.containsKey("100"));
@@ -177,7 +177,7 @@ Can't test because it's private
 	@Test
 	void testBuildCustomerOrdersFromOrderHistory_noPastOrders() {
 			
-		OrderManager om = new OrderManager();
+		OrderManager om = OrderManager.getInstance();
 		HashMap<String, CustomerOrder> order = om.getOrderMap();
 		
 		assertTrue(order.containsKey("100"));
@@ -188,7 +188,7 @@ Can't test because it's private
 		assertEquals(5,order.get("222").totalItemsCount());
 		assertEquals(4,order.get("332").totalItemsCount());
 		
-		assertEquals(3,om.getOrdersForDisplay().size());
+		assertEquals(3,om.getAllOrdersOnOrderQueue().size());
 
 	}
 	
@@ -201,7 +201,7 @@ Can't test because it's private
 	@Test
 	void testcreateDiscountFromString() throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
 		FileManager f = new FileManager();
-		Menu menu = new Menu(true);
+		//Menu menu = Menu.getInstance();
 		
 		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2:");
 		

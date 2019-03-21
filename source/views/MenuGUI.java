@@ -32,6 +32,10 @@ import service.OrderManager;
 * @author  Arthidevi Balavignesh
 */
 public class MenuGUI extends JPanel{
+	
+    private Menu menu_obj = Menu.getInstance();
+
+	
 	private static final long serialVersionUID = 1L;
 	private JFrame f =new JFrame();
     private JPanel currentFoodItemPanel = new JPanel();
@@ -39,7 +43,6 @@ public class MenuGUI extends JPanel{
     private JLabel totalCostValue;
     public HashMap<String,Integer> cart = new HashMap<String,Integer>();
     public double totalCost = 0;
-    public Menu menu_obj;
 	private static DecimalFormat df2 = new DecimalFormat("###.##");
 	
 	private MenuController mc;
@@ -49,9 +52,8 @@ public class MenuGUI extends JPanel{
      * 
      * @param Menu menu_obj1
      */
-    public MenuGUI(Menu menu_obj1, MenuController mc){
+    public MenuGUI(MenuController mc){
     		this.mc = mc;
-    		this.menu_obj = menu_obj1;
    }
     
     public void createPage() {
