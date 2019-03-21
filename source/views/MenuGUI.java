@@ -67,7 +67,7 @@ public class MenuGUI extends JPanel{
 
         f.setSize(600,600);  
         f.setVisible(false); 
-        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     /** 
@@ -82,6 +82,8 @@ public class MenuGUI extends JPanel{
      */
     public void hideMenuPage() {
     	f.setVisible(false);
+    	f.dispose();
+    	
     }
     
 	/**
