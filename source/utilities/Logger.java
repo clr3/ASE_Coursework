@@ -51,4 +51,5 @@ public final class Logger {
 				System.err.println("ERROR: Could not write to log file");
 			}
 		}
+		
 	}

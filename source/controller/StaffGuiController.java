@@ -3,7 +3,10 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import model.FoodCategory;
+import service.OrderManager;
 import service.StaffManager;
+import service.TimerGUI;
 import views.StaffGUI;
 
 /**
@@ -15,16 +18,26 @@ import views.StaffGUI;
  * */
 public class StaffGuiController {
 
+	private OrderManager om = OrderManager.getInstance();
+	//Create new staffManager
 	private StaffManager staffThreads = new StaffManager();
-	private StaffGUI staffGUI = new StaffGUI();
+	//Create new StaffGUI
+	private StaffGUI staffGUI = new StaffGUI(staffThreads);
+	
+	private TimerGUI timerPage = new TimerGUI(staffThreads, this);
+	
 
 	public StaffGuiController() {
-		
 		//On clicking this button, the first customer orders should processed
 	 	staffGUI.addStartServeActionListener(serveActionListener());
+	 	//Button for timer mage gui
+	 	staffGUI.addProcessTimeActionListener(timerActionListener());
+	 	staffThreads.addDislplay(staffGUI);
 	 	
 	}
-	
+	public StaffGUI getGUI() {
+		return staffGUI;
+	}
 	
 	public ActionListener serveActionListener() {
 		return new ActionListener() {
@@ -33,6 +46,23 @@ public class StaffGuiController {
 		        	staffThreads.manageServingStaff();
 		         }
 		};
+	}
+	public ActionListener timerActionListener() {
+		return new ActionListener() {
+		        @Override
+		         public void actionPerformed(ActionEvent e) {
+		        	timerPage.showTimerPage();
+		         }
+		};
+	}
+	
+	public ActionListener processTimeActionListener(FoodCategory category) {
+		return new ActionListener() {
+	        @Override
+	         public void actionPerformed(ActionEvent e) {
+	        	om.setProcessTime(timerPage, category);
+	         }
+	    };
 	}
 }
 

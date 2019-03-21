@@ -7,6 +7,7 @@ import model.CustomerOrder;
 import model.Menu;
 import service.OrderManager;
 import service.StaffManager;
+import service.TimerGUI;
 import views.StaffGUI;
 import views.StartPageGUI;
 
@@ -86,8 +87,11 @@ public class StartPageController {
 		public void actionPerformed(ActionEvent e) {
 			//Will show staff view
 			System.out.println("Staff");
-			StaffGUI staff = new StaffGUI();
-			staff.showStaffView();
+			
+			StaffGuiController c = new StaffGuiController();
+			c.getGUI().showStaffView();
+			//StaffGUI staff = new StaffGUI();
+			//staff.showStaffView();
 		}
 		
 	}

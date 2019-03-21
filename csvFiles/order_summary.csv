@@ -1,19 +1,19 @@
 Food Category, Item Id, Item Name, Order Count
-HOT_BEVERAGE,HOT2,Hot Chocolate,4
+HOT_BEVERAGE,HOT2,Hot Chocolate,5
 HOT_BEVERAGE,HOT1,Americano,3
 HOT_BEVERAGE,HOT4,Mocha,2
-HOT_BEVERAGE,HOT3,Cappuccino,1
+HOT_BEVERAGE,HOT3,Cappuccino,2
 HOT_BEVERAGE,HOT6,Earl Grey,0
-HOT_BEVERAGE,HOT5,Latte,2
-COLD_BEVERAGE,COLD1,Iced Coffee,0
-BAKE,BAKE1,Chocolate muffin,1
+HOT_BEVERAGE,HOT5,Latte,3
+COLD_BEVERAGE,COLD1,Iced Coffee,1
+BAKE,BAKE1,Chocolate muffin,2
 BAKE,BAKE2,Blueberry Muffin,2
-BAKE,BAKE3,Lemon-Poppy Seed Muffin,4
+BAKE,BAKE3,Lemon-Poppy Seed Muffin,5
 BAKE,BAKE4,Giant Chocolate Chip Cookie,0
 BAKE,BAKE5,Scone,1
-SANDWICH,SAND1,Tuna Sandwich,2
+SANDWICH,SAND1,Tuna Sandwich,5
 MEALS,MEAL2,Chicken Biryani,0
 MEALS,MEAL1,English Breakfast,0
 
 
-Total Order Value = 89.89
+Total Order Value = 112.79

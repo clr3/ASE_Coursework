@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import utilities.Logger;
+import views.StaffGUI;
 
 /**
  * 
@@ -90,8 +91,6 @@ public class StaffManager {
 	
 	
 	
-	
-	
 	/**
 	 * Add a new staff on an individual thread.
 	 * */
@@ -113,6 +112,14 @@ public class StaffManager {
 	
 	public ArrayList<ServingStaff> getStaffList(){
 		return s;
+	}
+	/**
+	 * Link the treads with the gui so it can be displayed
+	 * */
+	public void addDislplay(StaffGUI view) {
+		s1.addStaffDislplay(view);
+		s2.addStaffDislplay(view);
+		s3.addStaffDislplay(view);
 	}
 	
 }

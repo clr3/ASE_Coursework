@@ -50,8 +50,9 @@ public class OrderManager {
 	//Using the OrderQueue Instead of the HASHMAP of customerOrders
 	private static OrderManager om = new OrderManager();
 	private OrderQueue orderQ = new OrderQueue();	//Holds Orders as they are added
-
 	
+	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
+
 	private OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
 		//THe FileManager is in charge of reading the files and returning the according data structure
@@ -222,6 +223,7 @@ public class OrderManager {
 		
 		CustomerOrder o = fetchOrderFromQueue(); 	//De-queue next CustomreOrder
 		addProcessedOrderToDeliveryQueue(o);
+		
 		orderMap.remove(o.getCustomerId());
 		
 		return o;
@@ -255,7 +257,7 @@ public class OrderManager {
 	 * Adds a processed order to Delivery Queue.
 	 * 
 	 * */
-	private void addProcessedOrderToDeliveryQueue(CustomerOrder order){
+	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
 		deliveryQ.enqueue(order);
 	}
 	
@@ -282,11 +284,21 @@ public class OrderManager {
 	 * 
 	 * Update current Orders processing by staff
 	 * 
-	 * An Hashmap will be given to do the display
 	 * 
 	 * */
 	public synchronized void updateOrdersUnderProcessingByStaff(ServingStaff staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
+		//ordersForStaffDisplay.add(order);
+	}
+	/**
+	 * 
+	 * Update current Orders processing by staff
+	 * 
+	 * An Hashmap will be given to do the display
+	 * 
+	 * */
+	public synchronized void updateRemoveOrdersUnderProcessingByStaff(ServingStaff staffName, CustomerOrder order){
+		servingStaffMap.remove(staffName, order);
 		//ordersForStaffDisplay.add(order);
 	}
 	/**
@@ -302,4 +314,28 @@ public class OrderManager {
 		servingStaffMap.remove(staffName, o);
 		//ordersForStaffDisplay.remove(o);
 	}
+	private void setDefaultProcessTime() {
+		processTimeMap.put(FoodCategory.HOT_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.COLD_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.BAKE, 5000);
+		processTimeMap.put(FoodCategory.SANDWICH, 8000);
+		processTimeMap.put(FoodCategory.BEVERAGE, 4000);
+		processTimeMap.put(FoodCategory.MEALS, 9000);
+	}
+	
+	public void setProcessTime(TimerGUI timerPage, FoodCategory fc) {
+		String timeStr = timerPage.processTimeInputMapList.get(fc).getText();
+		int time = Integer.parseInt(timeStr);
+		int timeInMilliSec = time * 1000;
+		//FoodCategory fcType = FoodCategory.valueOf(fc);
+		if(processTimeMap.containsKey(fc)) {
+			processTimeMap.replace(fc, timeInMilliSec);
+		}
+	}
+	
+	public HashMap<FoodCategory, Integer> getAllProcessTime() {
+		return processTimeMap;
+	}
+
+
 }

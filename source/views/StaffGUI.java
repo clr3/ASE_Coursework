@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -37,32 +39,39 @@ public class StaffGUI {
 	 *  */
 	
 	private JButton startServe = new JButton("Start Serving");
-	
+	private JButton processTimeButton = new JButton("Process Timer");
 	
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	
-	private HashMap<String,CustomerOrder> workingOrders = new HashMap<String ,CustomerOrder>();
-	private StaffManager smgr = new StaffManager();
-	private ArrayList<ServingStaff> staffList = smgr.getStaffList();
+	private HashMap<ServingStaff,CustomerOrder> workingOrders = new HashMap<ServingStaff ,CustomerOrder>();
+	
+	private StaffManager smgr;
+	private ArrayList<ServingStaff> staffList;
 	JFrame s = new JFrame();
 
 	
 /**INITIALIZE StaffGui */
-	public StaffGUI() {
+	public StaffGUI(StaffManager sm) {
 		//this.orderManager = o;
 		//this.orderManager.staffGui = this;
-		//this.smanager = sm;
+		this.smgr = sm;
+		staffList = smgr.getStaffList();
+		
 		createPage();
 	}
 	
 	 public void createPage() {
 		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
+ 
+	        ordersQueue();	//Adds panel to mainPane
 	        
-	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
-	       // s.add(workingOrders(),BorderLayout.SOUTH);
-	        ordersQueue();
+	        s.add(orderButtons(),BorderLayout.CENTER); 
+	        
+	        updateStaffView();	//adds panel to pane
+	        
 	        s.setSize(600,400);  
+	        
 	        s.setVisible(false); 
 	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	    }
@@ -74,11 +83,12 @@ public class StaffGUI {
 	 * Button to accept The Next Order from the file Manager
 	 * @Return JPanel containing a button
 	 * */
-	private JPanel acceptOrderButton() {
+	private JPanel orderButtons() {
 		JPanel buttonPanel = new JPanel();
-		
 		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
+		buttonPanel.add(processTimeButton);
+		
 		return buttonPanel;
 	}
 	
@@ -88,6 +98,7 @@ public class StaffGUI {
 	}
 
 	/**
+	 * @North
 	 * Show the Orders that haven been worked on.
 	 * Shows the OrderID, Customer ID and total number of items in the order 
 	 * */
@@ -114,6 +125,7 @@ public class StaffGUI {
 			//itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
 			
 			JSplitPane view = new JSplitPane();
+			view.setSize(600, 10);
 		
 			view.setLeftComponent(orderLabel);
 			view.setRightComponent(itemsLabel);
@@ -130,44 +142,52 @@ public class StaffGUI {
 	
 	/**In this case, a single member of staff
 	 * Will be able to take the next order.
-	 * 
+	 * @South
 	 * */
-	public JPanel workingOrders() {
+	public synchronized void workingOrders() {
+		removePanel(workingOrdersPanel);
 		workingOrdersPanel = new JPanel();
-		workingOrdersPanel.setLayout(new BoxLayout(workingOrdersPanel, BoxLayout.Y_AXIS));
-
+		s.revalidate();
+        s.repaint();
+	
 		
+		workingOrdersPanel.setLayout(new GridLayout(staffList.size(), 1));
+	
 		workingOrdersPanel.add(workingOrds());
 		
 		workingOrdersPanel.setVisible(true);
 		workingOrdersPanel.validate();
-		
-		return workingOrdersPanel;
+        
+
+		s.add(workingOrdersPanel,BorderLayout.SOUTH) ;
+		s.revalidate();
 	}
 	
 	/**
 	 * Checks the list of working orders and creates a display from it 
 	 * */
-	private JPanel workingOrds() {
+	private synchronized JPanel workingOrds() {
 		JPanel p = new JPanel();
 		int size = staffList.size();
 		
-		p.setLayout(new FlowLayout());
+		p.setLayout(new GridLayout(size,1));
 		
 		if(size == 0) return p; //Will return an empty panel 
-			
 		
+			
 		for(ServingStaff ss: staffList) {
 			CustomerOrder o = workingOrders.get(ss);
-			p.add(oneOrderDisplay(o, ss));
+			System.out.println(ss.getName() + " is procesing :" + o.getOrderId());
+			if(o != null) p.add(oneOrderDisplay(o, ss));
 		}
 		
 		
 		return p;
 		
 	}
-	private JPanel oneOrderDisplay(CustomerOrder o, ServingStaff s) {
+	private synchronized JPanel oneOrderDisplay(CustomerOrder o, ServingStaff s) {
 		JPanel p = new JPanel();
+		p.setLayout(new BorderLayout());
 		//Display Staff Name 
 		
 		//Display Customers Name
@@ -175,18 +195,26 @@ public class StaffGUI {
 		orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
 		
 		//Display Order items and Total Price 
+		JLabel itemsLabel = new JLabel(updateOrderText(o));
+		itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
+		
+		p.add(orderLabel, BorderLayout.NORTH);
+		p.add(itemsLabel, BorderLayout.CENTER);
+		
+		return p;
+	}
+	/**Item Number, name and price is shown 
+	 * */
+	private String updateOrderText(CustomerOrder o) {
 		ArrayList<FoodItem> items = o.getOrderItems();
 		StringBuffer orderItems = new StringBuffer();
 		
-		for(FoodItem i: items) {
+		for(FoodItem i: items) {		
 			orderItems.append(i.getName() + " > " + i.getPrice() + " \n" );
 		}
 		orderItems.append("Total: " + o.getFinalBillAmount());
+		return orderItems.toString();
 		
-		JLabel itemsLabel = new JLabel(orderItems.toString());
-		itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
-		
-		return p;
 	}
 	/*
 	public void addOrderButtonActionLIstener(ActionListener al) {
@@ -211,5 +239,30 @@ public class StaffGUI {
 	public void addStartServeActionListener(ActionListener al) {
 		startServe.addActionListener(al);
 	}
+	public void addProcessTimeActionListener(ActionListener al) {
+		processTimeButton.addActionListener(al);
+	}
+	/**	
+	 * Accept next order from the queue and return it
+	 *CustomerOrder is added to workingOrders Hashmap 
+	 *	Update Staff View
+	 * @throws QueueEmptyException 
+ * */	
+	public CustomerOrder acceptNextOrder(ServingStaff f) throws QueueEmptyException {	
+		CustomerOrder next = orderManager.acceptNextOrder();
+		this.workingOrders.put(f, next);	
+		updateStaffView();
+		return next;
+	}
 	
+	public void acceptNextOrderFinished(ServingStaff f, CustomerOrder o) throws QueueEmptyException {	
+		this.workingOrders.remove(f, o);	
+		updateStaffView();
+	}
+	
+	public void updateStaffView() {		
+		reRenderQueue();
+		workingOrders();	
+		
+	}
 }
