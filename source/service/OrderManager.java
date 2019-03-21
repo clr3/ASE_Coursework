@@ -25,7 +25,7 @@ public class OrderManager {
 	
 	private  HashMap<String ,CustomerOrder> orderMap = new HashMap<String ,CustomerOrder>(); 
 	private FileManager fm = new FileManager();
-	Menu menu = new Menu(true);
+	Menu menu = Menu.getInstance();
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
@@ -35,6 +35,7 @@ public class OrderManager {
 	private  ConcurrentHashMap<String ,CustomerOrder> servingStaffMap = new ConcurrentHashMap<String ,CustomerOrder>(); 
 	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
 	
+	
 	public OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
 		//THe FileManager is in charge of reading the files and returning the according data structure
@@ -43,6 +44,8 @@ public class OrderManager {
 			preparePastOrdersList();
 		
 	}
+	
+	
 	
 	/**
 	 * Adds the past orders to the list the staff will be able to view

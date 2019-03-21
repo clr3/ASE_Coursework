@@ -13,6 +13,7 @@ public class CustomerGUIController {
 	CustomerOrdergui orderGui;
 	CustomerOrder order;
 	OrderManager orderManager; //Used to add the order to the orderManager
+	MenuController menu ;	
 	
 	FoodItem newItem;
 	FoodItem itemToRemove;
@@ -24,7 +25,7 @@ public class CustomerGUIController {
  * 
  * The CustomerOrderGUI sill be shown as soon as this class is created 
  * */	
-public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
+public CustomerGUIController(OrderManager om, CustomerOrdergui o, MenuController m) {
 	
 		this.orderGui = o;
 		this.orderManager = om;
@@ -33,12 +34,18 @@ public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
 		orderGui.show_order();
 		
 		
-		o.addPlaceNewOrderActionListener(AcceptOrder());
 		
+		orderGui.addPlaceNewOrderActionListener(AcceptOrder());
+		orderGui.addBackToMenuActionListener(CancelOrder());
 	
-		
+		menu =m;
 	}
 
+	
+	
+	public void showOrder() {
+		orderGui.show_order();
+	}
 	/**
 	 * When the button is clicked, the Customer Order Should be added to the order manager 
 	 * */
@@ -47,40 +54,25 @@ public CustomerGUIController(OrderManager om, CustomerOrdergui o) {
 		        @Override
 		         public void actionPerformed(ActionEvent e) {
 		        	orderManager.submitNewOrder(order.getOrderId(), order);
-		        	orderGui.acceptButtonClicked();
+		        	orderGui.acceptButtonClicked(menu);
 		         }
 		};
 	}
 
-	/**Remove Item from the Order
-	 * Update the display to show the new prices and amounts
-	 * 
-	public class RemoveItem implements ActionListener{
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.removeItem(itemToRemove);
-				System.out.println("+" + itemToRemove.getName());
-
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
-	}*/
-
-	/**Remove All Items from the Order
-	public class ResetOrder implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(!order.getOrderItems().isEmpty()) {
-				order.clearOrder();
-				System.out.println("Reset");
-			}
-			menuGui.updateOrder(order);
-			menuGui.updateItemsDisplay(itemCategory);
-		}
+	/**
+	 * When the button is clicked, 
+	 * -Close CustomerOrderGui, go back to menu
+	 *
+	 * */
+	public ActionListener CancelOrder() {
+		return new ActionListener() {
+		        @Override
+		         public void actionPerformed(ActionEvent e) {
+		        	
+		        	orderGui.closeGui();
+		        	menu.hideMenuPage();
+		         }
+		};
 	}
-	*/
 }

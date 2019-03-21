@@ -22,27 +22,31 @@ import views.MenuGUI;
  * OrderManager is not needed in this class once we can use it with the singleton pattern
  * */
 public class MenuController {
-	public MenuGUI menuGUI; 
+	public MenuGUI menuGUI;
 	public Menu menu_obj;
 	private CustomerOrder myOrder;
 	private OrderManager orderMan;
-	
+	private MenuController thisController;
 	
 	public MenuController(Menu menu_obj, CustomerOrder o, OrderManager om) {
 		this.menu_obj = menu_obj;
 		this.myOrder = o;
 		this.orderMan = om;
 		this.initView(menu_obj);
+		this.thisController = this;
 	}
 	
-	public void initView(Menu menu_obj) {	
-		menuGUI = new MenuGUI(menu_obj, this);
+	public void initView(Menu menu_obj) {
+		this.menuGUI = new MenuGUI(Menu.getInstance(), this);
 		menuGUI.createPage();
 
 	}
 	
 	public void showMenuPage() {
 		menuGUI.showMenuPage();
+	}
+	public void hideMenuPage() {
+		menuGUI.hideMenuPage();
 	}
 	
 	public ActionListener categoryActionListener(FoodCategory categoryName) {
@@ -87,9 +91,9 @@ public class MenuController {
 	  return new ActionListener() {
             @Override
              public void actionPerformed(ActionEvent e) {
-            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan,new CustomerOrdergui(myOrder));
-
-            	//popUpCustOrder.show_order();
+            	CustomerGUIController popUpCustOrder = new CustomerGUIController(orderMan,new CustomerOrdergui(myOrder), thisController);
+            	//popUpCustOrder.setMenuGui(menuGUI);
+            	popUpCustOrder.showOrder();
             	//om.submitNewOrder(menuGUI.cart, menuGUI.totalCost);
              }
         };

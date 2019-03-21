@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.StartPageController;
@@ -106,9 +107,10 @@ public class StartPageGUI extends JPanel{
 	public void addStaffActionListener(ActionListener al) {
 		staffButton.addActionListener(al);
 	}
-	public void closeFrame() {
+	public void closeFrame(String exitMessage) {
 		frame.setVisible(false);
-		//frame.dispose();
+		JOptionPane.showMessageDialog(this, exitMessage, "", JOptionPane.PLAIN_MESSAGE);
+		System.exit(0);
 	}
 	
 	

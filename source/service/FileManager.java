@@ -309,7 +309,7 @@ public class FileManager {
 		else {
 			//Create Food Items From String
 			String[] foodItems = discountln[3].split(":");
-			Menu menu = new Menu(true);
+			Menu menu = Menu.getInstance();
 			System.out.println("Discount List Size = " + foodItems.length);
 			
 			for (int i = 0; i < foodItems.length; i++) {

@@ -18,6 +18,7 @@ import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
 import foodItemExceptions.NoPriceFoundException;
 import service.FileManager;
+import service.OrderManager;
 
 /**
  * Menu class for Coffee Shop, Stores and processes menu data
@@ -27,22 +28,33 @@ import service.FileManager;
  */
 public class Menu {
 
+	/**
+	 * Making Menu into a Singleton saves runtime by preventing us
+	 * from having to read the csv file everytime we create a new menu
+	 * */
 	private EnumMap<FoodCategory, HashMap<String, FoodItem>> menu = new EnumMap<FoodCategory, HashMap<String, FoodItem>>(
 			FoodCategory.class);
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
 
 	private int enum_no=5;
 	
+	private static Menu m = new Menu(true);
+	
     /** 
      * Constructor for Menu Class
      * 
      */
-	public Menu(Boolean createFromFile) {		
+	private Menu(Boolean createFromFile) {		
 		if(createFromFile) {importMenuData();}		
 	}
 	
-	public Menu() {
+	private Menu() {
 		
+	}
+	
+	public static Menu getInstance() {
+		if(m == null){m = new Menu(true);}
+		return m;
 	}
 	
 

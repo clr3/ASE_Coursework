@@ -10,7 +10,7 @@ public class menuTestMain {
 	public void main123(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Menu menu_item = new Menu();
+		Menu menu_item = Menu.getInstance();
 		
 		
 		

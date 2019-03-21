@@ -13,6 +13,11 @@ import views.TimerGUI;
 
 public class StartPageController {
 
+	/**
+	 * @Comments Cristina Rivera
+	 * OrderManager should use singleton Pattern To save RunTime
+	 * Passing The OrderManager from method to method is too inefficient
+	 * */
 	private OrderManager om = new OrderManager();
 	private int orderNumber = 0;
 	private int customerID = 0;
@@ -49,7 +54,7 @@ public class StartPageController {
 			
 			CustomerOrder order = new CustomerOrder(orderNo, cId);
 			//Create Menu Controller With new Customer Order
-			MenuController mc = new MenuController(new Menu(true), order,om);
+			MenuController mc = new MenuController(Menu.getInstance(), order,om);
 			mc.showMenuPage();
 
 		}
@@ -63,8 +68,10 @@ public class StartPageController {
 			// TODO Auto-generated method stub
 			// print summary report to summary_report.csv
 			om.writeReports();
-			System.out.println("Order summary report is saved to summary_report.csv");
-			startPage.closeFrame();
+			String exit = "Order summary report is saved to summary_report.csv";
+			System.out.println(exit);
+			startPage.closeFrame(exit);
+			System.exit(0);
 		}
 		
 	}

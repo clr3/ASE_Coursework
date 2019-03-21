@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import controller.MenuController;
 import model.CustomerOrder;
 import model.FoodItem;
 
@@ -158,15 +159,6 @@ public class CustomerOrdergui extends JDialog {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
 		
-		cancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Close the window and let the customer change the order
-				setVisible(false);
-				dispose();
-			}
-			
-		});
-		
 		
 		panel.add(cancel);
 		panel.add(accept);
@@ -178,23 +170,26 @@ public class CustomerOrdergui extends JDialog {
 		accept.addActionListener(al);
 	}
 	
+	
+	public void addBackToMenuActionListener(ActionListener al) {
+		cancel.addActionListener(al);
+	}
+	
 	/**
 	 * Accept Button will become not visible
 	 * 
-	 * JDialog messahe should change to say: Thank you for your order.
+	 * JDialog message should change to say: Thank you for your order.
 	 * */
-	public void acceptButtonClicked() {
+	public void acceptButtonClicked(MenuController menu) {
 		accept.setVisible(false);
-		
-		JPanel mainPanel = (JPanel) getContentPane();
-		
-		mainPanel.removeAll();
-		
 		JLabel thankyou = new JLabel("Thank you for your Order");
-		
-		setLayout(new BorderLayout());
-		add(thankyou, BorderLayout.PAGE_START);
+
+		JOptionPane.showMessageDialog(this, thankyou, "", JOptionPane.PLAIN_MESSAGE);
+		this.setVisible(false);
+		menu.hideMenuPage();
 	}
 	
-
+	public void closeGui() {
+		this.setVisible(false);
+	}
 	}
