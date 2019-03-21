@@ -91,7 +91,7 @@ public class StaffGUI {
 	private JPanel acceptOrderButton() {
 		JPanel buttonPanel = new JPanel();
 		
-		buttonPanel.add(acceptOrder);
+		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
 		buttonPanel.add(processTimeButton);
 		return buttonPanel;
