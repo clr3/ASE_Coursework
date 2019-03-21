@@ -14,9 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.CustomerOrder;
+import model.FoodCategory;
 import model.FoodItem;
 import queueExceptions.QueueEmptyException;
 import service.OrderManager;
@@ -37,31 +39,37 @@ public class StaffGUI {
 	 *  */
 	
 	private JButton startServe = new JButton("Start Serving");
-	
-	
+
+	private JButton processTimeButton = new JButton("Process Timer");
 	//private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	
 	private HashMap<String,CustomerOrder> workingOrders = new HashMap<String ,CustomerOrder>();
 	private StaffManager smgr = new StaffManager();
 	private ArrayList<ServingStaff> staffList = smgr.getStaffList();
-	JFrame s = new JFrame();
 
-	
+	JFrame s = new JFrame();
+	private TimerGUI timeGui;
+
+  
 /**INITIALIZE StaffGui */
-	public StaffGUI() {
-		//this.orderManager = o;
-		//this.orderManager.staffGui = this;
-		//this.smanager = sm;
+	public StaffGUI( TimerGUI timerGui) {
+		
+		this.timeGui = timerGui;
+
 		createPage();
 	}
 	
 	 public void createPage() {
 		 	
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
-	        
+	        processTimeButton.addActionListener(this.smanager.showTimerPageActionListener(this.orderManager));
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
-	       // s.add(workingOrders(),BorderLayout.SOUTH);
+
+	        s.add(workingOrders(),BorderLayout.SOUTH);
+	        //s.add(createProcessTimePanel(),BorderLayout.SOUTH);
+
 	        ordersQueue();
+	       // s.add(comp)
 	        s.setSize(600,400);  
 	        s.setVisible(false); 
 	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -79,11 +87,11 @@ public class StaffGUI {
 		
 		//buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
+		buttonPanel.add(processTimeButton);
 		return buttonPanel;
 	}
 	
 	public synchronized void reRenderQueue() {
-		Logger.getInstance().log("re render queue");
 		ordersQueue();
 	}
 
@@ -94,7 +102,6 @@ public class StaffGUI {
 	private synchronized void ordersQueue() {
 		removePanel(ordersQueuePanel);
 		ordersQueuePanel = new JPanel();
-		Logger.getInstance().log(" "+orderManager.getAllOrdersOnOrderQueue().size());
 		s.revalidate();
         s.repaint();
 		ordersQueuePanel.setLayout(new BoxLayout(ordersQueuePanel, BoxLayout.Y_AXIS));
@@ -125,7 +132,6 @@ public class StaffGUI {
 		ordersQueuePanel.setVisible(true);
         s.add(ordersQueuePanel,BorderLayout.NORTH); 
         s.revalidate();
-		Logger.getInstance().log(" painted");
 	}
 	
 	/**In this case, a single member of staff
@@ -207,9 +213,11 @@ public class StaffGUI {
         tempPanel.repaint();
         s.remove(tempPanel);
     }
+
 	
 	public void addStartServeActionListener(ActionListener al) {
 		startServe.addActionListener(al);
 	}
 	
+
 }

@@ -9,6 +9,7 @@ import service.OrderManager;
 import service.StaffManager;
 import views.StaffGUI;
 import views.StartPageGUI;
+import views.TimerGUI;
 
 
 /**
@@ -33,8 +34,12 @@ public class StartPageController {
 	private int customerID = 0;
 	private StartPageGUI startPage;
 	
-	//private StaffManager sm = new StaffManager();
-	
+
+	//private StaffManager sm = new StaffManager(om);
+	private TimerGUI timerGui = new TimerGUI(om, sm);
+	private StaffGUI staff = new StaffGUI(om, sm, timerGui);
+
+
 	public StartPageController(StartPageGUI p) {
 		
 		this.startPage = p;

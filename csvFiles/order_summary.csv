@@ -1,4 +1,5 @@
 Food Category, Item Id, Item Name, Order Count
+
 HOT_BEVERAGE,HOT2,Hot Chocolate,4
 HOT_BEVERAGE,HOT1,Americano,3
 HOT_BEVERAGE,HOT4,Mocha,2
@@ -17,3 +18,4 @@ MEALS,MEAL1,English Breakfast,0
 
 
 Total Order Value = 89.89
+
