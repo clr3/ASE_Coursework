@@ -19,6 +19,7 @@ import model.FoodItem;
 import service.OrderManager;
 import service.StaffManager;
 import service.queue.OrderQueue;
+import views.StaffGUI;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -96,6 +97,7 @@ class StaffManagerTest {
 	void setUp() throws Exception {
 		oq = new OrderQueue();
 		oMgr = new OrderManager();
+		oMgr.staffGui = new StaffGUIMock(oMgr, sMgr, null);
 		oMgr.submitNewOrder("100", order);
 		oMgr.submitNewOrder("101", order1);
 		oMgr.submitNewOrder("102", order2);
@@ -129,21 +131,9 @@ class StaffManagerTest {
 		assertEquals(0, oMgr.getAllOrdersOnOrderQueue().size());
 		
 	}
-
-	/**
-	 * Test method for {@link service.staff.StaffManager#addAdditionalServingStaff()}.
-	 */
-	/*
-	 * @Test void testAddAdditionalServingStaff() { fail("Not yet implemented"); //
-	 * TODO }
-	 */
-
-	/**
-	 * Test method for {@link service.staff.StaffManager#removeAdditionalServingStaff()}.
-	 */
-	/*
-	 * @Test void testRemoveAdditionalServingStaff() { fail("Not yet implemented");
-	 * // TODO }
-	 */
+	
+	private void callStubExternalService() {
+		System.out.println("UI rendering");
+	}
 
 }
