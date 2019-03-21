@@ -228,7 +228,6 @@ public class StaffGUI {
 		compOrder.setForeground(Color.BLUE);
 		
 		deliveryQueuePanel.add(compOrder);
-		System.out.println(orderManager.getAllOrdersOnDeliveryQueue().size());
 		for(CustomerOrder order: orderManager.getAllOrdersOnDeliveryQueue()) {
 			JLabel orderLabel = new JLabel(order.getOrderId() + " -> For " + 
 					order.getCustomerId() + ": " );
@@ -248,7 +247,6 @@ public class StaffGUI {
 
 	private synchronized JPanel orderProcessPanel() {
 		processingPanel = new JPanel();
-		//processingPanel.setBackground(Color.gray);
 		processingPanel.setLayout(new BoxLayout(processingPanel, BoxLayout.Y_AXIS));
 		JLabel staffLabel = new JLabel("Staffs Serving");
 		staffLabel.setForeground(Color.BLUE);
@@ -259,11 +257,12 @@ public class StaffGUI {
     		String key = entry.getKey();
 			String custId = "";
     		CustomerOrder value = entry.getValue();
-    		if(value != null) {
-    			custId = value.getCustomerId();
+    		if(value.getCustomerId().compareTo("NoID") == 0) {
+    			custId = "No Work - Relaxing";
+    		} else {
+    			custId = " processing : "+value.getCustomerId();
     		}
-    		System.out.println(key+" processing =>" + custId);
-    		processingPanel.add(new JButton(key+" processing =>" + custId));
+    		processingPanel.add(new JButton(key+" =>" + custId));
 		}
     	processingPanel.setVisible(true);
 		return processingPanel;

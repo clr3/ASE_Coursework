@@ -28,7 +28,8 @@ public class OrderManager {
 	Menu menu = new Menu(true);
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	OrderQueue orderQ = new OrderQueue();
-	int newCustomerCount = 100;
+	public static int newCustomerCount = 100;
+	public static int commonOrderId = 500;
 	public StaffGUI staffGui;
 	public TimerGUI timerPage;
 	DeliveryQueue deliveryQ = new DeliveryQueue();
@@ -67,8 +68,13 @@ public class OrderManager {
 	 * 
 	 * */
 	public void submitNewOrder(String orderId, CustomerOrder customerOrder) {
-		CustomerOrder cusOrder = customerOrder;
+		CustomerOrder cusOrder = new CustomerOrder();
 		cusOrder.setCustomerId("NEW"+newCustomerCount++); // New Customer ID created
+		cusOrder.setOrderId(String.valueOf(commonOrderId++));
+		cusOrder.setOrderItems(customerOrder.getOrderItems());
+		cusOrder.setFinalBillAmount(customerOrder.getFinalBillAmount());
+		cusOrder.setPriority(customerOrder.getPriority());
+		cusOrder.setTimestamp(customerOrder.getTimestamp());
 		ordersForDisplay.add(cusOrder);
 		orderMap.put(orderId, cusOrder);
 		orderQ.enqueue(cusOrder ); // New orders are added to Queuue
