@@ -1,4 +1,6 @@
 package service;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -6,6 +8,8 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import javax.swing.JTextField;
 
 import model.CustomerOrder;
 import model.FoodCategory;
@@ -16,6 +20,7 @@ import service.queue.DeliveryQueue;
 import service.queue.OrderQueue;
 import utilities.Logger;
 import views.StaffGUI;
+import views.TimerGUI;
 
 public class OrderManager {
 	
@@ -26,14 +31,15 @@ public class OrderManager {
 	OrderQueue orderQ = new OrderQueue();
 	int newCustomerCount = 100;
 	public StaffGUI staffGui;
+	public TimerGUI timerPage;
 	DeliveryQueue deliveryQ = new DeliveryQueue();
 	private  HashMap<String ,CustomerOrder> servingStaffMap = new HashMap<String ,CustomerOrder>(); 
-
+	private HashMap<FoodCategory, Integer> processTimeMap = new HashMap<FoodCategory, Integer>();
 	
 	public OrderManager() {
 		// The order history files are loaded during the creation of Order Manager
 		//THe FileManager is in charge of reading the files and returning the according data structure
-		
+			setDefaultProcessTime();
 			this.orderMap = fm.buildCustomerOrdersFromOrderHistory(menu);
 			preparePastOrdersList();
 		
@@ -253,4 +259,36 @@ public class OrderManager {
 	public void updateOrdersUnderProcessingByStaff(String staffName, CustomerOrder order){
 		servingStaffMap.put(staffName, order);
 	}
+	
+	private void setDefaultProcessTime() {
+		processTimeMap.put(FoodCategory.HOT_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.COLD_BEVERAGE, 3000);
+		processTimeMap.put(FoodCategory.BAKE, 5000);
+		processTimeMap.put(FoodCategory.SANDWICH, 8000);
+		processTimeMap.put(FoodCategory.BEVERAGE, 4000);
+		processTimeMap.put(FoodCategory.MEALS, 9000);
+	}
+	
+	public void setProcessTime(FoodCategory fc, int value) {
+		//FoodCategory fcType = FoodCategory.valueOf(fc);
+		if(processTimeMap.containsKey(fc)) {
+			processTimeMap.replace(fc, value);
+		}
+	}
+	
+	public HashMap<FoodCategory, Integer> getAllProcessTime() {
+		return processTimeMap;
+	}
+	
+	public ActionListener processTimeActionListener(FoodCategory category, JTextField timeStr) {
+		int time = Integer.parseInt(timeStr.getText());
+		int timeInMilliSec = time * 1000;
+		return new ActionListener() {
+	        @Override
+	         public void actionPerformed(ActionEvent e) {
+	        	setProcessTime(category, timeInMilliSec);
+	         }
+	    };
+	}
+
 }
