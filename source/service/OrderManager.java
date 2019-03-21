@@ -269,10 +269,13 @@ public class OrderManager {
 		processTimeMap.put(FoodCategory.MEALS, 9000);
 	}
 	
-	public void setProcessTime(FoodCategory fc, int value) {
+	public void setProcessTime(FoodCategory fc) {
+		String timeStr = timerPage.processTimeInputMapList.get(fc).getText();
+		int time = Integer.parseInt(timeStr);
+		int timeInMilliSec = time * 1000;
 		//FoodCategory fcType = FoodCategory.valueOf(fc);
 		if(processTimeMap.containsKey(fc)) {
-			processTimeMap.replace(fc, value);
+			processTimeMap.replace(fc, timeInMilliSec);
 		}
 	}
 	
@@ -280,13 +283,11 @@ public class OrderManager {
 		return processTimeMap;
 	}
 	
-	public ActionListener processTimeActionListener(FoodCategory category, JTextField timeStr) {
-		int time = Integer.parseInt(timeStr.getText());
-		int timeInMilliSec = time * 1000;
+	public ActionListener processTimeActionListener(FoodCategory category) {
 		return new ActionListener() {
 	        @Override
 	         public void actionPerformed(ActionEvent e) {
-	        	setProcessTime(category, timeInMilliSec);
+	        	setProcessTime(category);
 	         }
 	    };
 	}
