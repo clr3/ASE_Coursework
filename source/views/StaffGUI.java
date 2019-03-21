@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,9 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.CustomerOrder;
+import model.FoodCategory;
 import model.FoodItem;
 import service.OrderManager;
 import service.StaffManager;
@@ -29,24 +32,30 @@ public class StaffGUI {
 	private StaffManager smanager;
 	private JButton acceptOrder = new JButton("Accept Next Order");
 	private JButton startServe = new JButton("Start Serving");
+	private JButton processTimeButton = new JButton("Process Timer");
+
 	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	private ArrayList<CustomerOrder> workingOrders = new ArrayList<CustomerOrder>();
 	JFrame s = new JFrame();
+	private TimerGUI timeGui;
 
-	public StaffGUI(OrderManager o, StaffManager sm) {
+	public StaffGUI(OrderManager o, StaffManager sm, TimerGUI timerGui) {
 		this.orderManager = o;
 		this.orderManager.staffGui = this;
 		this.smanager = sm;
+		this.timeGui = timerGui;
 		createPage();
 	}
 	
 	 public void createPage() {
 		 	startServe.addActionListener(this.smanager.serveActionListener());
 	        s.add(new JSeparator(SwingConstants.VERTICAL));
-	        
+	        processTimeButton.addActionListener(this.smanager.showTimerPageActionListener(this.orderManager));
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
 	        s.add(workingOrders(),BorderLayout.SOUTH);
+	        //s.add(createProcessTimePanel(),BorderLayout.SOUTH);
 	        ordersQueue();
+	       // s.add(comp)
 	        s.setSize(600,400);  
 	        s.setVisible(false); 
 	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -64,6 +73,7 @@ public class StaffGUI {
 		
 		buttonPanel.add(acceptOrder);
 		buttonPanel.add(startServe);
+		buttonPanel.add(processTimeButton);
 		return buttonPanel;
 	}
 	
@@ -192,6 +202,5 @@ public class StaffGUI {
         s.remove(tempPanel);
     }
 	
-	
-	
+
 }

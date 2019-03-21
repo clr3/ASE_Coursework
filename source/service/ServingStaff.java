@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import model.CustomerOrder;
+import model.FoodItem;
 import queueExceptions.QueueEmptyException;
 import utilities.Logger;
 
@@ -29,8 +30,11 @@ public class ServingStaff implements Runnable {
 				// Processing order is updated
 				orderMgr.updateOrdersUnderProcessingByStaff(staffName, order);			
 				Logger.getInstance().log("Order for customer "+ order.getCustomerId()+ " is being processed by "+staffName);
-				Thread.sleep(getRandomServerTimer());
-				
+				//Thread.sleep(getRandomServerTimer());
+				int prcessTime = findProcessTime(order);
+				Logger.getInstance().log("Order for customer "+ order.getCustomerId()+ " is being processed by "
+									+staffName + " process time => "+prcessTime);
+				Thread.sleep(prcessTime);
 				// processed order is added to delivery queue
 				orderMgr.addProcessedOrderToDeliveryQueue(order);
 				
@@ -43,12 +47,14 @@ public class ServingStaff implements Runnable {
 		}
 	}
 	
-	private int getRandomServerTimer() {
-		Random r = new Random();
-		int low = 1000;
-		int high = 6000;
-		int result = r.nextInt(high-low) + low;
-		return result;
+	private int findProcessTime(CustomerOrder order) {
+		int totalTime = 0;
+		if(order.getOrderItems().size() > 0) {
+			for(FoodItem fi : order.getOrderItems()) {
+				totalTime += orderMgr.getAllProcessTime().get(fi.getCategory());
+			}
+		}
+		return totalTime;
 	}
 	
 	public void stopThread() {
