@@ -106,8 +106,6 @@ public class OrderManager {
 	public String generateReports() {
 		
 		StringBuilder sb = new StringBuilder("Food Category, Item Id, Item Name, Order Count\n");
-		//StringBuilder sb = new StringBuilder("Item Id, Item Name, Order Count\n");
-		
 		
 		BigDecimal totalOrderValue = new BigDecimal(0);
 		EnumMap<FoodCategory ,HashMap<String , FoodItem>> menuEnumMap = menu.getMenu();
@@ -230,6 +228,7 @@ public class OrderManager {
 	 * */
 	public void addProcessedOrderToDeliveryQueue(CustomerOrder order){
 		deliveryQ.enqueue(order);
+		this.staffGui.reRenderQueue();
 	}
 	
 	/**

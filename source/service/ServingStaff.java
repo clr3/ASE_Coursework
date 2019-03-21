@@ -1,6 +1,5 @@
 package service;
 
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import model.CustomerOrder;

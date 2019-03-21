@@ -40,7 +40,6 @@ public class TimerGUI{
           
         f.add(b1,BorderLayout.NORTH);  
         f.add(b2,BorderLayout.SOUTH);  
-        //f.add(jp,BorderLayout.WEST);  
         f.add(jp,BorderLayout.CENTER);  
 
         f.setSize(400,400);  

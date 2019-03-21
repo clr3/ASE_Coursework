@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -27,7 +28,9 @@ import utilities.Logger;
 public class StaffGUI {
 	
 	private JPanel ordersQueuePanel = new JPanel();
+	private JPanel deliveryQueuePanel = new JPanel();
 	private JPanel workingOrdersPanel = new JPanel();
+	private JPanel allServePanel = new JPanel();
 	private OrderManager orderManager;
 	private StaffManager smanager;
 	private JButton acceptOrder = new JButton("Accept Next Order");
@@ -54,8 +57,9 @@ public class StaffGUI {
 	        s.add(acceptOrderButton(),BorderLayout.CENTER);  
 	        s.add(workingOrders(),BorderLayout.SOUTH);
 	        //s.add(createProcessTimePanel(),BorderLayout.SOUTH);
-	        ordersQueue();
+	        //ordersQueue();
 	       // s.add(comp)
+	        createAllServePanel();
 	        s.setSize(600,400);  
 	        s.setVisible(false); 
 	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -64,6 +68,22 @@ public class StaffGUI {
 	public void showStaffView() {
 		s.setVisible(true);
 	}
+	
+	public void createAllServePanel() {
+		removePanel(ordersQueuePanel);
+		removePanel(deliveryQueuePanel);
+		removePanel(allServePanel);
+		allServePanel = new JPanel();
+		s.revalidate();
+        s.repaint();
+		allServePanel.setLayout(new BoxLayout(allServePanel, BoxLayout.Y_AXIS));
+		allServePanel.add(ordersQueue());
+		allServePanel.add(deliveryQueue());
+        s.add(allServePanel,BorderLayout.NORTH); 
+        s.revalidate();
+	}
+
+	
 	/**
 	 * Button to accept The Next Order from the file Manager
 	 * @Return JPanel containing a button
@@ -78,33 +98,26 @@ public class StaffGUI {
 	}
 	
 	public synchronized void reRenderQueue() {
-		ordersQueue();
+		createAllServePanel();
 	}
 
 	/**
 	 * Show the Orders that haven been worked on.
 	 * Shows the OrderID, Customer ID and total number of items in the order 
 	 * */
-	private synchronized void ordersQueue() {
-		removePanel(ordersQueuePanel);
-		ordersQueuePanel = new JPanel();
-		s.revalidate();
-        s.repaint();
+	private synchronized JPanel ordersQueue() {
 		ordersQueuePanel.setLayout(new BoxLayout(ordersQueuePanel, BoxLayout.Y_AXIS));
 		
-		JLabel ordersCount = new JLabel("There are currently >" +orderManager.getAllOrdersOnOrderQueue().size()+ "< people waiting on the queque:");
+		JLabel ordersCount = new JLabel("There are currently >" +orderManager.getAllOrdersOnOrderQueue().size()+ "< customer(s) waiting on the queue:");
+		ordersCount.setForeground(Color.BLUE);
 		ordersQueuePanel.add(ordersCount);
 		
 		for(CustomerOrder order: orderManager.getAllOrdersOnOrderQueue()) {
-			// OrderNumber 
-			//000 -> For Customer1 :
 			JLabel orderLabel = new JLabel(order.getOrderId() + " -> For " + 
 					order.getCustomerId() + ": " );
-			//orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
 			
 			//GEt Items Count and display
 			JLabel itemsLabel = new JLabel(order.getOrderItems().size() + " Items");
-			//itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
 			
 			JSplitPane view = new JSplitPane();
 		
@@ -116,8 +129,9 @@ public class StaffGUI {
 		}
 		
 		ordersQueuePanel.setVisible(true);
-        s.add(ordersQueuePanel,BorderLayout.NORTH); 
-        s.revalidate();
+        //s.add(ordersQueuePanel,BorderLayout.NORTH); 
+        //s.revalidate();
+		return ordersQueuePanel;
 	}
 	
 	/**In this case, a single member of staff
@@ -198,4 +212,36 @@ public class StaffGUI {
         tempPanel.repaint();
         s.remove(tempPanel);
     }
+    
+    
+	/**
+	 * Show the Orders that haven been worked on.
+	 * Shows the OrderID, Customer ID and total number of items in the order 
+	 * */
+	private synchronized JPanel deliveryQueue() {
+		deliveryQueuePanel = new JPanel();
+        deliveryQueuePanel.setLayout(new BoxLayout(deliveryQueuePanel, BoxLayout.Y_AXIS));
+		
+		JLabel compOrder = new JLabel("Completed Orders");
+		compOrder.setForeground(Color.BLUE);
+		
+		deliveryQueuePanel.add(compOrder);
+		System.out.println(orderManager.getAllOrdersOnDeliveryQueue().size());
+		for(CustomerOrder order: orderManager.getAllOrdersOnDeliveryQueue()) {
+			JLabel orderLabel = new JLabel(order.getOrderId() + " -> For " + 
+					order.getCustomerId() + ": " );
+			JLabel itemsLabel = new JLabel(order.getOrderItems().size() + " Items");
+			
+			JSplitPane view = new JSplitPane();
+		
+			view.setLeftComponent(orderLabel);
+			view.setRightComponent(itemsLabel);
+			view.setVisible(true);
+			deliveryQueuePanel.add(view);
+		}
+		
+		deliveryQueuePanel.setVisible(true);
+		return deliveryQueuePanel;
+	}
+
 }
