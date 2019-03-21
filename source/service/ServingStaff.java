@@ -22,7 +22,7 @@ public class ServingStaff implements Runnable {
 	public void run() {
 		while (running.get()) {
 			try {
-				
+				CustomerOrder tempOrder =new CustomerOrder();
 				// order is picked up from Order queue
 				order = orderMgr.fetchOrderFromQueue();
 				
@@ -36,7 +36,7 @@ public class ServingStaff implements Runnable {
 				Thread.sleep(prcessTime);
 				// processed order is added to delivery queue
 				orderMgr.addProcessedOrderToDeliveryQueue(order);
-				
+				orderMgr.updateOrdersUnderProcessingByStaff(staffName, tempOrder);
 			} catch (InterruptedException e) {
 				Logger.getInstance().log("Thread interupted: "+e.getMessage());
 			} catch (QueueEmptyException eq) {

@@ -49,6 +49,7 @@ public class StaffManager {
 			}
 			
 		}
+		orderManager.staffGui.reRenderQueue();
 		orderManager.writeReports();
 		Logger.getInstance().log("Order Reports generated! Check file order_summary.csv");
 	

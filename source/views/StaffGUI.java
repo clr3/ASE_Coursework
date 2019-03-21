@@ -6,7 +6,7 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,21 +15,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.CustomerOrder;
-import model.FoodCategory;
 import model.FoodItem;
 import service.OrderManager;
 import service.StaffManager;
-import utilities.Logger;
 
 public class StaffGUI {
 	
 	private JPanel ordersQueuePanel = new JPanel();
 	private JPanel deliveryQueuePanel = new JPanel();
 	private JPanel workingOrdersPanel = new JPanel();
+	private JPanel processingPanel = new JPanel();
 	private JPanel allServePanel = new JPanel();
 	private OrderManager orderManager;
 	private StaffManager smanager;
@@ -60,7 +58,7 @@ public class StaffGUI {
 	        //ordersQueue();
 	       // s.add(comp)
 	        createAllServePanel();
-	        s.setSize(600,400);  
+	        s.setSize(600,600);  
 	        s.setVisible(false); 
 	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	    }
@@ -72,12 +70,14 @@ public class StaffGUI {
 	public void createAllServePanel() {
 		removePanel(ordersQueuePanel);
 		removePanel(deliveryQueuePanel);
+		removePanel(processingPanel);
 		removePanel(allServePanel);
 		allServePanel = new JPanel();
 		s.revalidate();
         s.repaint();
 		allServePanel.setLayout(new BoxLayout(allServePanel, BoxLayout.Y_AXIS));
 		allServePanel.add(ordersQueue());
+		allServePanel.add(orderProcessPanel());
 		allServePanel.add(deliveryQueue());
         s.add(allServePanel,BorderLayout.NORTH); 
         s.revalidate();
@@ -128,9 +128,12 @@ public class StaffGUI {
 			ordersQueuePanel.add(view);
 		}
 		
+		if(orderManager.getAllOrdersOnOrderQueue().size() == 0) {
+			JLabel itemsLabel = new JLabel("No more customer");
+			ordersQueuePanel.add(itemsLabel);
+		} 
+
 		ordersQueuePanel.setVisible(true);
-        //s.add(ordersQueuePanel,BorderLayout.NORTH); 
-        //s.revalidate();
 		return ordersQueuePanel;
 	}
 	
@@ -215,8 +218,7 @@ public class StaffGUI {
     
     
 	/**
-	 * Show the Orders that haven been worked on.
-	 * Shows the OrderID, Customer ID and total number of items in the order 
+	 * Show the delivery queue that haven been completed
 	 * */
 	private synchronized JPanel deliveryQueue() {
 		deliveryQueuePanel = new JPanel();
@@ -242,6 +244,29 @@ public class StaffGUI {
 		
 		deliveryQueuePanel.setVisible(true);
 		return deliveryQueuePanel;
+	}
+
+	private synchronized JPanel orderProcessPanel() {
+		processingPanel = new JPanel();
+		//processingPanel.setBackground(Color.gray);
+		processingPanel.setLayout(new BoxLayout(processingPanel, BoxLayout.Y_AXIS));
+		JLabel staffLabel = new JLabel("Staffs Serving");
+		staffLabel.setForeground(Color.BLUE);
+		
+		processingPanel.add(staffLabel);
+		
+    	for (ConcurrentHashMap.Entry<String ,CustomerOrder> entry : orderManager.getOrdersUnderProcessingByStaff().entrySet()) {
+    		String key = entry.getKey();
+			String custId = "";
+    		CustomerOrder value = entry.getValue();
+    		if(value != null) {
+    			custId = value.getCustomerId();
+    		}
+    		System.out.println(key+" processing =>" + custId);
+    		processingPanel.add(new JButton(key+" processing =>" + custId));
+		}
+    	processingPanel.setVisible(true);
+		return processingPanel;
 	}
 
 }
