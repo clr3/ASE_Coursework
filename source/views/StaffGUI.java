@@ -78,7 +78,6 @@ public class StaffGUI {
 	}
 	
 	public synchronized void reRenderQueue() {
-		Logger.getInstance().log("re render queue");
 		ordersQueue();
 	}
 
@@ -89,7 +88,6 @@ public class StaffGUI {
 	private synchronized void ordersQueue() {
 		removePanel(ordersQueuePanel);
 		ordersQueuePanel = new JPanel();
-		Logger.getInstance().log(" "+orderManager.getAllOrdersOnOrderQueue().size());
 		s.revalidate();
         s.repaint();
 		ordersQueuePanel.setLayout(new BoxLayout(ordersQueuePanel, BoxLayout.Y_AXIS));
@@ -120,7 +118,6 @@ public class StaffGUI {
 		ordersQueuePanel.setVisible(true);
         s.add(ordersQueuePanel,BorderLayout.NORTH); 
         s.revalidate();
-		Logger.getInstance().log(" painted");
 	}
 	
 	/**In this case, a single member of staff
@@ -201,6 +198,4 @@ public class StaffGUI {
         tempPanel.repaint();
         s.remove(tempPanel);
     }
-	
-
 }
