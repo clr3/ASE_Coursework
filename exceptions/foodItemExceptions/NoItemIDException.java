@@ -1,5 +1,6 @@
 package foodItemExceptions;
 
+@SuppressWarnings("serial")
 public class NoItemIDException extends Exception {
 	
 	public NoItemIDException() {

@@ -30,12 +30,9 @@ public class CustomerOrder {
 	private String customerId;
 	private ArrayList<FoodItem> orderItems;
 	private BigDecimal finalBillAmount; // Bill amount after discount
-	private BigDecimal totalBillAmount; // Bill amount before discount
 	private Date timestamp;
 	private Integer priority = -1; // All orders are given a low priority by default
-	
-	private String foodItem = null;
-	
+		
 	public CustomerOrder(String orderId, String customerId, ArrayList<FoodItem> orderItems, BigDecimal finalBillAmount, Date timestamp) {
 		super();
 		this.orderId = orderId;

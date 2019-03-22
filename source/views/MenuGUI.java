@@ -19,12 +19,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import controller.MenuController;
 import model.FoodCategory;
 import model.FoodItem;
 import model.Menu;
-import service.OrderManager;
 
 /**
 * Menu order GUI class for Coffee Shop
@@ -67,7 +67,7 @@ public class MenuGUI extends JPanel{
 
         f.setSize(600,600);  
         f.setVisible(false); 
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
     
     /** 

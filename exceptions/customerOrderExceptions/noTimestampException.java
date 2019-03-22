@@ -1,5 +1,6 @@
 package customerOrderExceptions;
 
+@SuppressWarnings("serial")
 public class noTimestampException extends Exception{
 public noTimestampException() {
 		

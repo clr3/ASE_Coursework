@@ -1,5 +1,6 @@
 package foodItemExceptions;
 
+@SuppressWarnings("serial")
 public class NoCategoryFoundException extends Exception{
 
 

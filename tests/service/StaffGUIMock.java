@@ -10,10 +10,12 @@ public class StaffGUIMock extends StaffGUI {
 	}
 	
 
+	@Override
 	public void reRenderQueue() {
 		System.out.println("UI mock");
 	}
 	
+	@Override
 	public void createPage() {
 		System.out.println("UI mock");
 	}

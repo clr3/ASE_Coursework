@@ -52,9 +52,7 @@ public class Discount {
 	public boolean containsItemID(String foodItemID) {
 		
 		if (!item_list.isEmpty()) { 
-			
-		ArrayList<FoodItem> provList = item_list;
-		
+					
 		for(int i = 0; i < item_list.size(); i++) {
 			String foodinDiscount = item_list.get(i).getItemID();
 			

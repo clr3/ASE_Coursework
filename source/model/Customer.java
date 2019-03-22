@@ -1,28 +1,18 @@
 package model;
 /**
  * @author armandtene
- *
+ * 
  */
 
-import static java.lang.System.out;
-import java.util.*;
 
 import javax.lang.model.element.Name;
 
 
 
-/*
- * Class to build individual competitors and get their details.
- 
- * @see menu oerdered
-
- */
 public abstract class Customer {
 	
 	private int CustomerNumber;
 	private Name CustomerName;
-	private float[] discount;
-	private String level;
 	private int menu;
 
 

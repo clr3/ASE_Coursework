@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import utilities.Logger;
-import views.TimerGUI;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -61,6 +60,7 @@ public class StaffManager {
 		        @Override
 				public void actionPerformed(ActionEvent e) {
 					new Thread() {
+						@Override
 						public void run() {
 							try {
 								manageServingStaff();
@@ -85,6 +85,7 @@ public class StaffManager {
 	/**
 	 * Add a new staff on an individual thread.
 	 * */
+	@SuppressWarnings("deprecation")
 	public void removeAdditionalServingStaff() {
 		// stops thread for staff Liz
 		if (tTempStaff.isAlive()) {

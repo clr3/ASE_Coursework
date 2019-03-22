@@ -8,17 +8,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import discountExceptions.NoDiscountFoodItemsException;
-import discountExceptions.NoDiscountIdException;
-import discountExceptions.NoDiscountNameException;
-import discountExceptions.NoDiscountPercentageException;
-import foodItemExceptions.NoCategoryFoundException;
-import foodItemExceptions.NoItemIDException;
-import foodItemExceptions.NoItemNameFoundException;
-import foodItemExceptions.NoPriceFoundException;
 import service.FileManager;
-import service.OrderManager;
+
 
 /**
  * Menu class for Coffee Shop, Stores and processes menu data
@@ -35,8 +26,6 @@ public class Menu {
 	private EnumMap<FoodCategory, HashMap<String, FoodItem>> menu = new EnumMap<FoodCategory, HashMap<String, FoodItem>>(
 			FoodCategory.class);
 	private ArrayList<Discount> discounts = new ArrayList<Discount>();
-
-	private int enum_no=5;
 	
 	private static Menu m = new Menu(true);
 	
@@ -110,6 +99,7 @@ public class Menu {
 		
 	}
 */
+	@SuppressWarnings("unused")
 	private void createDiscount() {
 		
 		FileManager fm = new FileManager();

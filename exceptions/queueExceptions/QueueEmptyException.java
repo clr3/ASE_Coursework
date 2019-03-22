@@ -1,5 +1,6 @@
 package queueExceptions;
 
+@SuppressWarnings("serial")
 public class QueueEmptyException extends Exception{
 
 	public QueueEmptyException() {

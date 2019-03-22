@@ -19,7 +19,6 @@ import model.FoodItem;
 import service.OrderManager;
 import service.StaffManager;
 import service.queue.OrderQueue;
-import views.StaffGUI;
 
 /**
  * @Author Sethu Lekshmy<sl1984@hw.ac.uk>
@@ -132,6 +131,7 @@ class StaffManagerTest {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void callStubExternalService() {
 		System.out.println("UI rendering");
 	}

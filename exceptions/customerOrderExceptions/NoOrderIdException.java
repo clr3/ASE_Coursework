@@ -1,5 +1,6 @@
 package customerOrderExceptions;
 
+@SuppressWarnings("serial")
 public class NoOrderIdException extends Exception{
 
 	public NoOrderIdException() {

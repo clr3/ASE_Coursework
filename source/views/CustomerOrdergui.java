@@ -3,7 +3,6 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -12,7 +11,6 @@ import controller.MenuController;
 import model.CustomerOrder;
 import model.FoodItem;
 
-import java.math.BigDecimal;
 /**
  * This class creates the main frame and serves as the primary interface
  * We employ inheritance to absorb the features of JFrame while adding our own
@@ -26,17 +24,12 @@ import java.math.BigDecimal;
  * Create a Jfrme that shows the order and the total.
  *
  */
+@SuppressWarnings("serial")
 public class CustomerOrdergui extends JDialog {
-
-	private BigDecimal totalCost;
-
 	
 	private JPanel ordersPanel;
-	private JPanel receipt;
   
-	private ArrayList <FoodItem> itemsOrdered;
-	private String itemInformation;
-	
+
 	private JButton cancel = new JButton("Back to Menu");
 	private JButton accept = new JButton ("Place Order Now");
 	
@@ -47,10 +40,6 @@ public class CustomerOrdergui extends JDialog {
 
 	public CustomerOrdergui(CustomerOrder c) {
 		this.order= c;
-		totalCost = new BigDecimal(0);
-		itemInformation = "";
-		
-		itemsOrdered = new ArrayList<FoodItem>();
 	}
 	
 	/**
@@ -79,10 +68,7 @@ public class CustomerOrdergui extends JDialog {
 	public CustomerOrder getOrder() {
 		return this.order;
 	}
-	public void create() {
-		JPanel mainPanel = (JPanel) getContentPane();
-		//JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, getItemButtons(), getReceipt());
-		
+	public void create() {		
 		setLayout(new BorderLayout());
 		add(show_order_items(), BorderLayout.PAGE_START);
 		add(discount_message("Discunt Dislplayed Here Passed By the Menu"), BorderLayout.CENTER);
@@ -102,7 +88,6 @@ public class CustomerOrdergui extends JDialog {
 		revalidate();
 		repaint();
 		ordersPanel = new JPanel();
-		
 		
 		ArrayList<FoodItem> items = order.getOrderItems();
 		

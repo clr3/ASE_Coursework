@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import model.FoodCategory;
 import service.OrderManager;
@@ -21,13 +22,11 @@ import service.StaffManager;
 */
 public class TimerGUI{
 	private OrderManager orderManager;
-	private StaffManager smanager;
 	private JFrame f =new JFrame();
 	public HashMap<FoodCategory, JTextField> processTimeInputMapList = new HashMap<FoodCategory, JTextField>();
 
 	public TimerGUI(OrderManager o, StaffManager sm) {
 		this.orderManager = o;
-		this.smanager = sm;
 		this.orderManager.timerPage = this;
 		createPage();
 	}
@@ -44,7 +43,7 @@ public class TimerGUI{
 
         f.setSize(400,400);  
         f.setVisible(false); 
-        f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 	
 	

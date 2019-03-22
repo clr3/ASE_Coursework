@@ -19,6 +19,7 @@ public class ServingStaff implements Runnable {
 		running=flag;
 	}
 
+	@Override
 	public void run() {
 		while (running.get()) {
 			try {

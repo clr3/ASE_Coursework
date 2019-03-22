@@ -1,8 +1,9 @@
-package views;
+package main;
 
 import javax.swing.JFrame;
 
 import utilities.Logger;
+import views.StartPageGUI;
 
 public class MainCoffeeShopGUI {
 		

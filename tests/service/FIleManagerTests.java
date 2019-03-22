@@ -5,13 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
-import org.junit.*;
 import org.junit.jupiter.api.Test;
 
-import customerOrderExceptions.NoOrderIdException;
-import customerOrderExceptions.noCustomerIdException;
-import customerOrderExceptions.noOrderItemException;
-import customerOrderExceptions.noTimestampException;
 import discountExceptions.NoDiscountFoodItemsException;
 import discountExceptions.NoDiscountIdException;
 import discountExceptions.NoDiscountNameException;
@@ -19,7 +14,6 @@ import discountExceptions.NoDiscountPercentageException;
 import foodItemExceptions.NoCategoryFoundException;
 import foodItemExceptions.NoItemIDException;
 import foodItemExceptions.NoItemNameFoundException;
-import foodItemExceptions.NoPriceFoundException;
 import model.CustomerOrder;
 import model.Discount;
 import model.FoodCategory;
@@ -201,10 +195,8 @@ Can't test because it's private
 	@Test
 	void testcreateDiscountFromString() throws NoDiscountPercentageException, NoDiscountIdException, NoDiscountNameException, NoDiscountFoodItemsException {
 		FileManager f = new FileManager();
-		Menu menu = Menu.getInstance();
 		
-		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2:");
-		
+		Discount d = f.createDiscountFromString("COMBO01,Kids Combo,5,HOT1:HOT2:");		
 		
 		assertTrue(d.getDiscountId().contains("COMBO01"));
 		assertEquals("Kids Combo",d.getOffer_name());

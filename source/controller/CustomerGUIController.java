@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import model.*;
 import service.OrderManager;
@@ -18,7 +17,6 @@ public class CustomerGUIController {
 	FoodItem newItem;
 	FoodItem itemToRemove;
 	FoodCategory itemCategory;
-	private ArrayList<FoodItem> labels = new ArrayList<FoodItem>();
 	
 /**
  * Use this class to connect the MENU_GUI with the CustomerOrderGui and Order Manager

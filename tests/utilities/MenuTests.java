@@ -1,22 +1,6 @@
 package utilities;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
-import discountExceptions.NoDiscountFoodItemsException;
-import discountExceptions.NoDiscountIdException;
-import discountExceptions.NoDiscountNameException;
-import discountExceptions.NoDiscountPercentageException;
-import foodItemExceptions.NoCategoryFoundException;
-import foodItemExceptions.NoItemIDException;
-import foodItemExceptions.NoItemNameFoundException;
-import foodItemExceptions.NoPriceFoundException;
-import model.Discount;
-import model.FoodCategory;
-import model.FoodItem;
-import model.Menu;
-import service.FileManager;
+//import model.Menu;
 
 
 /**
@@ -26,11 +10,12 @@ import service.FileManager;
  * 
  * */
 public class MenuTests {
-	private FileManager fm = new FileManager();
 	/**
 	@Test 
 	void testCsvtoDiscount1() {
 		Menu menuObj = new Menu();
+		private Menu m = new Menu.getInstance();
+
 		Discount discObj = new Discount();
 		try {
 			discObj = menuObj.getDiscountObj("COMBO01,Kids Combo,5,HOT1:HOT2");

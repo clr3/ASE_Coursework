@@ -1,5 +1,6 @@
 package foodItemExceptions;
 
+@SuppressWarnings("serial")
 public class NoItemNameFoundException extends Exception {
 
 	public NoItemNameFoundException() {

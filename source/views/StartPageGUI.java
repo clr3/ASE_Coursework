@@ -1,7 +1,6 @@
 package views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,10 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import controller.StartPageController;
-import service.OrderManager;
-
-
 /**
  * @Author Cristina Rivera 	<clr3@hw.ac.uk>
  * 
@@ -28,22 +23,15 @@ import service.OrderManager;
  * 					staff view 
  * */
 
+@SuppressWarnings("serial")
 public class StartPageGUI extends JPanel{
 	
-
-	private GridBagConstraints constraints = new GridBagConstraints();
 	
 	private JFrame frame;
 	
 	private JButton staffButton = new JButton("Staff");
 	private JButton customerButton = new JButton("View Menu");;
 	private JButton exitButton = new JButton("Exit");
-	private MenuGUI menu_gui;
-	private StartPageController controller = new StartPageController(this);
-	
-	
-	//private MenuController menuController;
-	private OrderManager om;
 	
 
 	/**Initialise */

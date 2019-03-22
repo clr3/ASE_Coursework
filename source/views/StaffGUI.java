@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import model.CustomerOrder;
 import model.FoodItem;
@@ -35,16 +36,13 @@ public class StaffGUI {
 	private JButton startServe = new JButton("Start Serving");
 	private JButton processTimeButton = new JButton("Process Timer");
 
-	private ArrayList<CustomerOrder> ordersForDisplay = new ArrayList<CustomerOrder>();
 	private ArrayList<CustomerOrder> workingOrders = new ArrayList<CustomerOrder>();
 	JFrame s = new JFrame();
-	private TimerGUI timeGui;
 
 	public StaffGUI(OrderManager o, StaffManager sm, TimerGUI timerGui) {
 		this.orderManager = o;
 		this.orderManager.staffGui = this;
 		this.smanager = sm;
-		this.timeGui = timerGui;
 		createPage();
 	}
 	
@@ -60,7 +58,7 @@ public class StaffGUI {
 	        createAllServePanel();
 	        s.setSize(600,600);  
 	        s.setVisible(false); 
-	        s.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	        s.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 	    }
 	
 	public void showStaffView() {
@@ -159,7 +157,6 @@ public class StaffGUI {
 	 * */
 	private JPanel workingOrds() {
 		JPanel p = new JPanel();
-		int size = workingOrders.size();
 		
 		p.setLayout(new FlowLayout());
 		for(CustomerOrder o: workingOrders) {
@@ -171,10 +168,9 @@ public class StaffGUI {
 	}
 	private JPanel oneOrderDisplay(CustomerOrder o) {
 		JPanel p = new JPanel();
-		
+		p.setLayout(new FlowLayout());
 		//Display Customers Name
 		JLabel orderLabel = new JLabel("Working on order for " + o.getCustomerId() + ": " );
-		orderLabel.setAlignmentX(orderLabel.LEFT_ALIGNMENT);
 		
 		//Display Order items and Total Price 
 		ArrayList<FoodItem> items = o.getOrderItems();
@@ -186,7 +182,9 @@ public class StaffGUI {
 		orderItems.append("Total: " + o.getFinalBillAmount());
 		
 		JLabel itemsLabel = new JLabel(orderItems.toString());
-		itemsLabel.setAlignmentX(itemsLabel.RIGHT_ALIGNMENT);
+
+		p.add(orderLabel);
+		p.add(itemsLabel);
 		
 		return p;
 	}

@@ -7,10 +7,8 @@ package service;
  * - can convert from files to data types
  * */
 import java.io.*;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import customerOrderExceptions.NoOrderIdException;
@@ -523,9 +521,7 @@ public class FileManager {
 			//build the CustomerOrder if its a new order. 
 			//If order exists, then add/append the order item to existing CustomerOrder
 			if (orderMap.containsKey(order.getOrderId())) {
-				
-				CustomerOrder custOrder = orderMap.get(order.getOrderId());
-				
+								
 				orderMap.get(order.getOrderId()).addItem(order.getFirstItem());
 				
 			} else {

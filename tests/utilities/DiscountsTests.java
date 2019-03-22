@@ -2,12 +2,9 @@ package utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import model.Discount;
-import model.FoodItem;
 import model.Menu;
 
 class DiscountsTests {
@@ -28,9 +25,7 @@ class DiscountsTests {
 		
 		assertTrue(d.addItemToDiscount(m.getFoodItemById("HOT1")));
 		assertTrue(d.addItemToDiscount(m.getFoodItemById("HOT2")));
-		
-		ArrayList<FoodItem> discountsList = d.getItem_list();
-		
+				
 		assertTrue(d.containsItemID("HOT1"));
 	}
 }
